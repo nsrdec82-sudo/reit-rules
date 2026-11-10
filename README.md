@@ -14,7 +14,7 @@ Add two repository secrets: **Settings > Secrets and variables > Actions > New r
    repository can stay as the blank template.
 2. `FIREBASE_SERVICE_ACCOUNT`: in the Google Cloud console for your Firebase project, open **IAM & Admin > Service accounts**,
    create a service account named `github-deploy`, give it the roles **Firebase Hosting Admin** and **Firebase Rules Admin**
-   (plus **Service Account User**), then open it, choose **Keys > Add key > Create new key > JSON**, and paste the whole
+   and **Service Usage Consumer**, then open it, choose **Keys > Add key > Create new key > JSON**, and paste the whole
    downloaded file as the value. Delete the downloaded file afterwards.
 
 Then open **Actions > Deploy private site to Firebase > Run workflow** once to check it. After that, publishing is automatic.
