@@ -322,6 +322,16 @@ input[type=date]{font:inherit;font-size:14px;padding:8px 10px;border:1px solid v
 .tbview{flex-direction:row;align-items:center;gap:8px;margin:0 0 10px}
 .tbview select{width:auto}
 .qres{border-radius:6px;padding:10px 12px;font-size:13.5px;margin:6px 0}
+.stholders{border-top:1px solid var(--line);margin-top:14px;padding-top:6px}
+.shlist{display:flex;flex-direction:column;gap:8px}
+.shrow{display:grid;grid-template-columns:22px 1fr 116px;grid-template-areas:"num name name" ". type type" ". cls pct" ". del del";gap:6px 8px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.shnum{grid-area:num;font-size:12px;font-weight:600;color:var(--muted);text-align:center}
+.shname{grid-area:name}.shtype{grid-area:type}.shcls{grid-area:cls}.shpct{grid-area:pct;display:flex;align-items:center;gap:4px}.shpct input{text-align:right;width:100%}.shdel{grid-area:del;justify-self:end;font-size:13px}
+.shrow input,.shrow select{width:100%;min-width:0}
+@media (min-width:1100px){.dash .shrow{grid-template-columns:22px 1fr 116px}}
+.shtotal{display:flex;justify-content:space-between;align-items:baseline;padding:8px 10px;border-top:2px solid var(--line);font-size:14px}.shtotal b{font-size:16px}
+.shmsg{font-size:13.5px;margin:8px 0}.shmsg.good,b.good{color:var(--pass)}.shmsg.bad,b.bad{color:var(--fail)}
+.shbtns{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 8px}.shsum{font-size:13.5px}
 .qn[data-tone="carry"]{border-left:4px solid var(--c-qn,var(--accent))}
 .qprev{border:1px dashed var(--line);background:var(--sunk);border-radius:6px;padding:8px 12px;font-size:13.5px;margin:4px 0 8px}
 .qprev.carry{border-style:solid;border-color:color-mix(in srgb,var(--c-qn,var(--accent)) 60%,var(--line));background:color-mix(in srgb,var(--c-qn,var(--accent)) 14%,var(--surface))}
@@ -466,6 +476,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     <p class="lead">Answer the questions about the investors, strategy and exit. The page suggests a structure above and below the REIT that keeps tax and filings down for these facts, with the rules behind each point.</p>
     <div class="dash">
       <div class="panel"><h3 class="sthead">Facts <button type="button" id="stUpdateTop">Update results</button></h3><p class="savenote" id="stStatus" aria-live="polite">Results update as you change an answer. Use Update results to recalculate and jump to them.</p><div class="grid stgrid" id="stForm"></div>
+        <div class="stholders" id="stHolders" hidden></div>
         <div class="stfoot"><button type="button" class="primary" id="stUpdate">Update results</button></div></div>
       <div class="dashout" id="stOut"></div>
     </div>
@@ -2171,7 +2182,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       s[q[0]]=v;}});delete s.inv2;if(s.bigtype==="fund")s.bigtype="ptr";if(s.bigtype==="foreign")s.bigtype="f_corp";return s;}
   function is(a,k,v){return Array.isArray(a[k])?a[k].indexOf(v)>=0:a[k]===v;}
   function syncBigPartners(){var g=$("st_bigpartners_l");if(!g)return;var t=$("st_bigtype")?$("st_bigtype").value:"";g.parentNode.hidden=!(t==="ptr"||t==="f_ptr");}
-  function renderStructForm(){var el=$("stForm");if(!el)return;var a=stA();setTimeout(syncBigPartners,0);
+  function renderStructForm(){var el=$("stForm");if(!el)return;var a=stA();setTimeout(function(){syncBigPartners();if(typeof shRender==="function")shRender();},0);
     el.innerHTML=ST_Q.map(function(q){var id="st_"+q[0];
       if(q[3])return '<div class="stq" role="group" aria-labelledby="'+id+'_l"><span class="stql" id="'+id+'_l">'+esc(q[1])+' <small>Choose all that apply</small></span><div class="chipset">'+q[2].map(function(o){var cid=id+"_"+o[0];return '<label class="chip2" for="'+cid+'"><input type="checkbox" id="'+cid+'" data-stm="'+q[0]+'" value="'+o[0]+'"'+(is(a,q[0],o[0])?" checked":"")+'><span>'+esc(o[1])+'</span></label>'}).join("")+'</div></div>';
       return '<label for="'+id+'">'+esc(q[1])+'<select id="'+id+'" data-st="'+q[0]+'">'+q[2].map(function(o){return '<option value="'+o[0]+'"'+((a[q[0]]||"")===o[0]?" selected":"")+'>'+esc(o[1])+'</option>'}).join("")+'</select></label>'}).join("");}
@@ -2293,6 +2304,9 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     if(foreignLoc)F.push("Form 5471 or 8858 for foreign subsidiaries or branches");
     if(pref)F.push("Form D and state notice filings for the preferred offering");
     R.entityFilings=F;R.flags={listed:listed,upreit:upreit,needTRS:needTRS,pref:pref,oper:is(a,"strat","oper")};
+    var HL=(Array.isArray(a.holders)?a.holders:[]).filter(function(h){return h.name||shPct(h.pct)>0});R.holders=a.count&&a.count!=="one"?HL:[];
+    if(R.holders.length){var ht=shTotal(R.holders);if(Math.abs(ht-100)>=0.005)add("watch","The shareholder list totals "+ht.toFixed(2)+"%, not 100%","Complete the list under Who owns the REIT so the ownership tests use the full picture.","");
+      else{var hf=shFacts(R.holders);if(hf&&hf.top5>50)add("watch","Five or fewer individuals own "+hf.top5.toFixed(2)+"%","Under the shareholder list, the five largest individual owners hold more than 50% by value, which fails the 5/50 test in the last half of the year.","§856(a)(6), (h); §544");}}
     return R;}
 
   // ---------- Ownership chart (SVG) ----------
@@ -2393,15 +2407,70 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     var R=evaluateStructure();if(R.flags.needTRS&&!(parseInt(PROFILE.trs,10)>0))PROFILE.trs="1";
     if(a.start==="new")PROFILE.first=true;
     writeProfileFields();modelChanged();changed(true);saveProfile();$("stNote").textContent="Applied. The dashboard, federal checker, rules and filings now use these answers.";}
+  // ---------- Shareholder list (REIT structure): who owns the REIT; the percentages must total 100% ----------
+  var SH_TYPES=BIG_TYPES.map(function(b){return [b[0],b[1]]}).concat([["other","Other or public shareholders (widely held)"]]);
+  var SH_INV={};BIG_TYPES.forEach(function(b){if(b[2])SH_INV[b[0]]=b[2]});
+  function shList(){if(!PROFILE.structure||typeof PROFILE.structure!=="object")PROFILE.structure={};var s=PROFILE.structure;if(!Array.isArray(s.holders))s.holders=[];return s.holders;}
+  function shPct(v){var n=parseFloat(String(v==null?"":v).replace(/[%,\s]/g,""));return isFinite(n)&&n>0?n:0;}
+  function shTotal(L){return Math.round((L||shList()).reduce(function(t,h){return t+shPct(h.pct)},0)*100)/100;}
+  function shOn(){var c=$("st_count"),v=c?c.value:((PROFILE.structure||{}).count||"");return !!v&&v!=="one";}
+  function shTypeName(t){return (SH_TYPES.filter(function(o){return o[0]===t})[0]||["","Type not chosen"])[1];}
+  // Facts that follow from a complete list: largest owner, foreign share, five largest individuals, preferred holders
+  function shFacts(L){L=(L||shList()).filter(function(h){return shPct(h.pct)>0});if(!L.length)return null;
+    var big=L.slice().sort(function(a,b){return shPct(b.pct)-shPct(a.pct)})[0],sum=function(f){return Math.round(L.filter(f).reduce(function(t,h){return t+shPct(h.pct)},0)*100)/100};
+    var ind=L.filter(function(h){return h.type==="ind"||h.type==="f_ind"}).map(function(h){return shPct(h.pct)}).sort(function(a,b){return b-a}).slice(0,5);
+    return {big:big,bigPct:shPct(big.pct),foreign:sum(function(h){return String(h.type).indexOf("f_")===0}),top5:Math.round(ind.reduce(function(t,x){return t+x},0)*100)/100,nInd:ind.length,
+      lookthrough:L.filter(function(h){return h.type==="ptr"||h.type==="f_ptr"||h.type==="te"}).length,pref:L.filter(function(h){return h.cls==="pref"}).length,untyped:L.filter(function(h){return !h.type}).length,n:L.length};}
+  function shSummary(){var f=shFacts();if(!f)return "";var it=[];
+    it.push("Largest owner: <b>"+esc(f.big.name||"(no name)")+"</b>, "+esc(shTypeName(f.big.type).replace(/^(A|An) /,""))+", "+f.bigPct.toFixed(2)+"%.");
+    it.push("Foreign owners: "+f.foreign.toFixed(2)+"% ("+(f.foreign<50?"under 50%, so the REIT can be domestically controlled":"50% or more, so the REIT is not domestically controlled")+", §897(h)(4)(B)).");
+    if(f.nInd)it.push("The "+(f.nInd===1?"individual listed owns ":(f.nInd<5?f.nInd+" individuals listed own ":"five largest individuals own "))+f.top5.toFixed(2)+"%"+(f.top5>50?": <b>more than 50%, which fails the 5/50 test</b> (§856(a)(6), (h)) unless ownership changes before the last half of the year.":", within the 5/50 limit as listed."));
+    if(f.lookthrough)it.push("Partnerships, funds and pension trusts are looked through to their owners for the 5/50 test, so check who stands behind them (§856(h)(3); §544(a)(1)).");
+    if(f.pref)it.push(f.pref+" preferred shareholder line"+(f.pref===1?"":"s")+" listed.");
+    if(f.untyped)it.push("Choose a type for "+f.untyped+" shareholder"+(f.untyped===1?"":"s")+" so the tests can use them.");
+    return '<ul class="plist shsum">'+it.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ul>';}
+  function shRender(){var el=$("stHolders");if(!el)return;var on=shOn();el.hidden=!on;if(!on){el.innerHTML="";return;}
+    var L=shList(),ro=FB&&FBS.role==="viewer";if(!L.length)L.push({name:"",type:"",cls:"common",pct:""},{name:"",type:"",cls:"common",pct:""});
+    var opt=function(list,v){return list.map(function(o){return '<option value="'+o[0]+'"'+(v===o[0]?" selected":"")+'>'+esc(o[1])+'</option>'}).join("")};
+    el.innerHTML='<h4 class="rh">Who owns the REIT</h4><p class="why" style="margin:0 0 8px">List each shareholder and its ownership by value. The percentages must add up to 100%. For a widely held REIT, list the larger holders and put the rest on one "Other or public shareholders" line.</p>'+
+      '<div class="shlist">'+L.map(function(x,i){var n=i+1;return '<div class="shrow"><span class="shnum" aria-hidden="true">'+n+'</span>'+
+        '<input class="shname" type="text" data-sh="name" data-i="'+i+'" value="'+esc(x.name||"")+'" placeholder="Shareholder name" aria-label="Shareholder '+n+' name"'+(ro?" disabled":"")+'>'+
+        '<select class="shtype" data-sh="type" data-i="'+i+'" aria-label="Shareholder '+n+' type"'+(ro?" disabled":"")+'><option value="">Type of shareholder…</option>'+opt(SH_TYPES,x.type||"")+'</select>'+
+        '<select class="shcls" data-sh="cls" data-i="'+i+'" aria-label="Shareholder '+n+' share class"'+(ro?" disabled":"")+'>'+opt([["common","Common shares"],["pref","Preferred shares"]],x.cls||"common")+'</select>'+
+        '<span class="shpct"><input type="number" min="0" max="100" step="0.01" inputmode="decimal" data-sh="pct" data-i="'+i+'" value="'+esc(x.pct==null?"":String(x.pct))+'" placeholder="0.00" aria-label="Shareholder '+n+' ownership percent"'+(ro?" disabled":"")+'><span aria-hidden="true">%</span></span>'+
+        (ro||L.length<2?'<span></span>':'<button type="button" class="link shdel" data-shdel="'+i+'" aria-label="Remove shareholder '+n+'">Remove</button>')+'</div>'}).join("")+
+      '<div class="shtotal"><span>Total ownership</span><b id="shTot"></b></div></div>'+
+      '<p class="shmsg" id="shMsg" aria-live="polite"></p>'+(ro?'':'<div class="shbtns"><button type="button" data-shadd="1">Add a shareholder</button> <button type="button" data-shrest="1" id="shRest" hidden></button></div>')+'<div id="shSum"></div>';
+    shTotals();}
+  function shTotals(){var tot=shTotal(),ok=Math.abs(tot-100)<0.005,diff=Math.round((100-tot)*100)/100,m=$("shMsg"),t=$("shTot"),r=$("shRest");if(!m)return;
+    t.textContent=tot.toFixed(2)+"%";t.className=ok?"good":"bad";m.className="shmsg "+(ok?"good":"bad");
+    m.textContent=ok?"Total is 100%. The answers above are filled in from this list.":diff>0?"The list totals "+tot.toFixed(2)+"%: "+diff.toFixed(2)+"% is not assigned to a shareholder yet. The total must be 100%.":"The list totals "+tot.toFixed(2)+"%, "+(-diff).toFixed(2)+"% too much. Reduce the percentages so they total 100%.";
+    if(r){r.hidden=!(diff>0.005);r.textContent="Add the remaining "+diff.toFixed(2)+"% as other shareholders";}
+    $("shSum").innerHTML=shSummary();return ok;}
+  // A complete list fills in the largest-owner, foreign-ownership and investor-type answers
+  function shApplyToForm(){var f=shFacts();if(!f||Math.abs(shTotal()-100)>=0.005)return false;var set=function(id,v){var el=$(id);if(el&&v!=null&&Array.prototype.some.call(el.options,function(o){return o.value===v}))el.value=v;};
+    var p=f.bigPct;set("st_big",p<10?"lt10":p<=25?"10to25":p<=50?"25to50":"gt50");if(f.big.type&&f.big.type!=="other")set("st_bigtype",f.big.type);
+    set("st_foreign",f.foreign<=0?"none":f.foreign<25?"lt25":f.foreign<=50?"25to50":"gt50");
+    shList().forEach(function(h){var inv=SH_INV[h.type];if(inv&&shPct(h.pct)>0){var c=$("st_inv_"+inv);if(c)c.checked=true;}});syncBigPartners();return true;}
+  function shChanged(full){if(full)shRender();else shTotals();var applied=shApplyToForm();refreshStructure(applied?"Updated from the shareholder list":"Shareholder list updated",false);}
+  function shInit(){var el=$("stHolders");if(!el)return;
+    el.addEventListener("input",function(e){var t=e.target,k=t.dataset.sh;if(!k)return;var L=shList(),i=+t.dataset.i;if(!L[i])return;L[i][k]=k==="pct"?t.value:t.value.slice(0,120);if(k==="pct")shTotals();});
+    el.addEventListener("change",function(e){var t=e.target,k=t.dataset.sh;if(!k)return;var L=shList(),i=+t.dataset.i;if(!L[i])return;L[i][k]=k==="pct"?t.value:t.value.slice(0,120);shChanged(false);});
+    el.addEventListener("click",function(e){var t=e.target,L=shList();
+      if(t.dataset.shadd){L.push({name:"",type:"",cls:"common",pct:""});shRender();var ins=el.querySelectorAll('input[data-sh="name"]');if(ins.length)ins[ins.length-1].focus();}
+      else if(t.dataset.shrest){var d=Math.round((100-shTotal())*100)/100;if(d>0){var blank=L.filter(function(h){return !h.name&&!shPct(h.pct)})[0];if(blank){blank.name="Other shareholders";blank.type="other";blank.pct=String(d);}else L.push({name:"Other shareholders",type:"other",cls:"common",pct:String(d)});shChanged(true);}}
+      else if(t.dataset.shdel!=null){L.splice(+t.dataset.shdel,1);shChanged(true);}});}
+
   // Read every answer from the form, so the results always match what is on screen
   function readStructForm(){var a={};ST_Q.forEach(function(q){if(q[3])a[q[0]]=Array.prototype.filter.call(document.querySelectorAll('[data-stm="'+q[0]+'"]'),function(c){return c.checked}).map(function(c){return c.value});else{var el=$("st_"+q[0]);a[q[0]]=el?el.value:"";}});return a;}
   function questionLabel(k){for(var i=0;i<ST_Q.length;i++)if(ST_Q[i][0]===k)return ST_Q[i][1];return k;}
-  function refreshStructure(msg,scroll){if(!$("stForm").children.length)return;PROFILE.structure=readStructForm();renderStructure();
+  function refreshStructure(msg,scroll){if(!$("stForm").children.length)return;var hs=(PROFILE.structure||{}).holders;PROFILE.structure=readStructForm();if(Array.isArray(hs))PROFILE.structure.holders=hs;renderStructure();
     var t=new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit",second:"2-digit"});$("stStatus").textContent=(msg||"Results updated")+" at "+t+".";
     var out=$("stOut");out.classList.remove("flash");void out.offsetWidth;out.classList.add("flash");setTimeout(function(){out.classList.remove("flash")},1600);
     if(scroll&&out.scrollIntoView)out.scrollIntoView({behavior:"smooth",block:"start"});
     clearTimeout(saveTimer);saveTimer=setTimeout(saveProfile,700);}
-  $("stForm").addEventListener("change",function(e){var t=e.target,k=t.dataset.stm||t.dataset.st;if(!k)return;if(k==="bigtype")syncBigPartners();refreshStructure("Updated for “"+questionLabel(k)+"”",false);});
+  $("stForm").addEventListener("change",function(e){var t=e.target,k=t.dataset.stm||t.dataset.st;if(!k)return;if(k==="bigtype")syncBigPartners();if(k==="count")shRender();refreshStructure("Updated for “"+questionLabel(k)+"”",false);});
+  shInit();
   $("stUpdate").addEventListener("click",function(){refreshStructure("Results updated",true);});
   $("stUpdateTop").addEventListener("click",function(){refreshStructure("Results updated",true);});
   document.addEventListener("click",function(e){if(e.target&&e.target.id==="stApply")applyStructure();});
@@ -3139,10 +3208,10 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       ["States",sc.map(function(c){return SNAME[c]}).join(", ")||"None entered"],["Other countries",cc.map(function(c){return CNAME[c]}).join(", ")||"None entered"],
       ["Captive REIT",isCaptive()?"Likely, on the facts entered":"No"]].concat(P.final?[["Final REIT year",{liq:"Complete liquidation",merge:"Merger or acquisition",revoke:"Ending the REIT election"}[P.finalWhy||"liq"]+(finalEndDate()?", ending "+fmtDate(finalEndDate()):"")+(P.planDate&&(P.finalWhy||"liq")==="liq"?"; plan adopted "+P.planDate:"")]]:[]).concat([["Foreign shareholders",P.foreign?"Yes"+(P.foreign25?" (25% or more foreign-owned)":""):"No"]]).concat(o.preparer?[["Prepared by",o.preparer]]:[])}].concat(o.notes?[{t:"p",text:o.notes}]:[]));
     var SR=evaluateStructure();var srow=function(t,arr){return arr.map(function(r){return {t:"p",head:t+": "+r.title,text:r.text+(r.cite?" ("+r.cite+")":"")}})};
-    sec("structure","REIT structure evaluation",[{t:"svg",svg:structureSVG(SR),pdfSvg:structureSVG(SR,PDF_PAL)},{t:"kv",rows:[["Above the REIT",SR.nodes.above.map(function(n){return n.t}).join(", ")||"Not answered"],["The REIT",SR.nodes.reit],["Below the REIT",SR.nodes.below.map(function(n){return n.t}).join(", ")]]},
+    sec("structure","REIT structure evaluation",[{t:"svg",svg:structureSVG(SR),pdfSvg:structureSVG(SR,PDF_PAL)},{t:"kv",rows:[["Above the REIT",SR.nodes.above.map(function(n){return n.t}).join(", ")||"Not answered"],["The REIT",SR.nodes.reit],["Below the REIT",SR.nodes.below.map(function(n){return n.t}).join(", ")]]}].concat(SR.holders&&SR.holders.length?[{t:"table",head:["Shareholder","Type","Class","Ownership %"],right:[3],rows:SR.holders.map(function(h){return [h.name||"(no name)",shTypeName(h.type),h.cls==="pref"?"Preferred":"Common",shPct(h.pct).toFixed(2)+"%"]}).concat([["Total","","",shTotal(SR.holders).toFixed(2)+"%"]])}]:[],[
       {t:"table",head:["Largest owner check","Result","Detail","Authority"],rows:SR.owner.map(function(o){return [o.title,{ok:"OK",watch:"Watch",problem:"Problem"}[o.level],o.text,o.cite]}),wide:true},
       {t:"table",head:["Legal issue","Why it matters","How the structure addresses it","Authority"],rows:SR.legal.map(function(l){return [l.issue,l.risk,l.fix,l.cite]}),wide:true}].concat(srow("Above",SR.above),srow("REIT",SR.reit),srow("Below",SR.below),
-      SR.compare.length?[{t:"table",head:["Investor","Through a partnership","Through the REIT"],rows:SR.compare,wide:true}]:[],[{t:"list",items:SR.watch.map(function(w){return w.title+": "+w.text+(w.cite?" ("+w.cite+")":"")})}]));
+      SR.compare.length?[{t:"table",head:["Investor","Through a partnership","Through the REIT"],rows:SR.compare,wide:true}]:[],[{t:"list",items:SR.watch.map(function(w){return w.title+": "+w.text+(w.cite?" ("+w.cite+")":"")})}])));
     sec("orgReview","Existing structure: compliance review",orgReportBlocks());
     sec("tests","Federal test results",[{t:"table",head:["Test","Result","Value","Requirement"],rows:LAST_TESTS.map(function(r){return [r.name,r.label,strip(r.val),strip(r.desc)]})}]);
     var probs=LAST_TESTS.filter(function(r){return (r.status==="fail"||r.status==="warn")&&r.whyText});
