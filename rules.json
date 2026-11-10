@@ -2,8 +2,8 @@
  "meta": {
   "status": {
    "checkedBy": "Claude scheduled review",
-   "lastChecked": "2026-11-09",
-   "nextCheck": "2026-11-10"
+   "lastChecked": "2026-11-10",
+   "nextCheck": "2026-11-11"
   }
  },
  "federal": {
@@ -646,6 +646,8 @@
    "verified": true
   },
   "IN": {
+   "captive": "More than 50% of voting power, beneficial interests or shares held directly or constructively (IRC §318 as modified by §856(d)(5)) by one entity taxed under Subchapter C; shares not regularly traded; exclusions where the parent is owned by a REIT, a §501 exempt person, a treaty-country listed property trust/foreign REIT, or a REIT intending to go public. Dividends-paid deduction added back under IC 6-3-1-3.5(b)(9).",
+   "citation": "Ind. Code §6-3-1-34.5 (definition); §6-3-1-3.5(b)(9) (add-back)",
    "code": "IN",
    "forms": [
     {
@@ -654,16 +656,16 @@
     }
    ],
    "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "lastVerified": "2026-11-10",
    "name": "Indiana",
    "rate": 4.9,
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "MTC hearing officer report",
-   "sourceUrl": "https://www.mtc.gov/wp-content/uploads/2023/02/hearingreportmodified1229final.pdf",
-   "summary": "Listed by the Multistate Tax Commission as having a statute denying the dividends deduction for captive REITs. Current statute not yet confirmed.",
+   "sourceName": "Indiana Code §6-3-1-34.5 and §6-3-1-3.5 (Justia)",
+   "sourceUrl": "https://law.justia.com/codes/indiana/title-6/article-3/chapter-1/section-6-3-1-34-5/",
+   "summary": "Indiana requires a corporation to add back the federal dividends-paid deduction for distributions to shareholders of a captive REIT. A captive REIT is a REIT whose shares are not regularly traded on an established securities market and more than 50% of which is owned or controlled (with constructive ownership) by a single C corporation; it is not captive if that owner is itself owned by a REIT, a tax-exempt organization, a qualifying treaty-country listed property trust or foreign REIT, or a REIT that is going public under §856(h). Non-captive REITs keep the deduction.",
    "treatment": "strict",
-   "verified": false
+   "verified": true
   },
   "KS": {
    "brackets": [
@@ -725,6 +727,8 @@
    "wholeIncome": false
   },
   "KY": {
+   "captive": "REIT under IRC §856 that (a) is not regularly traded on an established securities market or lacks enough shareholders to register with the SEC, (b) is at least 25% owned (10% if the owners occupy its property) directly or constructively by corporations taxable under KRS 141.040, and (c) is not owned by another REIT. No deduction for dividends paid is allowed.",
+   "citation": "KRS 141.010(2) (captive REIT definition) and 141.010(35)(d) (no dividends-paid deduction)",
    "code": "KY",
    "forms": [
     {
@@ -733,18 +737,22 @@
     }
    ],
    "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "lastVerified": "2026-11-10",
+   "minTax": 175,
    "name": "Kentucky",
    "rate": 5,
+   "rateNote": "Flat 5% income tax; the separate limited liability entity tax (LLET) on Form 720 carries a $175 minimum.",
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "MTC hearing officer report",
-   "sourceUrl": "https://www.mtc.gov/wp-content/uploads/2023/02/hearingreportmodified1229final.pdf",
-   "summary": "Listed by the Multistate Tax Commission as having a statute denying the dividends deduction for captive REITs. Current statute not yet confirmed.",
+   "sourceName": "Kentucky Revised Statutes 141.010 (Kentucky Legislature)",
+   "sourceUrl": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=57913",
+   "summary": "Kentucky taxes a REIT on its federal REIT taxable income under §857(b)(2), but a captive REIT may not take any dividends-paid deduction. A captive REIT is one whose shares are not regularly traded (or that has too few holders to register with the SEC), that is not owned by another REIT, and in which Kentucky-taxable corporations own at least 25% (or 10% if they occupy its property).",
    "treatment": "strict",
-   "verified": false
+   "verified": true
   },
   "LA": {
+   "captive": "Dividends-paid deduction denied unless the REIT is publicly traded or a 'qualified REIT', which excludes REITs more than 50% owned or controlled (by vote or value) by a single taxable C corporation.",
+   "citation": "La. R.S. 47:287.736(A)-(D) (Acts 2005, No. 396)",
    "code": "LA",
    "forms": [
     {
@@ -753,16 +761,16 @@
     }
    ],
    "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "lastVerified": "2026-11-10",
    "name": "Louisiana",
    "rate": 5.5,
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "MTC hearing officer report",
-   "sourceUrl": "https://www.mtc.gov/wp-content/uploads/2023/02/hearingreportmodified1229final.pdf",
-   "summary": "Listed by the Multistate Tax Commission as having a statute denying the dividends deduction for captive REITs. Current statute not yet confirmed.",
+   "sourceName": "Louisiana Legislature, R.S. 47:287.736",
+   "sourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=101724",
+   "summary": "Louisiana taxes REITs on the portion of net income subject to federal tax under §§857 and 858, but allows the federal dividends-paid deduction only to publicly traded REITs and 'qualified' REITs. A REIT is not qualified when a single entity subject to federal corporate tax (and not exempt) directly or indirectly owns or controls more than 50% of its vote or value; see the statute for the other controlling-entity categories.",
    "treatment": "strict",
-   "verified": false
+   "verified": true
   },
   "MA": {
    "captive": "No captive REIT dividends-paid deduction addback identified. Corporate recipients (including related members) may not take the dividends-received deduction on REIT distributions (G.L. c. 63 §30.4 and §38(a)(1), as amended by St. 2003, c. 4); a REIT interest held by a related member is not a qualifying security for security corporation status (§38B).",
@@ -1094,26 +1102,58 @@
    "verified": true
   },
   "RI": {
+   "captive": "Captive REITs add back the total deduction for dividends paid under R.I. Gen. Laws §44-11-11 and compute tax on Form RI-1120C.",
+   "citation": "R.I. Gen. Laws §44-11-11; 2025 Form RI-1120C instructions",
    "code": "RI",
    "forms": [
     {
+     "captiveOnly": true,
+     "due": "15th day of the 4th month after year end (April 15 for calendar-year filers)",
      "form": "RI-1120C",
-     "name": "Business Corporation Tax Return"
+     "name": "Business Corporation Tax Return",
+     "note": "Captive REITs; non-captive REITs file RI-1120F instead"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "formsVerified": true,
+   "lastVerified": "2026-11-10",
    "minTax": 400,
    "name": "Rhode Island",
    "rate": 7,
-   "rateNote": "Minimum tax applies.",
-   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateNote": "7% of Rhode Island adjusted taxable income; $400 minimum tax ($400 per nexus member on a combined return).",
+   "rateSource": "https://tax.ri.gov/sites/g/files/xkgbur541/files/2026-01/2025%201120C%20Instructions%20with%20Credit%20Worksheets.pdf",
    "rateYear": 2026,
-   "sourceName": "MTC hearing officer report",
-   "sourceUrl": "https://www.mtc.gov/wp-content/uploads/2023/02/hearingreportmodified1229final.pdf",
-   "summary": "Listed by the Multistate Tax Commission as having a statute denying the dividends deduction for captive REITs. Current statute not yet confirmed.",
+   "sourceName": "Rhode Island Division of Taxation, 2025 RI-1120C Instructions",
+   "sourceUrl": "https://tax.ri.gov/sites/g/files/xkgbur541/files/2026-01/2025%201120C%20Instructions%20with%20Credit%20Worksheets.pdf",
+   "summary": "A captive REIT files Form RI-1120C, adds its total dividends-paid deduction back to federal taxable income, and pays tax at the 7% corporate rate (minimum $400). A non-captive REIT does not file RI-1120C; it checks the 1120F box and files Form RI-1120F, per the Division of Taxation's instructions.",
    "treatment": "strict",
-   "verified": false
+   "verified": true
+  },
+  "TN": {
+   "captive": "Captive REIT: REIT election in effect, at least 80% owned by value (GAAP) directly or indirectly by another entity or individual, shares not traded on a national stock exchange (Tenn. Code Ann. §67-4-2004(7)). Dividends-paid deduction added back on Schedule J, line 14 under §67-4-2006(b)(1)(O) unless owned by a bank, bank holding company or public REIT. Captive REITs may elect three-factor apportionment for franchise tax.",
+   "citation": "Tenn. Code Ann. §§67-4-2004(7), 67-4-2006(b)(1)(O); 2025 FAE 174 instructions; Rev. Rul. 24-01",
+   "code": "TN",
+   "exemption": 0,
+   "forms": [
+    {
+     "form": "FAE 174",
+     "name": "Franchise and Excise Tax Return",
+     "note": "Captive REIT groups use Schedules F1, I, N and N1 within this return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-10",
+   "minTax": 100,
+   "name": "Tennessee",
+   "rate": 6.5,
+   "rateNote": "Excise tax 6.5% of net earnings; separate franchise tax of $0.25 per $100 of net worth (property measure repealed), $100 minimum.",
+   "rateSource": "https://www.tn.gov/content/dam/tn/revenue/documents/forms/fae/fae174instructions2025.pdf",
+   "rateYear": 2026,
+   "sourceName": "Tennessee Department of Revenue, 2025 Franchise and Excise Tax Return (FAE 174) Instructions",
+   "sourceUrl": "https://www.tn.gov/content/dam/tn/revenue/documents/forms/fae/fae174instructions2025.pdf",
+   "summary": "REITs are subject to Tennessee franchise (net worth) and excise (income) taxes like corporations. A non-captive REIT keeps the federal dividends-paid deduction in its excise tax base, but a captive REIT (80% or more owned by one person or entity and not traded on a national exchange) adds the deduction back unless it is owned by a bank, bank holding company or public REIT. Captive REIT affiliated groups file a combined return. A 2026 bill to remove REIT tax treatment (HB 1777) stalled in committee and was not enacted.",
+   "treatment": "strict",
+   "verified": true,
+   "wholeIncome": true
   },
   "TX": {
    "citation": "Tex. Tax Code §171.0002(c)(4); 34 TAC §3.581",
@@ -1700,6 +1740,27 @@
    "tests": "Since 1 Jan 2025 an FBI may not invest directly in Dutch real estate. It may hold non-Dutch real estate directly and Dutch real estate indirectly through a regularly taxed subsidiary. 60% financing limit on real estate investments.",
    "verified": true
   },
+  "nz": {
+   "country": "New Zealand",
+   "distribution": "New Zealand has no dedicated REIT regime. Listed property vehicles generally register as listed portfolio investment entities (PIEs): the company pays tax on its own income at its basic rate (the company rate), cannot pass losses to investors, and pays fully imputation-credited dividends without deducting resident withholding tax. Resident individuals can choose whether to include listed PIE dividends in their returns. No minimum distribution is required.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-10",
+   "leverage": "No tax-law leverage limit identified in this run.",
+   "localFilings": [
+    {
+     "form": "Income tax return",
+     "name": "Company income tax return (listed PIEs do not file periodic PIE returns or annual reconciliations)"
+    }
+   ],
+   "order": 24,
+   "ownership": "Listed on a recognised NZ exchange (or listing within 2 years of registration).",
+   "recent": "No recent changes confirmed in this run.",
+   "regime": "No REIT regime (listed PIE used for property vehicles)",
+   "sourceName": "Inland Revenue, Listed portfolio investment entity",
+   "sourceUrl": "https://www.ird.govt.nz/roles/portfolio-investment-entities/types-of-portfolio-investment-entities/listed-portfolio-investment-entity",
+   "tests": "Listed PIE status requires listing on a recognised New Zealand exchange and registration with Inland Revenue (cannot be a multi-rate PIE). An unlisted company may register if it intends to list, has 100+ shareholders or meets other conditions, but must list within 2 years. General PIE investor and income-type eligibility rules also apply.",
+   "verified": false
+  },
   "pl": {
    "country": "Poland",
    "distribution": "Poland has no REIT regime; REITs cannot currently be established under Polish law. Investors usually hold property directly or through ordinary companies, and investment funds are an alternative but have little market share. There is no distribution requirement outside the regime. A Polish REIT (SINN, Spółka Inwestująca w Najem Nieruchomości) has been proposed repeatedly since 2018; the announced assumptions (proposal only) include distributing at least 90% of income as dividends.",
@@ -1822,8 +1883,8 @@
     }
    ],
    "order": 22,
-   "ownership": "Listed company; shares must be held by the public per JSE listing rules. A 2015 Budget proposal to extend REIT treatment to regulated unlisted property companies has not been confirmed as implemented.",
-   "recent": "Taxation Laws Amendment Act 2014 allowed IFRS-based property-company tests (so foreign companies can qualify) and required REIT status at the time of disposal for the capital gains disregard. No later amendments confirmed in this run.",
+   "ownership": "Listed company (shares held by the public per JSE listing rules), or, for years of assessment beginning after 19 August 2026, an unlisted company owned by specified institutional investors (such as insurers, retirement funds, certain state-owned companies and listed REITs) that meets the conditions in Notice R7839 (Taxand summary: at least 80% property assets, 75% rental revenue, liabilities no more than 60% of assets, gross assets of at least R300 million, 75% distribution within six months of year end, SA residence).",
+   "recent": "Notices R7838 and R7839 (Government Gazettes 55220 and 55221, 19 Aug 2026) brought into operation the TLAA 2024 amendment to the REIT definition and prescribed the conditions for unlisted REITs, for years of assessment beginning after 19 August 2026. Earlier: TLAA 2014 allowed IFRS-based property-company tests and required REIT status at disposal for the capital gains disregard. The section 8F(3)(d) linked-unit exclusion is legislated to lapse on 1 January 2027 (SAIT has asked for a later date for some companies; not enacted).",
    "regime": "SA REIT (Income Tax Act s25BB; JSE Listings Requirements)",
    "sourceName": "ENS via Mondaq (Feb 2015); Cliffe Dekker Hofmeyr Budget Alert 2015; SARS Dividends Tax page",
    "sourceUrl": "https://www.mondaq.com/southafrica/income-tax/376094/a-recap-of-the-reit-provisions-and-the-latest-amendments-thereto",
@@ -2004,6 +2065,16 @@
    "summary": "The Taxation and Other Laws (Amendment) Act, 2026 removes the condition that the SPV stay in the old tax regime for unitholders' dividends to be exempt. SPVs taxed under the concessional regime now pay a 25% surcharge instead of 10%. Interest and other distribution components stay taxable.",
    "title": "REIT and InvIT unitholder dividends exempt regardless of SPV regime"
   },
+  "2026-08-19-za-unlisted-reit": {
+   "date": "2026-08-19",
+   "effective": "Years of assessment beginning after 19 August 2026",
+   "jurisdiction": "South Africa",
+   "sourceName": "SARS What's New (Notices R7838 and R7839, Government Gazettes 55220 and 55221 of 19 Aug 2026); Taxand",
+   "sourceUrl": "https://www.sars.gov.za/whats-new-at-sars/3/",
+   "status": "enacted",
+   "summary": "Two notices gazetted on 19 August 2026 brought into operation the Taxation Laws Amendment Act 2024 change to the Income Tax Act REIT definition and set the conditions an unlisted company must meet to be a REIT under paragraph (b) of that definition. Advisers report the conditions include ownership by specified institutional investors, at least 80% property assets, at least 75% rental revenue, gearing of no more than 60%, gross assets of at least R300 million and distribution of at least 75% of distributable profits.",
+   "title": "Unlisted companies can now qualify as REITs"
+  },
   "2026-08-31-us-plr-858-extension": {
    "date": "2026-08-31",
    "effective": "Private letter ruling (reported Aug 31, 2026); binding only on the taxpayer; PLR number not confirmed",
@@ -2174,6 +2245,30 @@
    "verified": [
     "Iowa state rules: re-checked against current sources",
     "Wisconsin state rules: re-checked against current sources"
+   ]
+  },
+  "2026-11-10": {
+   "added": [
+    "Tennessee state rules",
+    "New Zealand regime (no REIT regime; listed PIE)"
+   ],
+   "attention": [
+    "South Africa: the linked-unit exclusion in s8F(3)(d) lapses on 1 Jan 2027; unlisted property companies relying on it should check whether they qualify under the new unlisted REIT conditions.",
+    "Mexico: confirm DOF publication and final text of the LIF 2027 FIBRA distribution formula before planning 2027 distributions."
+   ],
+   "changed": [
+    "South Africa: unlisted REIT conditions in force for years of assessment beginning after 19 Aug 2026 (SARS What's New, Notices R7838/R7839; Taxand)"
+   ],
+   "changesFound": 1,
+   "date": "2026-11-10",
+   "summary": "Checked federal (IRS rulings, forms, legislation), state and international REIT sources since Nov 9. No new federal or state changes found; recorded South Africa's August 2026 notices that let qualifying unlisted companies become REITs, which earlier runs had missed. Mexico's LIF 2027 FIBRA provision is still awaiting confirmed DOF publication.",
+   "title": "Daily rule review",
+   "verified": [
+    "Indiana: captive REIT definition and dividends-paid deduction add-back confirmed against Ind. Code §§6-3-1-34.5 and 6-3-1-3.5(b)(9)",
+    "Kentucky: captive REIT definition and denial of the dividends-paid deduction confirmed against KRS 141.010(2) and (35)(d); LLET $175 minimum added",
+    "Louisiana: dividends-paid deduction limited to publicly traded and qualified REITs, confirmed against La. R.S. 47:287.736",
+    "Rhode Island: captive REIT add-back, RI-1120C form, 7% rate and $400 minimum confirmed against the 2025 RI-1120C instructions; non-captive REITs file RI-1120F",
+    "South Africa: ownership and recent-changes text updated from SARS notices R7838/R7839"
    ]
   }
  }
