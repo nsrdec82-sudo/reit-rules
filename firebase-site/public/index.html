@@ -1639,7 +1639,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     if(sectorList().slice().sort().join(",")===secs.slice().sort().join(","))return false;PROFILE.sector=secs.join(",");writeProfileFields();return true;}
   function loadTB(rows,label,opt){opt=opt||{};if(opt.replace){TB=[];PROFILE.tbSets=[];}
     var S=tbSets(),base=String(label||"Trial balance").replace(/\.(csv|xlsx?|txt)$/i,"").replace(/[_]+/g," ").trim();
-    var st={id:"s"+Date.now().toString(36)+Math.floor(Math.random()*1e5),label:opt.name||base,sector:opt.sector||tbGuessSector(rows,base),own:String(opt.own||"100"),file:opt.file===undefined?(label||""):opt.file};S.push(st);
+    var st={id:"s"+Date.now().toString(36)+Math.floor(Math.random()*1e5),label:opt.name||base,sector:opt.sector||tbGuessSector(rows,base),own:String(opt.own||((base||"").match(/\((\d{1,3}(?:\.\d+)?)\s*%\)/)||[])[1]||"100"),file:opt.file===undefined?(label||""):opt.file};S.push(st);
     rows.forEach(function(r){r.src=st.id});TB=TB.concat(rows);
     var sec=tbSyncSectors();tbMapRows(rows);if(sec)tbRemapAuto();
     tbSaveLocal();if(sec)changed(true);if(ORG_READY)qnRender();
