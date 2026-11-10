@@ -1,0 +1,118 @@
+rules_version = '2';
+
+// REIT Rule Navigator access rules.
+// - Every user must be signed in with a verified email address.
+// - Admins are listed in /admins/{email}. Only admins create entities and grant access.
+// - A user can read an entity only if /entities/{id}/members/{their email} exists.
+// - Member roles: "client" (client dashboard, REIT structure and questionnaire only: may update the year's
+//   profile, which holds those answers, but not figures or trial balances, and can't see saved reports),
+//   "viewer" (employee, read only) and "editor" (employee, full access: figures, trial balances, reports).
+// - Saved reports can't be changed after they are saved; only admins can delete them.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+    function myEmail() {
+      return request.auth.token.email.lower();
+    }
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(myEmail()));
+    }
+    function isMember(eid) {
+      return signedIn() && exists(/databases/$(database)/documents/entities/$(eid)/members/$(myEmail()));
+    }
+    function memberRole(eid) {
+      return get(/databases/$(database)/documents/entities/$(eid)/members/$(myEmail())).data.role;
+    }
+    function isEmployee(eid) {
+      return isAdmin() || (isMember(eid) && memberRole(eid) in ['viewer', 'editor']);
+    }
+    function isClient(eid) {
+      return !isAdmin() && isMember(eid) && memberRole(eid) == 'client';
+    }
+    function isEditor(eid) {
+      return isAdmin() || (isMember(eid) &&
+        get(/databases/$(database)/documents/entities/$(eid)/members/$(myEmail())).data.role == 'editor');
+    }
+
+    // Admin list: a user may check whether they are an admin; only admins change the list.
+    match /admins/{email} {
+      allow read: if signedIn() && (email == myEmail() || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // Each user's list of entities they can open (kept in step with the member records by admins).
+    match /access/{email} {
+      allow read: if signedIn() && (email == myEmail() || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    match /entities/{eid} {
+      allow read: if isAdmin() || isMember(eid);
+      allow create, update, delete: if isAdmin();
+
+      match /members/{email} {
+        allow read: if isAdmin() || (signedIn() && email == myEmail());
+        // The server function adds invitedAt / inviteError after it emails the user; admins set resendAt to send it again.
+        allow write: if isAdmin()
+          && (request.resource == null || request.resource.data.role in ['client', 'viewer', 'editor']);
+      }
+
+      // One document per tax year and quarter ("2026-Q1"; "2026" is a whole-year record): the client profile, checker figures, trial balance and estimates.
+      match /years/{year} {
+        allow read: if isAdmin() || isMember(eid);
+        allow create, update: if isEditor(eid) && year.matches('^[0-9]{4}(-Q[1-4])?$');
+        // Clients can update the profile of a year their advisor has started, and nothing else
+        allow update: if isClient(eid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['profile', 'updatedAt', 'updatedBy'])
+          && request.resource.data.updatedBy == myEmail();
+        allow delete: if isAdmin();
+
+        // Saved reports: a data snapshot plus the PDF stored in chunks.
+        match /reports/{rid} {
+          allow read: if isEmployee(eid);
+          allow create: if isEditor(eid)
+            && request.resource.data.createdBy == myEmail()
+            && request.resource.data.year == year;
+          allow update: if false;
+          allow delete: if isAdmin();
+
+          match /chunks/{cid} {
+            allow read: if isEmployee(eid);
+            allow create: if isEditor(eid);
+            allow update: if false;
+            allow delete: if isAdmin();
+          }
+        }
+      }
+    }
+
+    // Access requests: a signed-in user with a verified email can ask for access, once per email address.
+    // The user may only set these fields, and only as "pending". Admins read and decide them.
+    // The server function adds adminsNotifiedAt after it emails the administrators.
+    match /accessRequests/{email} {
+      function reqOk() {
+        let d = request.resource.data;
+        return d.keys().hasOnly(['email', 'uid', 'name', 'company', 'note', 'status', 'requestedAt', 'auto', 'adminsNotifiedAt', 'decidedBy', 'decidedAt', 'entity'])
+          && d.email == myEmail() && d.uid == request.auth.uid && d.status == 'pending'
+          && d.requestedAt == request.time
+          && d.get('name', '') is string && d.get('name', '').size() <= 120
+          && d.get('company', '') is string && d.get('company', '').size() <= 200
+          && d.get('note', '') is string && d.get('note', '').size() <= 1000;
+      }
+      allow read: if signedIn() && (email == myEmail() || isAdmin());
+      allow create: if signedIn() && email == myEmail() && reqOk()
+        && request.resource.data.keys().hasOnly(['email', 'uid', 'name', 'company', 'note', 'status', 'requestedAt', 'auto']);
+      allow update: if isAdmin() || (signedIn() && email == myEmail() && reqOk()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['uid', 'name', 'company', 'note', 'status', 'requestedAt', 'auto']));
+      allow delete: if isAdmin();
+    }
+
+    // Everything else is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

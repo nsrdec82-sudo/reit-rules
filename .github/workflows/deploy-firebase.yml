@@ -1,0 +1,49 @@
+# Publishes the private REIT Rule Navigator site to Firebase whenever firebase-site/ changes on main.
+# One-time setup (repository Settings > Secrets and variables > Actions > New repository secret):
+#   FIREBASE_SERVICE_ACCOUNT  the JSON key of a Firebase service account (see README.md)
+#   FIREBASE_CONFIG_JS        the full contents of your working public/config.js
+name: Deploy private site to Firebase
+on:
+  push:
+    branches: [main]
+    paths: ["firebase-site/**", ".github/workflows/deploy-firebase.yml"]
+  workflow_dispatch:
+concurrency:
+  group: firebase-deploy
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check the one-time setup
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          CFG: ${{ secrets.FIREBASE_CONFIG_JS }}
+        run: |
+          [ -n "$SA" ] || { echo "::error::Add the FIREBASE_SERVICE_ACCOUNT secret (see README.md)."; exit 1; }
+          [ -n "$CFG" ] || { echo "::error::Add the FIREBASE_CONFIG_JS secret (see README.md)."; exit 1; }
+      - name: Write your site settings
+        env:
+          CFG: ${{ secrets.FIREBASE_CONFIG_JS }}
+        run: printf '%s\n' "$CFG" > firebase-site/public/config.js
+      - name: Deploy
+        working-directory: firebase-site
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          printf '%s' "$SA" > "$RUNNER_TEMP/sa.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json"
+          PID=$(sed -n 's/.*projectId:[[:space:]]*["'\'']\([^"'\'']*\)["'\''].*/\1/p' public/config.js | head -1)
+          [ -n "$PID" ] || { echo "::error::FIREBASE_CONFIG_JS has no projectId."; exit 1; }
+          # The email functions keep their settings in your Firebase project, so they are deployed by hand
+          # (npx firebase deploy --only functions) on the rare occasions they change.
+          ONLY="hosting,firestore:rules"
+          echo "Deploying $ONLY to $PID"
+          npx --yes firebase-tools@15.34.1 deploy --only "$ONLY" --project "$PID" --non-interactive --force
+          rm -f "$RUNNER_TEMP/sa.json"
