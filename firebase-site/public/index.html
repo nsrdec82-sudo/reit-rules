@@ -160,6 +160,7 @@ button.link:hover{color:var(--fail)}
 #filingsBody td.due .dd{display:block;font-weight:600;white-space:nowrap}
 #filingsBody td.due .dn{display:block;font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:2px}
 #filingsBody td.due .dx summary{font-size:12.5px;color:var(--accent);cursor:pointer;margin-top:2px}
+details.yardi{margin:10px 0 0;font-size:14px}details.yardi summary{cursor:pointer;font-weight:600;color:var(--accent)}details.yardi ol{margin:8px 0 0;padding-left:20px}details.yardi li{margin:0 0 6px}
 .considerfor{font-size:14px;color:var(--muted);margin:-4px 0 14px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;min-width:0}
 .panel h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
@@ -684,6 +685,15 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       </div>
       <p class="why" style="margin:10px 0 0">Expected columns: account number, account name, and either debit and credit or a single balance (debits positive). Asset tests use value, so adjust book balances to fair value where they differ. Book income and expenses give an estimate of REIT taxable income only.</p>
       <p class="why" style="margin:6px 0 0">You can import several trial balances, one per property, entity or portfolio: choose several files at once, or import them one after another. Give each its property sector and the REIT's share. The checker uses the combined figures.</p>
+      <details class="yardi"><summary>Importing from Yardi Voyager</summary>
+        <ol>
+          <li>In Voyager, run the <b>Trial Balance</b> financial report with <b>Property</b> set to the REIT's property or property list, <b>Period</b> set to the quarter-end month (for example Jun 2026, for year-to-date balances) and <b>Book</b> set to the book you test on, such as Accrual or Tax.</li>
+          <li>Send the report to Excel. For several properties, run one report per property, or put each property on its own sheet of one workbook.</li>
+          <li>Import the files here. The page recognizes the Yardi layout: it uses the <b>Ending Balance</b> column (the debit and credit columns are only the period's activity), names each trial balance after its property, and warns you if the report's period doesn't match the quarter you have open.</li>
+          <li>The account matches you confirm are kept and carried into the next quarter, so each quarter is an export and an import.</li>
+        </ol>
+        <p class="why" style="margin:6px 0 0">To make it routine, a Yardi administrator can schedule the Trial Balance report to be emailed after each quarter closes. A live connection that pulls balances straight from Voyager needs Yardi's interface access, which Yardi grants to approved interface partners through its Standard Interface Partnership Program.</p>
+      </details>
       <label class="check" for="tbAutoSector" style="margin-top:8px"><input type="checkbox" id="tbAutoSector" checked>Set the REIT's property sectors from the trial balances (more than one sector makes it a diversified REIT, and each sector's line items and rules apply)</label>
       <div class="panel qnnote" id="tbCarry" hidden></div>
       <p class="savenote" id="tbNote" aria-live="polite"></p>
@@ -1594,22 +1604,37 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   function rowsToTB(rows){
     var hi=-1,cols=null;
     for(var i=0;i<Math.min(rows.length,15);i++){var h=rows[i].map(function(x){return String(x).toLowerCase().trim()});
-      var c={no:-1,name:-1,dr:-1,cr:-1,bal:-1};
+      var c={no:-1,name:-1,dr:-1,cr:-1,bal:-1,fwd:-1,end:-1,acct:-1};
       h.forEach(function(x,j){if(c.no<0&&/(acc(oun)?t|gl)\s*(no|num|number|#|code)|^no\.?$|^code$|^number$/.test(x))c.no=j;
-        else if(c.name<0&&/name|description|title|^account$/.test(x))c.name=j;
+        else if(c.name<0&&/name|description|title/.test(x))c.name=j;
+        else if(c.acct<0&&/^account$/.test(x))c.acct=j;
+        else if(c.fwd<0&&/(forward|beginning|opening|starting)\s*bal/.test(x))c.fwd=j;
+        else if(c.end<0&&/(ending|closing|end(ing)? of period)\s*bal|^ending$/.test(x))c.end=j;
         else if(c.dr<0&&/debit|^dr$/.test(x))c.dr=j;else if(c.cr<0&&/credit|^cr$/.test(x))c.cr=j;
-        else if(c.bal<0&&/balance|amount|^net$|ending/.test(x))c.bal=j;});
-      if(c.name>=0&&(c.dr>=0||c.cr>=0||c.bal>=0)){hi=i;cols=c;break;}}
+        else if(c.bal<0&&/balance|amount|^net$/.test(x))c.bal=j;});
+      // "Account" is the account number when a separate name or description column exists
+      if(c.acct>=0){if(c.name<0)c.name=c.acct;else if(c.no<0)c.no=c.acct;}
+      if(c.name>=0&&(c.dr>=0||c.cr>=0||c.bal>=0||c.end>=0)){hi=i;cols=c;break;}}
     if(!cols)return null;
+    // Report heading lines above the columns (Yardi Voyager and similar): property, period, book
+    var meta={},headTxt=rows.slice(0,hi).map(function(r){return r.filter(function(x){return x!==""&&x!=null}).join(" ")}).join("\n");
+    if(/yardi|voyager/i.test(headTxt)||(cols.fwd>=0&&cols.end>=0))meta.yardi=/yardi|voyager/i.test(headTxt)||null;
+    var mm=headTxt.match(/propert(?:y|ies)\s*[=:]\s*([^\n]+)/i);if(mm)meta.property=mm[1].trim().slice(0,80);
+    mm=headTxt.match(/period\s*[=:]\s*([^\n]+)/i);if(mm)meta.period=mm[1].trim().slice(0,60);
+    mm=headTxt.match(/book\s*[=:]\s*([^\n]+)/i);if(mm)meta.book=mm[1].trim().slice(0,40);
+    // An ending-balance column holds the balance; debit and credit next to it are only the period's activity
+    meta.useEnd=cols.end>=0;
     var out=[];
     rows.slice(hi+1).forEach(function(r){var name=String(r[cols.name]==null?"":r[cols.name]).trim(),no=cols.no>=0?String(r[cols.no]==null?"":r[cols.no]).trim():"";
       if(!no){var m=name.match(/^(\d{3,})\s*[-–:.]?\s*(.+)$/);if(m){no=m[1];name=m[2];}}
       if(!name&&!no)return; if(/^total/i.test(name))return;
-      var dr=0,cr=0;if(cols.dr>=0||cols.cr>=0){dr=cols.dr>=0?parseAmt(r[cols.dr]):0;cr=cols.cr>=0?parseAmt(r[cols.cr]):0;}
+      if(/^(net income|net loss|grand total|report total)/i.test(name))return;
+      var dr=0,cr=0;if(cols.end>=0){var e=parseAmt(r[cols.end]);if(e>=0)dr=e;else cr=-e;}
+      else if(cols.dr>=0||cols.cr>=0){dr=cols.dr>=0?parseAmt(r[cols.dr]):0;cr=cols.cr>=0?parseAmt(r[cols.cr]):0;}
       else{var b=parseAmt(r[cols.bal]);if(b>=0)dr=b;else cr=-b;}
       if(dr===0&&cr===0)return;
       out.push({no:no,name:name,dr:dr,cr:cr,map:"",auto:true,review:false});});
-    return out;}
+    out.meta=meta;return out;}
   var MAPRULES=[
     [/publicly offered reit/,"i_podi","a_nqpr"],[/temporary investment/,"i_qtii","a_temp"],[/prohibited|held for sale to customers|dealer/,"i_ptx",null],
     [/impermissible/,"i_imps",null],[/related[- ]party/,"i_rel",null],[/net (income|profits)/,"i_prof",null],
@@ -1642,6 +1667,8 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     var range=isNaN(d)?null:(d===1?"ast":(d===2||d===3)?"lex":d===4?"inc":"exp");
     if(range==="lex")return {map:"lex",auto:true,review:false};
     if(range==="exp"||/expense|depreciation expense|amortization expense|salar|payroll|insurance expense|repairs|utilit|professional fee|interest expense|tax expense|general and admin/.test(n)&&range!=="ast"&&range!=="inc")return {map:"exp",auto:true,review:false};
+    // Land and buildings are real estate assets even when the name also mentions the use (e.g. "Land - office tower")
+    if(range==="ast"&&/^(land|buildings?)\b|\b(land|buildings?) (and|&) (buildings?|improvements)\b/.test(n)&&!/held for sale/.test(n))return {map:"a_land",auto:true,review:false};
     for(var i=0;i<MAPRULES.length;i++){var m=MAPRULES[i];if(m[0].test(n)){
       var id=range==="ast"?m[2]:range==="inc"?m[1]:(m[1]||m[2]);if(!id)continue;
       var it=itemById(id);if(it&&!it.vis){id=it.kind==="inc"?"i_oth":"a_othr";return {map:id,auto:true,review:true};}
@@ -1732,12 +1759,14 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   function tbReadFile(f){return new Promise(function(res){var name=f.name,rd=new FileReader();
     if(/\.xlsx?$/i.test(name)){if(!window.XLSX){res({err:"Excel reading is unavailable here. Save "+name+" as CSV and import that."});return;}
       rd.onload=function(){try{var wb=XLSX.read(new Uint8Array(rd.result),{type:"array"}),out=[];
-          wb.SheetNames.forEach(function(sn){var tb=rowsToTB(XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:true,defval:""}));if(tb&&tb.length)out.push({rows:tb,label:wb.SheetNames.length>1?sn:name,file:name+(wb.SheetNames.length>1?" · "+sn:"")});});
+          wb.SheetNames.forEach(function(sn){var tb=rowsToTB(XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:true,defval:""}));if(tb&&tb.length){var mt=tb.meta||{},lb=wb.SheetNames.length>1?sn:name;if(mt.property&&(wb.SheetNames.length<2||/^(sheet|report|tb|trial)/i.test(sn)))lb=mt.property;out.push({rows:tb,label:lb,file:name+(wb.SheetNames.length>1?" · "+sn:""),meta:mt});}});
           res(out.length?{sets:out}:{err:"Couldn't find account name and amount columns in "+name+". Check the header row."});}catch(e){res({err:"Couldn't read "+name+". Try saving it as CSV."});}};rd.readAsArrayBuffer(f);}
-    else{rd.onload=function(){var tb=rowsToTB(parseCSV(String(rd.result)));res(tb&&tb.length?{sets:[{rows:tb,label:name,file:name}]}:{err:"Couldn't find account name and amount columns in "+name+". Check the header row."});};rd.readAsText(f);}});}
+    else{rd.onload=function(){var tb=rowsToTB(parseCSV(String(rd.result)));res(tb&&tb.length?{sets:[{rows:tb,label:(tb.meta&&tb.meta.property)||name,file:name,meta:tb.meta||{}}]}:{err:"Couldn't find account name and amount columns in "+name+". Check the header row."});};rd.readAsText(f);}});}
   $("tbFile").addEventListener("change",async function(){var files=Array.prototype.slice.call(this.files||[]);this.value="";if(!files.length)return;if(PROFILE.tbFrom){TB=[];PROFILE.tbSets=[];PROFILE.tbFrom="";}var errs=[],n=0;
-    for(var i=0;i<files.length;i++){var r=await tbReadFile(files[i]);if(r.err){errs.push(r.err);continue;}r.sets.forEach(function(x){loadTB(x.rows,x.label,{file:x.file});n++;});}
-    if(errs.length)$("tbNote").textContent=(n?$("tbNote").textContent+" ":"")+errs.join(" ");});
+    var ys=[];for(var i=0;i<files.length;i++){var r=await tbReadFile(files[i]);if(r.err){errs.push(r.err);continue;}r.sets.forEach(function(x){loadTB(x.rows,x.label,{file:x.file});n++;if(x.meta&&(x.meta.yardi||x.meta.useEnd))ys.push(x.meta);});}
+    var extra=[];if(ys.length){var y0=ys[0];extra.push((ys.some(function(m){return m.yardi})?"Recognized a Yardi Voyager trial balance":"Recognized a trial balance with ending balances")+(ys.length>1?" ("+ys.length+" reports)":"")+(y0.period?", period "+y0.period:"")+(y0.book?", "+y0.book+" book":"")+". Ending balances were used; the debit and credit columns are only the period's activity.");
+      var pm=y0.period&&y0.period.match(/([A-Za-z]{3})[a-z]*\.?\s*(\d{4})\s*$/);if(pm&&PERIOD.q){var mi="janfebmaraprmayjunjulaugsepoctnovdec".indexOf(pm[1].toLowerCase())/3,qe=qtrEnd(PERIOD.y,+PERIOD.q);if(mi>=0&&(qe.getMonth()!==mi||qe.getFullYear()!==+pm[2]))extra.push("Check the period: the report ends "+pm[1]+" "+pm[2]+", but "+pidLabel(curPid())+" ends "+fmtShort(qe)+".");}}
+    if(errs.length||extra.length)$("tbNote").textContent=(n?$("tbNote").textContent+" ":"")+extra.concat(errs).join(" ");});
 
   var SAMPLE_TB=[["1010","Operating cash",21000000,0],["1020","Money market account",7500000,0],["1100","Rent receivable",2800000,0],["1150","Straight-line rent receivable",4200000,0],["1200","US Treasury bills",6000000,0],
     ["1500","Land",140000000,0],["1510","Buildings",455000000,0],["1520","Tenant improvements",38000000,0],["1590","Accumulated depreciation",0,73000000],["1600","Mortgage loans receivable",42000000,0],
