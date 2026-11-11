@@ -15,7 +15,7 @@
   --bg:#F9FAFE; --surface:#FFFFFF; --sunk:#F2F5FA; --line:#E3E8F1;
   --fg:#1F2A3C; --muted:#667085; --accent:#5A5FD8; --accent-soft:#EEEFFD;
   --c-dashboard:#9CC3FB; --c-structure:#C9B8FA; --c-rules:#8EE3D3; --c-filings:#F9D57A; --c-checker:#F6B3D4; --c-tb:#8FE0F0;
-  --c-estimates:#C8E98B; --c-states:#EDB5F5; --c-global:#9FD5F7; --c-updates:#CED6E2; --c-report:#F8B4BE; --c-admin:#D4D8E0; --c-qn:#FBC79A; --c-consider:#A7E3B4;
+  --c-estimates:#C8E98B; --c-states:#EDB5F5; --c-global:#9FD5F7; --c-updates:#CED6E2; --c-report:#F8B4BE; --c-admin:#D4D8E0; --c-qn:#FBC79A; --c-consider:#A7E3B4; --c-ptx:#FCA5A5;
   --pass:#1E7B48; --pass-bg:#EAF7EF; --warn:#99640A; --warn-bg:#FEF6E2; --fgn:#EDF3FD; --fgnT:#3558A0; --fail:#B42318; --fail-bg:#FDEEEC;
   --tint:color-mix(in srgb, var(--sec, var(--accent-soft)) 22%, var(--surface));
   --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
@@ -26,13 +26,13 @@
   --bg:#12131A; --surface:#1A1C26; --sunk:#232633; --line:#333748;
   --fg:#E6E8F2; --muted:#A0A6BC; --accent:#A5B4FC; --accent-soft:#2A2C55;
   --c-dashboard:#60A5FA; --c-structure:#A78BFA; --c-rules:#2DD4BF; --c-filings:#FBBF24; --c-checker:#F472B6; --c-tb:#22D3EE;
-  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80;
+  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-ptx:#F87171;
   --pass:#6FD29A; --pass-bg:#173326; --warn:#E8B655; --warn-bg:#3A2D12; --fgn:#1D2840; --fgnT:#A9C0F0; --fail:#F2867D; --fail-bg:#3D1C1A; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#12131A; --surface:#1A1C26; --sunk:#232633; --line:#333748;
   --fg:#E6E8F2; --muted:#A0A6BC; --accent:#A5B4FC; --accent-soft:#2A2C55;
   --c-dashboard:#60A5FA; --c-structure:#A78BFA; --c-rules:#2DD4BF; --c-filings:#FBBF24; --c-checker:#F472B6; --c-tb:#22D3EE;
-  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80;
+  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-ptx:#F87171;
   --pass:#6FD29A; --pass-bg:#173326; --warn:#E8B655; --warn-bg:#3A2D12; --fgn:#1D2840; --fgnT:#A9C0F0; --fail:#F2867D; --fail-bg:#3D1C1A; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
@@ -162,6 +162,15 @@ button.link:hover{color:var(--fail)}
 #filingsBody td.due .dn{display:block;font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:2px}
 #filingsBody td.due .dx summary{font-size:12.5px;color:var(--accent);cursor:pointer;margin-top:2px}
 details.yardi{margin:10px 0 0;font-size:14px}details.yardi summary{cursor:pointer;font-weight:600;color:var(--accent)}details.yardi ol{margin:8px 0 0;padding-left:20px}details.yardi li{margin:0 0 6px}
+.ptxwrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (min-width:1001px){#ptxOut{position:sticky;top:112px;max-height:calc(100vh - 128px);overflow:auto}}
+@media (max-width:1000px){.ptxwrap{grid-template-columns:minmax(0,1fr)}}
+.ptxwrap fieldset{margin:0 0 16px}.ptxgrid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+.ptxsale{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 12px;background:var(--surface)}
+.ptxhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ptxres{border-radius:6px;padding:8px 10px;font-size:13.5px;margin-top:10px;background:var(--sunk)}
+.ptxres.q-ok{background:color-mix(in srgb,var(--pass) 12%,var(--surface))}.ptxres.q-risk{background:color-mix(in srgb,var(--fail) 12%,var(--surface))}
+.ptxres .why{display:block;margin-top:4px}
 .considerfor{font-size:14px;color:var(--muted);margin:-4px 0 14px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;min-width:0}
 .panel h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
@@ -428,6 +437,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   <a href="#rules" data-view="rules" style="--sec:var(--c-rules)">Tax rules</a>
   <a href="#filings" data-view="filings" style="--sec:var(--c-filings)">Tax filings</a>
   <a href="#checker" data-view="checker" style="--sec:var(--c-checker)">Federal checker</a>
+  <a href="#ptx" data-view="ptx" style="--sec:var(--c-ptx)">Prohibited transactions</a>
   <a href="#tb" data-view="tb" style="--sec:var(--c-tb)">Trial balance</a>
   <a href="#estimates" data-view="estimates" style="--sec:var(--c-estimates)">State estimates</a>
   <a href="#states" data-view="states" style="--sec:var(--c-states)">State rules</a>
@@ -629,6 +639,14 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
         <p class="note">This is a screening tool, not a tax opinion. It does not model look-through of partnerships, qualified REIT subsidiaries, hedging or foreign-currency exclusions, savings and cure provisions, or the 100% prohibited-transactions tax. Thresholds come from the shared rule data and update when the rules change.</p>
       </aside>
     </div>
+  </section>
+
+  <!-- PROHIBITED TRANSACTIONS -->
+  <section class="view" id="v-ptx" style="--sec:var(--c-ptx)" hidden>
+    <h2>Prohibited transactions</h2>
+    <p class="lead">Test each property sale for the year against the safe harbor in IRC §857(b)(6). Net income from a prohibited transaction (a sale of property held primarily for sale to customers) is taxed at 100%. Sales are saved with the quarter and carried forward within the year.</p>
+    <p class="savenote" id="ptxNote" aria-live="polite"></p>
+    <div class="ptxwrap"><div id="ptxBody"></div><div class="dashout" id="ptxOut"></div></div>
   </section>
 
   <!-- ADMIN -->
@@ -1282,7 +1300,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   }
 
   // ---------- Router ----------
-  var views=["dashboard","consider","structure","questionnaire","rules","filings","checker","tb","estimates","states","global","updates","report","admin"];
+  var views=["dashboard","consider","structure","questionnaire","rules","filings","checker","ptx","tb","estimates","states","global","updates","report","admin"];
   var CLIENT_VIEWS=["dashboard","consider","structure","questionnaire"];
   function isClientUser(){return typeof FB!=="undefined"&&FB&&typeof FBS!=="undefined"&&FBS.role==="client"&&!FBS.admin;}
   function applyRoleUI(){var cl=isClientUser();Array.prototype.forEach.call(document.querySelectorAll(".tabs a[data-view]"),function(a){if(a.id==="navAdmin")return;a.hidden=cl&&CLIENT_VIEWS.indexOf(a.dataset.view)<0;});
@@ -1458,7 +1476,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       Promise.all([PER_DB.doc(USERCOL+"/period_"+pid).set(rec),saveTarget.set({profile:body,period:pid,updated:day})]).then(function(){$("saveNote").textContent="Saved "+pidLabel(pid)+" to your account."},function(){saveTarget=null;$("saveNote").textContent="Saved in this browser only.";});}
     else $("saveNote").textContent="Saved "+pidLabel(pid)+" in this browser.";
   }
-  function applyProfile(p){if(!p)return;setTimeout(function(){if(typeof renderStructForm==="function"){renderStructForm();renderStructure();}},0);Object.keys(PROFILE).concat(Object.keys(p)).forEach(function(k){PROFILE[k]=p[k]!==undefined?p[k]:(k==="states"||k==="countries"?{}:"")});PROFILE.states=PROFILE.states||{};PROFILE.countries=PROFILE.countries||{};if(!PROFILE.model)PROFILE.model="equity";if(!PROFILE.sector)PROFILE.sector="diversified";if(!PROFILE.fye)PROFILE.fye="12";if(!PROFILE.structure||typeof PROFILE.structure!=="object")PROFILE.structure={};if(!PROFILE.est)PROFILE.est={};if(!PROFILE.tbMap)PROFILE.tbMap={};if(!PROFILE.qa||typeof PROFILE.qa!=="object")PROFILE.qa={};if(!Array.isArray(PROFILE.tbSets))PROFILE.tbSets=[];if(PROFILE.tbAutoSector==="")PROFILE.tbAutoSector=true;if(!PROFILE.orgChart||typeof PROFILE.orgChart!=="object")PROFILE.orgChart=null;writeProfileFields();renderEstimates();modelChanged();renderRows();buildDash();syncChecker();renderStates();renderRegimes();if(ORG_READY){orgRenderAll();qnSyncChecker();qnRender();}}
+  function applyProfile(p){if(!p)return;setTimeout(function(){if(typeof ptxRender==="function")ptxRender();if(typeof renderStructForm==="function"){renderStructForm();renderStructure();}},0);Object.keys(PROFILE).concat(Object.keys(p)).forEach(function(k){PROFILE[k]=p[k]!==undefined?p[k]:(k==="states"||k==="countries"?{}:"")});PROFILE.states=PROFILE.states||{};PROFILE.countries=PROFILE.countries||{};if(!PROFILE.model)PROFILE.model="equity";if(!PROFILE.sector)PROFILE.sector="diversified";if(!PROFILE.fye)PROFILE.fye="12";if(!PROFILE.structure||typeof PROFILE.structure!=="object")PROFILE.structure={};if(!PROFILE.est)PROFILE.est={};if(!PROFILE.tbMap)PROFILE.tbMap={};if(!PROFILE.qa||typeof PROFILE.qa!=="object")PROFILE.qa={};if(!Array.isArray(PROFILE.tbSets))PROFILE.tbSets=[];if(PROFILE.tbAutoSector==="")PROFILE.tbAutoSector=true;if(!PROFILE.orgChart||typeof PROFILE.orgChart!=="object")PROFILE.orgChart=null;writeProfileFields();renderEstimates();modelChanged();renderRows();buildDash();syncChecker();renderStates();renderRegimes();if(ORG_READY){orgRenderAll();qnSyncChecker();qnRender();}}
 
   function syncChecker(){
     $("year").value=PROFILE.year; $("c_first").checked=!!PROFILE.first; $("c_model").value=PROFILE.model||"equity";
@@ -1652,7 +1670,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     [/mortgage interest|loan interest|interest on mortgage|interest income.*(loan|mortgage)/,"i_mort",null],
     [/commitment fee/,"i_cmt",null],[/property tax refund|tax abatement|real estate tax refund/,"i_tax",null],[/foreclos/,"i_fore","a_land"],
     [/(dividend).*(reit)|reit dividend/,"i_reit",null],[/dividend/,"i_trsd",null],
-    [/gain.*(sale|disposal).*(real estate|property|land|building)|gain on (sale of )?real estate/,"i_gain",null],[/gain.*securit|realized gain/,"i_secg",null],
+    [/gain.*(sale|disposal).*(real estate|propert|land|building|parcel|lot)|gain on (sale of )?real estate/,"i_gain",null],[/gain.*securit|realized gain/,"i_secg",null],
     [/interest income|bank interest|interest earned/,"i_int",null],[/other income|miscellaneous income/,"i_oth",null],
     [/accumulated depreciation|accum\.? depr/,null,"a_land"],[/land|building|real estate|investment property|rental property|improvement|construction in progress|\bcip\b|developmen/,null,"a_land"],
     [/mortgage loan|loans? receivable|notes? receivable|loan participation/,null,"a_mort"],
@@ -1898,6 +1916,99 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     el.innerHTML=F.length?'<div class="tbwrap"><table class="tbt"><thead><tr><th>Due</th><th>Form</th><th>Jurisdiction</th><th>What it is</th><th>Why it applies</th><th>Status</th></tr></thead><tbody>'+
       F.map(function(f){var c=/^Only if|^If /.test(f.why);return '<tr><td class="due">'+dueCell(f.dueText)+'</td><td class="f" style="font-family:var(--f-mono)">'+esc(f.form)+'</td><td>'+esc(f.sec)+'</td><td>'+esc(f.name)+'</td><td>'+esc(f.why)+'</td><td><span class="tag '+(c?"t-pend":"t-conf")+'">'+(c?"If applicable":"Required")+'</span></td></tr>'}).join("")+'</tbody></table></div>':'<div class="empty">No filings for this selection.</div>';}
 
+  // ---------- Prohibited transactions: §857(b)(6) safe harbor testing for property sales ----------
+  // Each sale is tested for the holding-period, expenditure and rental conditions; the year is tested for the 7-sales,
+  // 10% and 20%/3-year-average limits. Sales outside the safe harbor face the facts-and-circumstances dealer test,
+  // and net income from prohibited transactions is taxed at 100%.
+  function ptxData(){if(!PROFILE.ptx||typeof PROFILE.ptx!=="object")PROFILE.ptx={};var d=PROFILE.ptx;if(!Array.isArray(d.sales))d.sales=[];if(!Array.isArray(d.prior))d.prior=[{},{}];while(d.prior.length<2)d.prior.push({});return d;}
+  function pn(v){var n=parseFloat(String(v==null?"":v).replace(/[$,\s]/g,""));return isFinite(n)?n:0;}
+  function pdate(v){var m=String(v||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?new Date(+m[1],+m[2]-1,+m[3]):null;}
+  function ptxNew(){return {name:"",acq:"",sold:"",price:"",basis:"",fmv:"",capex:"",gain:"",rental:"yes",fore:"no",conv:"no",seller:"reit",mkt:"ic"};}
+  function ptxCalc(){var d=ptxData(),S=d.sales,bBOY=pn(d.basisBOY),fBOY=pn(d.fmvBOY);
+    var R={rows:[],n:0,basisSold:0,fmvSold:0};
+    S.forEach(function(x){var excl=x.fore==="yes"?"Foreclosure property":x.conv==="yes"?"Involuntary conversion":x.seller==="trs"?"Sold by a TRS":"";
+      var price=pn(x.price),basis=pn(x.basis),fmv=x.fmv!==""&&x.fmv!=null?pn(x.fmv):price,gain=x.gain!==""&&x.gain!=null?pn(x.gain):(price||basis?price-basis:0);
+      var a=pdate(x.acq),s=pdate(x.sold),held=null;if(a&&s){var two=new Date(a.getFullYear()+2,a.getMonth(),a.getDate());held=s>=two;}
+      var capPct=price>0?pn(x.capex)/price*100:null;
+      var r={x:x,excl:excl,price:price,basis:basis,fmv:fmv,gain:gain,held:held,capPct:capPct,yrs:a&&s?(s-a)/31557600000:null};
+      if(!excl){R.n++;R.basisSold+=basis;R.fmvSold+=fmv;}R.rows.push(r);});
+    var pct=function(a,b){return b>0?a/b*100:null};R.basisPct=pct(R.basisSold,bBOY);R.fmvPct=pct(R.fmvSold,fBOY);
+    var avg=function(cur,key){var v=[cur].concat(d.prior.map(function(p){return p[key]===""||p[key]==null?null:pn(p[key])}));if(v.some(function(x){return x==null}))return null;return (v[0]+v[1]+v[2])/3;};
+    R.basisAvg=R.basisPct==null?null:avg(R.basisPct,"basisPct");R.fmvAvg=R.fmvPct==null?null:avg(R.fmvPct,"fmvPct");
+    R.tests=[
+      {id:"seven",label:"No more than 7 sales in the year",ok:R.n<=7,val:R.n+" sale"+(R.n===1?"":"s")},
+      {id:"b10",label:"Basis of property sold no more than 10% of the basis of all assets at the start of the year",ok:R.basisPct==null?null:R.basisPct<=10,val:R.basisPct==null?"Enter the start-of-year basis":R.basisPct.toFixed(2)+"%"},
+      {id:"f10",label:"Fair market value of property sold no more than 10% of the value of all assets at the start of the year",ok:R.fmvPct==null?null:R.fmvPct<=10,val:R.fmvPct==null?"Enter the start-of-year value":R.fmvPct.toFixed(2)+"%"},
+      {id:"b20",label:"Basis sold no more than 20%, and no more than 10% on average over 3 years",ok:R.basisPct==null?null:(R.basisPct<=20&&(R.basisAvg==null?null:R.basisAvg<=10)),val:R.basisPct==null?"—":R.basisPct.toFixed(2)+"%"+(R.basisAvg==null?"; enter the 2 prior years":"; 3-year average "+R.basisAvg.toFixed(2)+"%")},
+      {id:"f20",label:"Value sold no more than 20%, and no more than 10% on average over 3 years",ok:R.fmvPct==null?null:(R.fmvPct<=20&&(R.fmvAvg==null?null:R.fmvAvg<=10)),val:R.fmvPct==null?"—":R.fmvPct.toFixed(2)+"%"+(R.fmvAvg==null?"; enter the 2 prior years":"; 3-year average "+R.fmvAvg.toFixed(2)+"%")}];
+    R.byCount=R.tests[0].ok;R.byPct=R.tests.slice(1).some(function(t){return t.ok===true});R.annualOk=R.byCount||R.byPct;R.annualUnknown=!R.annualOk&&R.tests.slice(1).some(function(t){return t.ok==null});
+    R.atRisk=0;R.safe=0;R.notCounted=0;R.exposure=0;
+    R.rows.forEach(function(r){var x=r.x,fails=[],unk=[];
+      if(r.excl){r.status="excl";r.reasons=[r.excl+": not a prohibited transaction"+(x.seller==="trs"?"; the TRS pays regular corporate tax on the gain instead":"")+"."];R.notCounted++;return;}
+      if(r.held===false)fails.push("held less than 2 years");else if(r.held==null)unk.push("enter the acquisition and sale dates");
+      if(r.capPct==null)unk.push("enter the net selling price");else if(r.capPct>30)fails.push("spending in the 2 years before the sale is "+r.capPct.toFixed(1)+"% of the net selling price (limit 30%)");
+      if(x.rental==="no")fails.push("not held at least 2 years for the production of rental income");
+      if(!R.annualOk){if(R.annualUnknown)unk.push("complete the start-of-year figures for the 10% and 20% tests");else fails.push("the year is over 7 sales and over the 10% and 20% limits");}
+      else if(!R.byCount&&x.mkt!=="ic")fails.push("with more than 7 sales, substantially all marketing and development must be done by an independent contractor or a TRS");
+      r.reasons=fails.length?fails:unk;r.status=fails.length?"risk":unk.length?"open":"safe";
+      if(r.status==="safe")R.safe++;else{R.atRisk++;if(r.gain>0)R.exposure+=r.gain;}});
+    return R;}
+  function ptxRender(){var el=$("ptxBody");if(!el||!PROFILE)return;var d=ptxData(),ro=FB&&FBS.role==="viewer";
+    var inp=function(k,i,type,ph,lab,val){return '<label>'+lab+'<input type="'+type+'" data-px="'+k+'"'+(i==null?'':' data-i="'+i+'"')+' value="'+esc(val==null?"":val)+'"'+(ph?' placeholder="'+esc(ph)+'"':'')+(type==="number"?' step="any" inputmode="decimal"':'')+(ro?" disabled":"")+'></label>'};
+    var sel=function(k,i,lab,opts,val){return '<label>'+lab+'<select data-px="'+k+'" data-i="'+i+'"'+(ro?" disabled":"")+'>'+opts.map(function(o){return '<option value="'+o[0]+'"'+(val===o[0]?" selected":"")+'>'+esc(o[1])+'</option>'}).join("")+'</select></label>'};
+    var yn=[["yes","Yes"],["no","No"]];
+    var h='<fieldset><legend>The year</legend><p class="why" style="margin:0 0 10px">The 10% and 20% limits compare property sold during '+esc(PERIOD.y||PROFILE.year)+' with all of the REIT\'s assets at the start of the year. The 20% limits also need the percentages for the 2 prior years.</p><div class="grid ptxgrid">'+
+      inp("basisBOY",null,"number","0","Adjusted basis of all assets, start of year ($)",d.basisBOY)+inp("fmvBOY",null,"number","0","Fair market value of all assets, start of year ($)",d.fmvBOY)+
+      d.prior.map(function(p,j){var y=(+(PERIOD.y||PROFILE.year)||0)-(j+1);return inp("prior.basisPct",j,"number","0.00","Basis sold in "+y+" (% of start-of-year basis)",p.basisPct)+inp("prior.fmvPct",j,"number","0.00","Value sold in "+y+" (% of start-of-year value)",p.fmvPct)}).join("")+
+      '</div></fieldset><fieldset><legend>Property sales this year</legend><p class="why" style="margin:0 0 10px">Add each sale of real property. Several properties sold to one buyer in one transaction count as one sale, so enter them as one line. Sales of foreclosure property, involuntary conversions and sales by a TRS are not prohibited transactions.</p>'+
+      (d.sales.length?'':'<p class="empty" style="margin:0 0 10px">No sales entered yet.</p>')+
+      d.sales.map(function(x,i){return '<div class="ptxsale"><div class="ptxhead"><b>Sale '+(i+1)+'</b>'+(ro?'':'<button type="button" class="link" data-pxdel="'+i+'">Remove</button>')+'</div><div class="grid ptxgrid">'+
+        inp("name",i,"text","e.g. Outparcel, Retail center","Property",x.name)+inp("acq",i,"date","","Acquired on",x.acq)+inp("sold",i,"date","","Sold on",x.sold)+
+        inp("price",i,"number","0","Net selling price ($)",x.price)+inp("basis",i,"number","0","Adjusted basis ($)",x.basis)+inp("fmv",i,"number","Same as price","Fair market value ($)",x.fmv)+
+        inp("capex",i,"number","0","Spending in the 2 years before the sale, added to basis ($)",x.capex)+inp("gain",i,"number","Price less basis","Gain (if different) ($)",x.gain)+
+        sel("rental",i,"Held 2 years or more for rental income?",yn,x.rental)+sel("mkt",i,"Marketing and development done by",[["ic","An independent contractor or a TRS"],["reit","The REIT or its employees"]],x.mkt)+
+        sel("seller",i,"Seller",[["reit","The REIT (or a partnership or QRS it owns)"],["trs","A taxable REIT subsidiary"]],x.seller)+sel("fore",i,"Foreclosure property?",yn,x.fore)+sel("conv",i,"Involuntary conversion (§1033)?",yn,x.conv)+
+        '</div><div class="ptxres" id="ptxRes'+i+'"></div></div>'}).join("")+
+      (ro?'':'<div class="shbtns"><button type="button" data-pxadd="1">Add a sale</button> <button type="button" data-pxtb="1">Add sales from the trial balance</button></div>')+'</fieldset>';
+    el.innerHTML=h;ptxResults();}
+  function ptxResults(){var R=ptxCalc(),out=$("ptxOut");if(!out)return;var tag=function(ok){return ok===true?'<span class="tag t-conf">Met</span>':ok===false?'<span class="tag t-strict">Not met</span>':'<span class="tag t-pend">Needs figures</span>'};
+    R.rows.forEach(function(r,i){var c=$("ptxRes"+i);if(!c)return;var st=r.status;
+      c.className="ptxres q-"+(st==="safe"?"ok":st==="risk"?"risk":st==="excl"?"info":"open");
+      c.innerHTML='<b>'+(st==="safe"?"Within the safe harbor":st==="risk"?"Outside the safe harbor":st==="excl"?"Not counted":"Not enough information yet")+'.</b> '+
+        (st==="safe"?"The sale is not a prohibited transaction under §857(b)(6)(C). ":st==="risk"?"Whether this is a prohibited transaction depends on the facts and circumstances; if it is, the gain"+(r.gain>0?" of "+money(r.gain):"")+" is taxed at 100%. ":"")+
+        (r.reasons&&r.reasons.length?'<span class="why">'+esc(r.reasons.join("; ").replace(/^./,function(c){return c.toUpperCase()}))+(st==="excl"?"":".")+'</span>':'')+
+        (r.yrs!=null?' <span class="cite">Held '+r.yrs.toFixed(1)+' years'+(r.capPct!=null?' · spending '+r.capPct.toFixed(1)+'% of price':'')+'</span>':'');});
+    out.innerHTML='<div class="panel"><div class="chips"><div class="chip"><b>'+R.rows.length+'</b><span>Sales entered</span></div><div class="chip"><b>'+R.n+'</b><span>Counted toward the limits</span></div>'+
+      '<div class="chip"><b class="good">'+R.safe+'</b><span>Within the safe harbor</span></div><div class="chip"><b class="'+(R.atRisk?"bad":"")+'">'+R.atRisk+'</b><span>Outside it or incomplete</span></div>'+
+      '<div class="chip"><b class="'+(R.exposure?"bad":"")+'">'+money(R.exposure)+'</b><span>Gain exposed to the 100% tax</span></div></div></div>'+
+      '<div class="panel"><h3 class="rh">Annual limit (one must be met)</h3><table class="tbt"><tbody>'+R.tests.map(function(t){return '<tr><td>'+esc(t.label)+'</td><td style="white-space:nowrap">'+esc(t.val)+'</td><td>'+tag(t.ok)+'</td></tr>'}).join("")+'</tbody></table>'+
+      '<p class="why" style="margin:8px 0 0">'+(R.annualOk?(R.byCount?"Met by the 7-sales limit.":"Met by a 10% or 20% limit. Because more than 7 sales were made, each sale also needs substantially all marketing and development done by an independent contractor (from whom the REIT earns no income) or a TRS."):R.annualUnknown?"Enter the start-of-year basis and value to test the 10% and 20% limits.":"No limit is met, so no sale this year can use the safe harbor.")+' <span class="cite">§857(b)(6)(C)(iii), (v)</span></p></div>'+
+      '<div class="panel"><h3 class="rh">What the safe harbor requires for each sale</h3><ul class="plist">'+
+      '<li>Real estate asset held at least 2 years; land or improvements (not foreclosure property) held at least 2 years for the production of rental income. <span class="cite">§857(b)(6)(C)(i), (iv)</span></li>'+
+      '<li>Spending during the 2 years before the sale that is added to basis no more than 30% of the net selling price. <span class="cite">§857(b)(6)(C)(ii)</span></li>'+
+      '<li>One of the annual limits above, and with more than 7 sales, marketing and development by an independent contractor or a TRS. <span class="cite">§857(b)(6)(C)(iii), (v)</span></li>'+
+      '<li>Timberland has its own safe harbor with similar conditions. <span class="cite">§857(b)(6)(D)</span></li></ul>'+
+      (R.atRisk?'<h3 class="rh">Outside the safe harbor: the dealer factors</h3><p class="why" style="margin:0 0 6px">A sale outside the safe harbor is a prohibited transaction only if the property was held primarily for sale to customers in the ordinary course of business. Courts look at the facts, including:</p><ul class="plist"><li>Why the property was acquired and how long it was held</li><li>How often the REIT sells and how many sales it makes</li><li>Development, subdivision or improvement before the sale</li><li>Marketing and advertising, and who did it</li><li>Whether the buyer approached the REIT</li><li>How much of the REIT\'s income comes from sales</li></ul>':'')+
+      '<h3 class="rh">Ways to manage the exposure</h3><ul class="plist"><li>Sell property that is being developed or marketed for sale through a TRS: the TRS pays regular corporate tax instead of the 100% tax.</li><li>Time sales so each property passes the 2-year holding period.</li><li>Keep improvements in the 2 years before a sale under 30% of the expected price.</li><li>Combine properties sold to one buyer into one transaction; plan sales against the 7-sales and 10% limits.</li></ul>'+
+      '<p class="cite" style="margin:8px 0 0">§857(b)(6)(A) imposes a 100% tax on net income from prohibited transactions; §857(b)(6)(B)(iii) defines them as sales of property described in §1221(a)(1), other than foreclosure property.</p></div>';}
+  function ptxFromTB(){var d=ptxData(),have={};d.sales.forEach(function(x){if(x.tb)have[x.tb]=1});var n=0;
+    (TB||[]).forEach(function(r){var nm=String(r.name||"").toLowerCase();if((r.map==="i_gain"||r.map==="i_ptx"||(/gain/.test(nm)&&/sale|dispos/.test(nm)&&!/securit|stock|share|bond|swap|hedg|currenc|exchange|investment/.test(nm)))&&r.cr-r.dr>0){var k=tbKey(r);if(have[k])return;var st=tbSetOf(r);
+      var s=ptxNew();s.name=(st&&tbSets().length>1?st.label+": ":"")+r.name;s.gain=String(Math.round((r.cr-r.dr)*tbShare(r)));s.tb=k;d.sales.push(s);n++;}});
+    ptxRender();queueSave();var m=$("ptxNote");if(m)m.textContent=n?"Added "+n+" sale"+(n===1?"":"s")+" from gain accounts in the trial balance. Fill in the dates, price and basis for each.":"No new gain-on-sale accounts found in the trial balance.";}
+  function ptxInit(){var el=$("ptxBody");if(!el)return;
+    var setv=function(t){var k=t.dataset.px,i=t.dataset.i,d=ptxData();if(!k)return false;
+      if(k.indexOf("prior.")===0){d.prior[+i][k.slice(6)]=t.value;}else if(i==null)d[k]=t.value;else if(d.sales[+i])d.sales[+i][k]=String(t.value).slice(0,120);return true;};
+    el.addEventListener("input",function(e){if(setv(e.target)){ptxResults();}});
+    el.addEventListener("change",function(e){if(setv(e.target)){ptxResults();queueSave();}});
+    el.addEventListener("click",function(e){var t=e.target,d=ptxData();
+      if(t.dataset.pxadd){d.sales.push(ptxNew());ptxRender();queueSave();var n=el.querySelectorAll('input[data-px="name"]');if(n.length)n[n.length-1].focus();}
+      else if(t.dataset.pxdel!=null){d.sales.splice(+t.dataset.pxdel,1);ptxRender();queueSave();}
+      else if(t.dataset.pxtb)ptxFromTB();});}
+  function ptxReportBlocks(){var R=ptxCalc();if(!R.rows.length)return [{t:"p",text:"No property sales entered for the year."}];
+    return [{t:"table",head:["Property","Held (years)","Spending % of price","Gain","Result"],right:[1,2,3],rows:R.rows.map(function(r){return [r.x.name||"(no name)",r.yrs==null?"—":r.yrs.toFixed(1),r.capPct==null?"—":r.capPct.toFixed(1)+"%",money(r.gain),(r.status==="safe"?"Within the safe harbor":r.status==="risk"?"Outside the safe harbor":r.status==="excl"?"Not counted":"Incomplete")+(r.reasons&&r.reasons.length&&r.status!=="safe"?": "+r.reasons.join("; "):"")]})},
+      {t:"table",head:["Annual limit","Value","Result"],rows:R.tests.map(function(t){return [t.label,t.val,t.ok===true?"Met":t.ok===false?"Not met":"Needs figures"]})},
+      {t:"p",text:"Gain exposed to the 100% tax on prohibited transactions: "+money(R.exposure)+" (§857(b)(6))."}];}
+
   // ---------- Client-specific part of the Tax rules tab ----------
   function clientFacts(){var P=PROFILE,R=[],cap=isCaptive(),nd=nondiv();
     var add=function(t,txt,cite){R.push({t:t,txt:txt,cite:cite})};
@@ -1970,7 +2081,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   function carryQa(qa,from){var o={};Object.keys(qa||{}).forEach(function(k){var a=qa[k];if(!a||a.v==null||a.v==="")return;
     o[k]={v:a.v,at:a.at||"",by:a.by||"",carried:true,from:from};});return o;}
   function carryProfile(p,from,y,q){var c=JSON.parse(JSON.stringify(p||{})),f=pidParts(from);
-    c.year=String(y);c.qtr=String(q||"");c.est={};c.tbFrom=c.tbSets&&c.tbSets.length?from:"";if(!f||f.y!==String(y))c.first=false;c.qa=carryQa(c.qa,from);c.carriedFrom=from;return c;}
+    c.year=String(y);c.qtr=String(q||"");c.est={};if(c.ptx&&f&&f.y!==String(y)){var pr=c.ptx,bp=pn(pr.basisBOY)>0?(pr.sales||[]).filter(function(x){return x.fore!=="yes"&&x.conv!=="yes"&&x.seller!=="trs"}).reduce(function(t,x){return t+pn(x.basis)},0)/pn(pr.basisBOY)*100:"",fp=pn(pr.fmvBOY)>0?(pr.sales||[]).filter(function(x){return x.fore!=="yes"&&x.conv!=="yes"&&x.seller!=="trs"}).reduce(function(t,x){return t+(x.fmv!==""&&x.fmv!=null?pn(x.fmv):pn(x.price))},0)/pn(pr.fmvBOY)*100:"";c.ptx={basisBOY:"",fmvBOY:"",prior:[{basisPct:bp===""?"":bp.toFixed(2),fmvPct:fp===""?"":fp.toFixed(2)},(pr.prior||[{}])[0]||{}],sales:[]};}c.tbFrom=c.tbSets&&c.tbSets.length?from:"";if(!f||f.y!==String(y))c.first=false;c.qa=carryQa(c.qa,from);c.carriedFrom=from;return c;}
   function perLocal(){try{return JSON.parse(localStorage.getItem("reitPeriods")||"{}")||{}}catch(e){return {}}}
   function perLocalTB(pid){try{var t=localStorage.getItem("reitTB_"+pid);return t?JSON.parse(t)||[]:null}catch(e){return null}}
   async function perList(){if(FB&&FBS.eid)return (await listYears(FBS.eid)).slice().sort();
@@ -3252,7 +3363,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   var REPORT_SECTIONS=[
     ["cover","Entity profile",true],["structure","REIT structure evaluation",true],["orgReview","Existing structure: compliance review",true],["tests","Federal test results",true],["reasons","Why tests fail or need review",true],["questionnaire","Client questionnaire and open points",true],
     ["income","Gross income schedule",true],["incomeCalc","Gross income test calculation",true],
-    ["assets","Asset schedule",true],["assetCalc","Asset test calculation",true],["dist","Distributions and E&P",true],
+    ["assets","Asset schedule",true],["assetCalc","Asset test calculation",true],["dist","Distributions and E&P",true],["ptx","Prohibited transactions",true],
     ["taxRules","Tax rules for this client",true],["typeRules","Rules for this REIT type",false],
     ["estimates","State estimated taxes",true],["stateRules","State rules",true],["intl","Other countries",true],
     ["filings","Filing calendar",true],["tb","Trial balance mapping",false],["changes","Recent rule developments",false]];
@@ -3295,6 +3406,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     sec("dist","Distributions and E&P",[{t:"kv",rows:[["REIT taxable income before the dividends-paid deduction",money(ti)],["Dividends paid for the year",money(paid)+(ti>0?" ("+fmt(paid/ti*100)+")":"")],["Required (90%)",money(ti*FED.dist.threshold/100)],
       ["Paid within the calendar year",has("d_cal")?money(num("d_cal")):"Not entered"],["Current-year E&P",has("d_cep")?money(num("d_cep")):"Not entered"],["Accumulated E&P at start of year",has("d_aep")?money(num("d_aep")):"Not entered"]].concat(nd.known?[["Distributions in excess of E&P (return of capital)",money(nd.amount)],["Dividend portion",money(nd.dividend)]]:[])}]);
     var facts=clientFacts();
+    sec("ptx","Prohibited transactions",ptxReportBlocks());
     sec("taxRules","Tax rules for this client",[{t:"list",items:facts.map(function(f){return f.t+". "+f.txt+(f.cite?" ("+f.cite+")":"")})},
       {t:"table",head:["Requirement","Client result"],rows:Object.keys(REQ_TEST).map(function(k){var rs=LAST_TESTS.filter(function(r){return REQ_TEST[k].indexOf(r.name)>=0});var w=rs.filter(function(r){return r.status==="fail"})[0]||rs.filter(function(r){return r.status==="warn"})[0]||rs[0];return [k,w?w.label+" · "+strip(w.val):"—"]})}]);
     sec("typeRules","Rules for this REIT type",rulesFor(P).map(function(r){return {t:"p",head:r.title+(r.verified===false?" (needs verification)":""),text:r.text+(r.citation?" ("+r.citation+")":"")}}));
@@ -3470,7 +3582,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   renderTB(); renderEstimates();
   renderStates(); renderRegimes(); renderLog(); renderRules();
   renderStructForm(); renderStructure();
-  orgInit();qnInit();ORG_READY=true;rlInit();perInit();
+  orgInit();qnInit();ORG_READY=true;rlInit();ptxInit();perInit();
   (function(){var root=document.documentElement,b=$("themeBtn");function set(t){root.setAttribute("data-theme",t);b.textContent=t==="dark"?"Light mode":"Dark mode";b.setAttribute("aria-pressed",String(t==="dark"));}
     var t="light";try{t=localStorage.getItem("reitTheme")==="dark"?"dark":"light";}catch(e){}set(t);
     b.addEventListener("click",function(){var n=root.getAttribute("data-theme")==="dark"?"light":"dark";set(n);try{localStorage.setItem("reitTheme",n)}catch(e){}});})();
