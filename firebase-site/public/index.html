@@ -14,7 +14,7 @@
   --bg:#F9FAFE; --surface:#FFFFFF; --sunk:#F2F5FA; --line:#E3E8F1;
   --fg:#1F2A3C; --muted:#667085; --accent:#5A5FD8; --accent-soft:#EEEFFD;
   --c-dashboard:#9CC3FB; --c-structure:#C9B8FA; --c-rules:#8EE3D3; --c-filings:#F9D57A; --c-checker:#F6B3D4; --c-tb:#8FE0F0;
-  --c-estimates:#C8E98B; --c-states:#EDB5F5; --c-global:#9FD5F7; --c-updates:#CED6E2; --c-report:#F8B4BE; --c-admin:#D4D8E0; --c-qn:#FBC79A;
+  --c-estimates:#C8E98B; --c-states:#EDB5F5; --c-global:#9FD5F7; --c-updates:#CED6E2; --c-report:#F8B4BE; --c-admin:#D4D8E0; --c-qn:#FBC79A; --c-consider:#A7E3B4;
   --pass:#1E7B48; --pass-bg:#EAF7EF; --warn:#99640A; --warn-bg:#FEF6E2; --fgn:#EDF3FD; --fgnT:#3558A0; --fail:#B42318; --fail-bg:#FDEEEC;
   --tint:color-mix(in srgb, var(--sec, var(--accent-soft)) 22%, var(--surface));
   --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
@@ -25,13 +25,13 @@
   --bg:#12131A; --surface:#1A1C26; --sunk:#232633; --line:#333748;
   --fg:#E6E8F2; --muted:#A0A6BC; --accent:#A5B4FC; --accent-soft:#2A2C55;
   --c-dashboard:#60A5FA; --c-structure:#A78BFA; --c-rules:#2DD4BF; --c-filings:#FBBF24; --c-checker:#F472B6; --c-tb:#22D3EE;
-  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C;
+  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80;
   --pass:#6FD29A; --pass-bg:#173326; --warn:#E8B655; --warn-bg:#3A2D12; --fgn:#1D2840; --fgnT:#A9C0F0; --fail:#F2867D; --fail-bg:#3D1C1A; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#12131A; --surface:#1A1C26; --sunk:#232633; --line:#333748;
   --fg:#E6E8F2; --muted:#A0A6BC; --accent:#A5B4FC; --accent-soft:#2A2C55;
   --c-dashboard:#60A5FA; --c-structure:#A78BFA; --c-rules:#2DD4BF; --c-filings:#FBBF24; --c-checker:#F472B6; --c-tb:#22D3EE;
-  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C;
+  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80;
   --pass:#6FD29A; --pass-bg:#173326; --warn:#E8B655; --warn-bg:#3A2D12; --fgn:#1D2840; --fgnT:#A9C0F0; --fail:#F2867D; --fail-bg:#3D1C1A; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
@@ -146,6 +146,16 @@ button.link{border:0;padding:4px 6px;color:var(--muted);font-weight:500}
 button.link:hover{color:var(--fail)}
 .savenote{font-size:12px;color:var(--muted);margin:0}
 .dashout{display:grid;gap:16px;min-width:0}
+.dash.dashprofile{display:block}
+.dashprofile #profile{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.dashprofile #profile>fieldset:first-of-type,.dashprofile #profile>.sample,.dashprofile #profile>.dashnext{grid-column:1/-1}
+.dashprofile #profile>fieldset{margin:0}
+.dashprofile #wrapSector{grid-column:1/-1}
+@media (max-width:860px){.dashprofile #profile{grid-template-columns:minmax(0,1fr)}}
+.dashnext{margin:0;text-align:right}
+.btnlink{display:inline-block;padding:8px 14px;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;text-decoration:none}
+.btnlink:hover{filter:brightness(1.08)}
+.considerfor{font-size:14px;color:var(--muted);margin:-4px 0 14px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;min-width:0}
 .panel h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -401,6 +411,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
 </div>
 <nav><div class="wrap"><div class="tabs" role="tablist">
   <a href="#dashboard" data-view="dashboard" style="--sec:var(--c-dashboard)">Client dashboard</a>
+  <a href="#consider" data-view="consider" style="--sec:var(--c-consider)">Entity tax considerations</a>
   <a href="#structure" data-view="structure" style="--sec:var(--c-structure)">REIT structure</a>
   <a href="#questionnaire" data-view="questionnaire" style="--sec:var(--c-qn)">Questionnaire</a>
   <a href="#rules" data-view="rules" style="--sec:var(--c-rules)">Tax rules</a>
@@ -421,8 +432,8 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   <!-- DASHBOARD -->
   <section class="view" id="v-dashboard" style="--sec:var(--c-dashboard)">
     <h2>Client dashboard</h2>
-    <p class="lead">Enter the entity's profile and where it operates. The federal, state and international views and the filing list below adjust to what you enter. Your entries are saved for you on this page.</p>
-    <div class="dash">
+    <p class="lead">Enter the entity's profile and where it operates. The Entity tax considerations tab adjusts to what you enter. Your entries are saved for you on this page.</p>
+    <div class="dash dashprofile">
       <form id="profile" autocomplete="off">
         <fieldset>
           <legend>Entity profile</legend>
@@ -465,9 +476,17 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
           <div id="countryRows" class="jrows"></div>
         </fieldset>
         <div class="sample" style="margin:0"><span class="savenote" id="saveNote">Showing an example entity. Replace it with your client&#39;s details.</span><span style="display:flex;gap:8px"><button type="button" id="btnExample">Load example</button><button type="button" id="btnNew">Start new profile</button></span></div>
+        <p class="dashnext"><a class="btnlink" href="#consider">See the entity tax considerations</a></p>
       </form>
-      <div class="dashout" id="dashOut"></div>
     </div>
+  </section>
+
+  <!-- ENTITY TAX CONSIDERATIONS -->
+  <section class="view" id="v-consider" style="--sec:var(--c-consider)" hidden>
+    <h2>Entity tax considerations</h2>
+    <p class="lead">The federal, state and international considerations and the filings for this entity, based on its profile on the Client dashboard.</p>
+    <p class="considerfor" id="considerFor"></p>
+    <div class="dashout" id="dashOut"></div>
   </section>
 
   <!-- REIT STRUCTURE -->
@@ -1247,13 +1266,15 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   }
 
   // ---------- Router ----------
-  var views=["dashboard","structure","questionnaire","rules","filings","checker","tb","estimates","states","global","updates","report","admin"];
-  var CLIENT_VIEWS=["dashboard","structure","questionnaire"];
+  var views=["dashboard","consider","structure","questionnaire","rules","filings","checker","tb","estimates","states","global","updates","report","admin"];
+  var CLIENT_VIEWS=["dashboard","consider","structure","questionnaire"];
   function isClientUser(){return typeof FB!=="undefined"&&FB&&typeof FBS!=="undefined"&&FBS.role==="client"&&!FBS.admin;}
   function applyRoleUI(){var cl=isClientUser();Array.prototype.forEach.call(document.querySelectorAll(".tabs a[data-view]"),function(a){if(a.id==="navAdmin")return;a.hidden=cl&&CLIENT_VIEWS.indexOf(a.dataset.view)<0;});
     var br=$("btnReport");if(br)br.hidden=cl;var cb=$("clientBanner");if(cb)cb.hidden=!cl;route();}
+  var ROUTE_LAST="";
   function route(){var h=(location.hash||"").slice(1); if(views.indexOf(h)<0)h="dashboard";if(isClientUser()&&CLIENT_VIEWS.indexOf(h)<0)h="dashboard";
-    views.forEach(function(n){$("v-"+n).hidden=(n!==h)});
+    var moved=ROUTE_LAST&&ROUTE_LAST!==h;ROUTE_LAST=h;views.forEach(function(n){$("v-"+n).hidden=(n!==h)});
+    if(moved){var nav=document.querySelector("nav"),mn=document.querySelector("main");var top=mn?Math.max(0,mn.getBoundingClientRect().top+window.scrollY-(nav?nav.offsetHeight:0)-8):0;if(window.scrollY>top)window.scrollTo(0,top);}
     Array.prototype.forEach.call(document.querySelectorAll(".tabs a"),function(a){if(a.dataset.view===h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});}
   window.addEventListener("hashchange",route); route();
 
@@ -1538,6 +1559,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     F.forEach(function(x){if(x.sec!==last){rows+='<tr class="sec"><td colspan="4">'+esc(x.sec)+'</td></tr>';last=x.sec;}
       rows+='<tr><td class="f">'+esc(x.form)+'</td><td>'+esc(x.name)+'</td><td>'+esc(x.why)+'</td><td>'+esc(dueOf(x).text)+'</td></tr>';});
 
+    var cf=$("considerFor");if(cf){var nm=(PROFILE.name||"").trim();cf.innerHTML=(nm?"For <b>"+esc(nm)+"</b>":"For this entity")+(typeof PERIOD!=="undefined"&&PERIOD.y?" · "+esc(pidLabel(curPid())):"")+'. To change the facts, edit the <a href="#dashboard">Client dashboard</a>.';}
     $("dashOut").innerHTML=
       '<div class="panel"><h3>'+esc(PROFILE.name||"Unnamed entity")+'</h3><div class="chips">'+
         '<div class="chip"><b>'+esc(MODEL_NAME[PROFILE.model].split(" ")[0])+'</b><span>REIT type</span></div><div class="chip"><b>'+sc.length+'</b><span>U.S. states</span></div><div class="chip"><b>'+cc.length+'</b><span>Other countries</span></div>'+
