@@ -166,6 +166,8 @@ details.yardi{margin:10px 0 0;font-size:14px}details.yardi summary{cursor:pointe
 @media (min-width:1001px){#ptxOut{position:sticky;top:112px;max-height:calc(100vh - 128px);overflow:auto}}
 @media (max-width:1000px){.ptxwrap{grid-template-columns:minmax(0,1fr)}}
 .ptxwrap fieldset{margin:0 0 16px}.ptxgrid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+.ptxrpt{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between;margin-bottom:16px}.ptxrpt .why{display:block;margin:2px 0 0;max-width:640px}
+.ptxrptbtns{display:flex;flex-wrap:wrap;gap:8px}.ptxrpt .savenote{flex-basis:100%;margin:0}.ptxpreview{margin-bottom:16px}.ptxpreview #ptxRptClose{margin-bottom:6px}
 .ptxsale{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 12px;background:var(--surface)}
 .ptxhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .ptxres{border-radius:6px;padding:8px 10px;font-size:13.5px;margin-top:10px;background:var(--sunk)}
@@ -648,7 +650,11 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   <section class="view" id="v-ptx" style="--sec:var(--c-ptx)" hidden>
     <h2>Prohibited transactions</h2>
     <p class="lead">Test each property sale for the year against the safe harbor in IRC §857(b)(6). Net income from a prohibited transaction (a sale of property held primarily for sale to customers) is taxed at 100%. Sales are saved with the quarter and carried forward within the year.</p>
+    <div class="panel ptxrpt"><div><b>Prohibited transactions report</b><span class="why">The analysis of every sale entered below: the annual limits, each sale's safe harbor tests, exceptions, intention when bought, the gain exposed to the 100% tax and the authority.</span></div>
+      <div class="ptxrptbtns"><button type="button" id="ptxRptPreview">Preview report</button><button type="button" class="primary" id="ptxRptPdf">Download PDF</button><button type="button" id="ptxRptXlsx">Download Excel</button></div>
+      <p class="savenote" id="ptxRptNote" aria-live="polite"></p></div>
     <p class="savenote" id="ptxNote" aria-live="polite"></p>
+    <div class="ptxpreview"><button type="button" class="link" id="ptxRptClose" hidden>Close the preview</button><div id="ptxReport" class="dashout" hidden></div></div>
     <div class="ptxwrap"><div id="ptxBody"></div><div class="dashout" id="ptxOut"></div></div>
   </section>
 
@@ -2041,10 +2047,27 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       if(t.dataset.pxadd){d.sales.push(ptxNew());ptxRender();queueSave();var n=el.querySelectorAll('input[data-px="name"]');if(n.length)n[n.length-1].focus();}
       else if(t.dataset.pxdel!=null){d.sales.splice(+t.dataset.pxdel,1);ptxRender();queueSave();}
       else if(t.dataset.pxtb)ptxFromTB();});}
-  function ptxReportBlocks(){var R=ptxCalc();if(!R.rows.length)return [{t:"p",text:"No property sales entered for the year."}];
-    return [{t:"table",head:["Property","Intention when bought","Held (years)","Spending % of price","Gain","Result"],right:[2,3,4],rows:R.rows.map(function(r){return [r.x.name||"(no name)",ptxIntentLabel(r.x.intent||""),r.yrs==null?"—":r.yrs.toFixed(1),r.capPct==null?"—":r.capPct.toFixed(1)+"%",money(r.gain),(r.status==="safe"?"Within the safe harbor":r.status==="loss"?"Loss: no 100% tax":r.status==="risk"?(r.invest?"Outside the safe harbor; facts point to investment property":"Outside the safe harbor"):r.status==="excl"?"Exception applies":"Incomplete")+(r.reasons&&r.reasons.length&&r.status!=="safe"?": "+r.reasons.join("; "):"")]})},
-      {t:"table",head:["Annual limit","Value","Result"],rows:R.tests.map(function(t){return [t.label,t.val,t.ok===true?"Met":t.ok===false?"Not met":"Needs figures"]})},
-      {t:"p",text:"Gain exposed to the 100% tax on prohibited transactions: "+money(R.exposure)+" (§857(b)(6))."}];}
+  function ptxReportBlocks(){var R=ptxCalc(),d=ptxData(),P=PROFILE;if(!R.rows.length)return [{t:"p",text:"No property sales entered for the year."}];
+    var yn=function(v){return v==="yes"?"Yes":"No"},res=function(r){return r.status==="safe"?"Within the safe harbor":r.status==="loss"?"Sale at a loss: no 100% tax":r.status==="risk"?(r.invest?"Outside the safe harbor; facts point to investment property":"Outside the safe harbor: facts-and-circumstances test"):r.status==="excl"?"Exception applies: not a prohibited transaction":"Incomplete: more information needed"};
+    var B=[{t:"p",head:"Conclusion",text:(R.atRisk?R.atRisk+" of "+R.rows.length+" sale"+(R.rows.length===1?"":"s")+" fall outside the safe harbor or are incomplete. If they are prohibited transactions, "+money(R.exposure)+" of gain is subject to the 100% tax under §857(b)(6)(A).":"All "+R.rows.length+" sale"+(R.rows.length===1?" is":"s are")+" within the safe harbor, covered by an exception, or sold at a loss, so no 100% tax on prohibited transactions is expected on the information entered.")},
+      {t:"kv",rows:[["Tax year",String(PERIOD.y||P.year)+(PERIOD.q?" (through Q"+PERIOD.q+", quarter ending "+fmtShort(qtrEnd(PERIOD.y,+PERIOD.q))+")":"")],["Sales entered",String(R.rows.length)],["Counted toward the annual limits",String(R.n)],
+        ["Within the safe harbor or at a loss",String(R.safe)],["Covered by an exception",String(R.notCounted)],["Outside the safe harbor or incomplete",String(R.atRisk)],["Gain exposed to the 100% tax",money(R.exposure)],
+        ["Adjusted basis of all assets, start of year",d.basisBOY?money(pn(d.basisBOY)):"Not entered"],["Fair market value of all assets, start of year",d.fmvBOY?money(pn(d.fmvBOY)):"Not entered"],
+        ["Prior years: basis sold %",d.prior.map(function(p){return p.basisPct===""||p.basisPct==null?"—":p.basisPct+"%"}).join(", ")],["Prior years: value sold %",d.prior.map(function(p){return p.fmvPct===""||p.fmvPct==null?"—":p.fmvPct+"%"}).join(", ")]]},
+      {t:"table",head:["Annual limit (one must be met)","Value","Result"],rows:R.tests.map(function(t){return [t.label,t.val,t.ok===true?"Met":t.ok===false?"Not met":"Needs figures"]})},
+      {t:"p",head:"Annual limit result",text:(R.annualOk?(R.byCount?"Met by the 7-sales limit.":"Met by a 10% or 20% limit. With more than 7 sales, each sale also needs substantially all marketing and development done by an independent contractor or a TRS."):R.annualUnknown?"Not yet determinable: enter the start-of-year basis and value.":"Not met: no sale this year can use the safe harbor.")+" (§857(b)(6)(C)(iii), (v))"},
+      {t:"table",head:["Property","Intention when bought","Held (years)","Spending % of price","Gain","Result"],right:[2,3,4],rows:R.rows.map(function(r){return [r.x.name||"(no name)",ptxIntentLabel(r.x.intent||""),r.yrs==null?"—":r.yrs.toFixed(1),r.capPct==null?"—":r.capPct.toFixed(1)+"%",money(r.gain),res(r)]})}];
+    R.rows.forEach(function(r,i){var x=r.x,ex=[];if(x.seller==="trs")ex.push("Sold by a TRS");if(x.fore==="yes")ex.push("Foreclosure property");if(x.conv==="yes")ex.push("Involuntary conversion");if(x.timber==="yes")ex.push("Timberland sale");if(x.invest==="yes")ex.push("Held for investment or rental");if(r.small)ex.push("Under $10,000: not counted as a sale");
+      B.push({t:"p",head:"Sale "+(i+1)+": "+(x.name||"(no name)"),text:res(r)+"."});
+      B.push({t:"kv",rows:[["Intention when bought",ptxIntentLabel(x.intent||"")],["Acquired / sold",(x.acq||"—")+" / "+(x.sold||"—")+(r.yrs!=null?" ("+r.yrs.toFixed(1)+" years)":"")],
+        ["Net selling price",x.price?money(r.price):"—"],["Adjusted basis",x.basis?money(r.basis):"—"],["Fair market value",money(r.fmv)],["Gain",money(r.gain)],
+        ["Spending in the 2 years before the sale",x.capex?money(pn(x.capex))+(r.capPct!=null?" ("+r.capPct.toFixed(1)+"% of price; limit 30%)":""):"—"],
+        ["Held 2 years or more for rental income",yn(x.rental)],["Marketing and development by",x.mkt==="reit"?"The REIT or its employees":"An independent contractor or a TRS"],
+        ["Exceptions considered",ex.length?ex.join("; "):"None"],["Findings",(r.reasons&&r.reasons.length?r.reasons.join("; "):"All safe harbor conditions met")+"."]].concat(r.intentNote&&r.status!=="safe"&&r.status!=="loss"&&r.status!=="excl"?[["Intention",r.intentNote]]:[])});});
+    if(R.atRisk)B.push({t:"list",items:["Dealer factors for sales outside the safe harbor: purpose of acquisition and holding period; frequency and number of sales; development, subdivision or improvement; marketing and who did it; whether the buyer approached the REIT; share of income from sales.",
+      "Ways to manage the exposure: hold and sell development or for-sale property through a TRS; meet the 2-year holding period; keep spending in the 2 years before a sale under 30% of the price; combine properties sold to one buyer into one transaction; plan sales against the 7-sales and 10% limits."]});
+    B.push({t:"p",head:"Authority",text:"§857(b)(6)(A) 100% tax on net income from prohibited transactions; (B)(i)–(iii) definitions, loss items and foreclosure property; (C) safe harbor; (D) timber safe harbor; (E) special rules, including one buyer and one transaction (vi) and sales under $10,000 (vii); §1221(a)(1); §856(e); §1033."});
+    return B;}
 
   // ---------- Client-specific part of the Tax rules tab ----------
   function clientFacts(){var P=PROFILE,R=[],cap=isCaptive(),nd=nondiv();
@@ -3409,10 +3432,12 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   function strip(t){return String(t==null?"":t).replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();}
   function sortedFilings(){return LAST_FILINGS.map(function(f){var d=dueOf(f);return {f:f,d:d}}).sort(function(a,b){if(a.d.date&&b.d.date)return a.d.date-b.d.date;return a.d.date?-1:b.d.date?1:0});}
   function mapLabel(m){var it=itemById(m);if(it)return it.label;for(var i=0;i<SPECIAL.length;i++)if(SPECIAL[i][0]===m)return SPECIAL[i][1];return m||"Not mapped";}
+  var RPT_ONLY=null,RPT_TITLE="",RPT_FILE="REIT-report";
+  async function withScope(only,title,file,fn){var a=RPT_ONLY,b=RPT_TITLE,c=RPT_FILE;RPT_ONLY=only;RPT_TITLE=title;RPT_FILE=file;try{return await fn();}finally{RPT_ONLY=a;RPT_TITLE=b;RPT_FILE=c;}}
   function reportModel(){
     run();buildDash();computeEstimates();buildDash();
     var P=PROFILE,o=reportOpts(),S=[],ye=yearEnd();
-    function sec(k,title,blocks){if(o.on[k]&&blocks&&blocks.length)S.push({key:k,title:title,blocks:blocks});}
+    function sec(k,title,blocks){if((RPT_ONLY?RPT_ONLY.indexOf(k)>=0:o.on[k])&&blocks&&blocks.length)S.push({key:k,title:title,blocks:blocks});}
     var sc=Object.keys(P.states).sort(),cc=Object.keys(P.countries);
     sec("cover","Entity profile",[{t:"kv",rows:[["Entity",P.name||"—"],["REIT type",typeLabel(P)],["Listing status",{listed:"Publicly traded",nontraded:"Public non-traded",private:"Private"}[P.kind]||"—"],
       ["Tax year","Begins in "+P.year+", ends "+fmtDate(ye.date)],["State of organization",SNAME[P.org]||"—"],["Taxable REIT subsidiaries",P.trs||"0"],
@@ -3456,7 +3481,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     var tbm=tbSets().length>1;
     sec("tb","Trial balance mapping",TB.length?(tbm?[{t:"table",head:["Trial balance","Sector","REIT share","Accounts","Gross income","Assets"],right:[3,4,5],rows:(function(){var st=tbSetStats();return tbSets().map(function(x){var s1=st[x.id]||{};return [x.label,x.sector==="diversified"?"Mixed":sectorName(x.sector),x.own+"%",String(s1.n||0),money(s1.inc||0),money(s1.ast||0)]})})()}]:[]).concat([{t:"table",head:(tbm?["Trial balance"]:[]).concat(["Account","Name","Debit","Credit","Maps to"]),right:tbm?[3,4]:[2,3],rows:TB.map(function(r){var st=tbSetOf(r);return (tbm?[st?st.label:""]:[]).concat([r.no,r.name,r.dr?money(r.dr):"",r.cr?money(r.cr):"",mapLabel(r.map)])})}]):[]);
     sec("changes","Recent rule developments",changes.length?[{t:"table",head:["Date","Status","Jurisdiction","Development"],rows:changes.slice().sort(function(a,b){return (b.date||"")<(a.date||"")?-1:1}).slice(0,15).map(function(c){return [c.date,(STATUS_TAG[c.status||"enacted"]||STATUS_TAG.enacted)[1],c.jurisdiction,c.title]}),wide:true}]:[]);
-    return {sections:S,opts:o,title:(P.name||"REIT entity"),sub:typeLabel(P)+" · Tax year beginning "+P.year+(P.qtr?" · Q"+P.qtr+" (quarter ending "+fmtShort(qtrEnd(P.year,+P.qtr))+")":"")+" · Prepared "+fmtDate(new Date())};}
+    return {sections:S,opts:o,title:(RPT_TITLE?RPT_TITLE+": ":"")+(P.name||"REIT entity"),sub:typeLabel(P)+" · Tax year beginning "+P.year+(P.qtr?" · Q"+P.qtr+" (quarter ending "+fmtShort(qtrEnd(P.year,+P.qtr))+")":"")+" · Prepared "+fmtDate(new Date())};}
 
   function renderReportOptions(){var o=reportOpts();
     $("rptSections").innerHTML=REPORT_SECTIONS.map(function(s){return '<label class="check" for="rs_'+s[0]+'"><input type="checkbox" id="rs_'+s[0]+'" data-rs="'+s[0]+'"'+(o.on[s[0]]?" checked":"")+'>'+s[1]+'</label>'}).join("");
@@ -3492,7 +3517,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   async function getDownloads(note){if(HOSTED)return LOCAL_DOWNLOADS;var dl=null;try{dl=await window.claude.use("downloads");}catch(e){}
     if(!dl)note.textContent="Downloads aren't available in this view. This happens when the page is opened through a public link without signing in to claude.ai, or in a view that doesn't allow downloads. Use Copy report or Copy tables below, open the page signed in to claude.ai, or use the self-hosted version.";
     return dl;}
-  function fileBase(){return (PROFILE.name||"REIT").replace(/[^A-Za-z0-9 ]+/g,"").trim().replace(/ +/g,"-").slice(0,60)+"-REIT-report-"+new Date().toISOString().slice(0,10);}
+  function fileBase(){return (PROFILE.name||"REIT").replace(/[^A-Za-z0-9 ]+/g,"").trim().replace(/ +/g,"-").slice(0,60)+"-"+RPT_FILE+"-"+new Date().toISOString().slice(0,10);}
   // Builds the PDF for the current report choices; used by Download PDF and by Save report
   async function buildPdfBlob(){
       if(!(await ensurePdfLib()))throw {message:"The PDF builder couldn't load. Reload the page and try again"};
@@ -3515,14 +3540,16 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       para("This report is a screening aid generated by REIT Rule Navigator. It is not legal or tax advice. Confirm every position with a qualified tax advisor.",8);
       var pages=doc.internal.getNumberOfPages();for(var i=1;i<=pages;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(grey[0],grey[1],grey[2]);doc.text(pdfText("REIT Rule Navigator"+(o.preparer?" · Prepared by "+o.preparer:"")+" · Page "+i+" of "+pages),40,H-24);}
       return {blob:doc.output("blob"),model:m,pages:pages};}
-  $("rptPdf").addEventListener("click",async function(){var note=$("rptNote");note.textContent="Building the PDF…";
+  $("rptPdf").addEventListener("click",function(){rptDownloadPdf($("rptNote"));});
+  $("rptXlsx").addEventListener("click",function(){rptDownloadXlsx($("rptNote"));});
+  async function rptDownloadPdf(note){note.textContent="Building the PDF…";
     try{
       var dl=await getDownloads(note);if(!dl)return;
       var r=await buildPdfBlob();
       note.textContent="Confirm the download in the prompt…";
       await dl.save({filename:fileBase()+".pdf",data:r.blob});note.textContent="PDF saved. Open it to print.";
-    }catch(e){note.textContent=e&&e.code?saveMsg(e,"PDF"):"Something went wrong building the PDF: "+((e&&e.message)||e)+". Try Download Excel instead.";}});
-  $("rptXlsx").addEventListener("click",async function(){var note=$("rptNote");note.textContent="Building the workbook…";
+    }catch(e){note.textContent=e&&e.code?saveMsg(e,"PDF"):"Something went wrong building the PDF: "+((e&&e.message)||e)+". Try Download Excel instead.";}}
+  async function rptDownloadXlsx(note){note.textContent="Building the workbook…";
     try{var dl=await getDownloads(note);if(!dl)return;
       if(!window.XLSX){try{await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");}catch(e){}}
       if(!window.XLSX){note.textContent="The Excel builder couldn't load in this view. Reload the page and try again.";return;}
@@ -3534,7 +3561,16 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       if(!m.sections.length){note.textContent="Choose at least one schedule to include.";return;}
       var buf=XLSX.write(wb,{bookType:"xlsx",type:"array"});note.textContent="Confirm the download in the prompt…";
       await dl.save({filename:fileBase()+".xlsx",data:new Uint8Array(buf)});note.textContent="Workbook saved.";
-    }catch(e){note.textContent=e&&e.code?saveMsg(e,"workbook"):"Something went wrong building the workbook: "+((e&&e.message)||e)+".";}});
+    }catch(e){note.textContent=e&&e.code?saveMsg(e,"workbook"):"Something went wrong building the workbook: "+((e&&e.message)||e)+".";}}
+  // Prohibited transactions tab: its own report (entity profile + the analysis)
+  var PTX_SCOPE=[["cover","ptx"],"Prohibited transactions analysis","prohibited-transactions"];
+  function ptxPreview(){var v=$("ptxReport");if(!v)return;withScope(PTX_SCOPE[0],PTX_SCOPE[1],PTX_SCOPE[2],function(){var m=reportModel();
+      v.innerHTML='<div class="rpage"><h2>'+esc(m.title)+'</h2><p class="why">'+esc(m.sub)+'</p>'+m.sections.map(function(s){return '<section class="rsec"><h3>'+esc(s.title)+'</h3>'+s.blocks.map(blockHtml).join("")+'</section>'}).join("")+
+        '<p class="why" style="margin-top:18px">This report is a screening aid. It is not legal or tax advice. Confirm every position with a qualified tax advisor.</p></div>';v.hidden=false;$("ptxRptClose").hidden=false;v.scrollIntoView({block:"start"});});}
+  $("ptxRptPreview").addEventListener("click",ptxPreview);
+  $("ptxRptClose").addEventListener("click",function(){$("ptxReport").hidden=true;this.hidden=true;});
+  $("ptxRptPdf").addEventListener("click",function(){withScope(PTX_SCOPE[0],PTX_SCOPE[1],PTX_SCOPE[2],function(){return rptDownloadPdf($("ptxRptNote"));});});
+  $("ptxRptXlsx").addEventListener("click",function(){withScope(PTX_SCOPE[0],PTX_SCOPE[1],PTX_SCOPE[2],function(){return rptDownloadXlsx($("ptxRptNote"));});});
 
   // ---------- Jump from the Tax rules tab to the calculation ----------
   function testId(n){return "t_"+String(n).toLowerCase().replace(/[^a-z0-9]+/g,"-");}
