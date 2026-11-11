@@ -1,0 +1,2275 @@
+{
+ "meta": {
+  "status": {
+   "checkedBy": "Claude scheduled review",
+   "lastChecked": "2026-11-10",
+   "nextCheck": "2026-11-11"
+  }
+ },
+ "federal": {
+  "ast75": {
+   "citation": "§856(c)(4)(A)",
+   "label": "75% asset test",
+   "threshold": 75
+  },
+  "dist": {
+   "citation": "§857(a)(1)",
+   "label": "90% distribution requirement",
+   "threshold": 90
+  },
+  "excise": {
+   "citation": "§4981",
+   "label": "4% excise tax (85% ordinary income)",
+   "threshold": 85
+  },
+  "fiveFifty": {
+   "citation": "§856(a)(6), (h)",
+   "label": "5/50 closely held test",
+   "threshold": 50
+  },
+  "holders": {
+   "citation": "§856(a)(5), (b)",
+   "label": "100-shareholder test",
+   "threshold": 100
+  },
+  "inc75": {
+   "citation": "§856(c)(3)",
+   "label": "75% gross income test",
+   "threshold": 75
+  },
+  "inc95": {
+   "citation": "§856(c)(2)",
+   "label": "95% gross income test",
+   "threshold": 95
+  },
+  "iss10": {
+   "citation": "§856(c)(4)(B)(iii)(II)–(III)",
+   "label": "10% vote and value tests",
+   "threshold": 10
+  },
+  "iss5": {
+   "citation": "§856(c)(4)(B)(iii)(I)",
+   "label": "5% single-issuer test",
+   "threshold": 5
+  },
+  "sec25": {
+   "citation": "§856(c)(4)(B)(i)",
+   "label": "25% securities limit",
+   "threshold": 25
+  },
+  "trs": {
+   "citation": "§856(c)(4)(B)(ii)",
+   "label": "TRS securities limit",
+   "note": "Raised from 20% to 25% by OBBBA §70439 for taxable years beginning after Dec 31, 2025",
+   "priorThreshold": 20,
+   "priorUntilYear": 2025,
+   "threshold": 25
+  }
+ },
+ "typeRules": {
+  "all-prohibited": {
+   "appliesTo": "all",
+   "citation": "§857(b)(6)",
+   "order": 1,
+   "text": "Net income from selling property held primarily for sale to customers is taxed at 100%. A safe harbor covers real estate assets held at least two years for rental, where capital spending in the two years before sale is no more than 30% of the net selling price, and annual sales stay within limits: no more than 7 sales, or 10% of total asset basis or value, or 20% in one year if the three-year average is 10% or less.",
+   "title": "Prohibited transactions",
+   "verified": true
+  },
+  "all-trs": {
+   "appliesTo": "all",
+   "citation": "§857(b)(7)",
+   "order": 2,
+   "text": "Rents, deductions, interest and service charges between the REIT, its tenants and its TRSs must be at arm's length. A 100% tax applies to redetermined rents, redetermined deductions, excess interest and redetermined TRS service income, with exceptions such as de minimis services and services charged at 150% or more of the TRS's cost.",
+   "title": "Dealings with TRSs",
+   "verified": true
+  },
+  "eq-163j": {
+   "appliesTo": "equity",
+   "citation": "§163(j)(7)(B); §168(g)(1)(F); Rev. Proc. 2026-17",
+   "order": 11,
+   "text": "An equity REIT can elect out of the §163(j) interest limit as a real property trade or business (the regulations include a REIT safe harbor, also covering REIT-owned partnerships that meet REIT-like tests), but must then use the alternative depreciation system, without bonus depreciation, for nonresidential real property, residential rental property and qualified improvement property. The election is generally irrevocable; Rev. Proc. 2026-17 gave a one-time chance to withdraw elections made for 2022–2024 tax years, but that window closed on October 15, 2026.",
+   "title": "Business interest limit",
+   "verified": true
+  },
+  "eq-rents": {
+   "appliesTo": "equity",
+   "citation": "§856(d)",
+   "order": 10,
+   "text": "Rent qualifies when services are customary for the property type. Impermissible tenant services above 1% of a property's income disqualify all its rent. Rent from tenants the REIT owns 10% or more of, rent based on tenant net profits, and personal property rent above 15% of the total do not qualify.",
+   "title": "What counts as rent",
+   "verified": true
+  },
+  "mtg-apportion": {
+   "appliesTo": "mortgage",
+   "citation": "Treas. Reg. §1.856-5(c); Rev. Proc. 2014-51; §856(c)(9)(B)",
+   "order": 20,
+   "text": "When a loan exceeds the 'loan value' of the real property securing it (its value when the REIT committed to the loan), interest is apportioned: only the share of interest matching loan value to loan amount is real property interest. Rev. Proc. 2014-51 (superseding Rev. Proc. 2011-16) lets a REIT keep the original loan value through qualifying distress modifications and for distressed loans bought at a discount, and gives an asset-test safe harbor. Since 2016, if personal property is no more than 15% of the total collateral, the whole loan is treated as secured by real property.",
+   "title": "Loans exceeding property value",
+   "verified": true
+  },
+  "mtg-hedge": {
+   "appliesTo": "mortgage",
+   "citation": "§856(c)(5)(G)",
+   "order": 24,
+   "text": "Income from hedges of borrowings used to acquire or carry real estate assets, and from hedges of currency risk on qualifying income or property, is excluded from both income tests if the hedge is identified on time under §1221(a)(7). The exclusion also covers offsetting hedges when the debt is repaid or the property sold.",
+   "title": "Hedging",
+   "verified": true
+  },
+  "mtg-ica": {
+   "appliesTo": "mortgage",
+   "citation": "Investment Company Act §3(c)(5)(C)",
+   "order": 26,
+   "text": "Mortgage REITs commonly rely on the section 3(c)(5)(C) exemption. SEC staff no-action positions apply it as at least 55% of assets in qualifying interests (mortgages and other liens on and interests in real estate), at least 80% in qualifying interests plus other real-estate-related assets, and no more than 20% in assets unrelated to real estate.",
+   "title": "Investment Company Act (non-tax)",
+   "verified": true
+  },
+  "mtg-mezz": {
+   "appliesTo": "mortgage",
+   "citation": "Rev. Proc. 2003-65",
+   "order": 21,
+   "text": "A nonrecourse loan secured only by a first-priority pledge of interests in a partnership or disregarded entity that owns real property is treated as a real estate asset, with qualifying interest, if it meets the Rev. Proc. 2003-65 safe harbor. Conditions include that real property is at least 85% of the entity's assets on testing dates, the property's net value covers the loan at commitment, the loan comes due on sale of the property, and the lender can step in as owner on foreclosure.",
+   "title": "Mezzanine loans",
+   "verified": true
+  },
+  "mtg-noncash": {
+   "appliesTo": "mortgage",
+   "citation": "§857(a)(1)(B), (e)",
+   "order": 25,
+   "text": "Original issue discount and similar accruals can create taxable income before cash arrives. Excess noncash income (accrued OID and §860E residual income above cash received, §467 rent accruals, cancellation-of-debt income and certain failed like-kind exchanges), to the extent it exceeds 5% of REIT taxable income, reduces the 90% distribution requirement. Market discount is not on the statutory list.",
+   "title": "Phantom income",
+   "verified": true
+  },
+  "mtg-remic": {
+   "appliesTo": "mortgage",
+   "citation": "§856(c)(5)(E)",
+   "order": 22,
+   "text": "A REMIC regular or residual interest is entirely a real estate asset, with fully qualifying income, if at least 95% of the REMIC's assets are real estate assets. Otherwise only the qualifying share counts.",
+   "title": "REMIC interests",
+   "verified": true
+  },
+  "mtg-tmp": {
+   "appliesTo": "mortgage",
+   "citation": "§7701(i); §860E; Notice 2006-97",
+   "order": 23,
+   "text": "Securitizations that are taxable mortgage pools create excess inclusion income for shareholders. It is unrelated business income for most tax-exempt holders (charitable remainder trusts excepted), cannot be offset by net operating losses, and is not eligible for treaty-reduced withholding for foreign holders. The REIT itself pays tax at the top corporate rate on excess inclusion income allocable to disqualified organizations such as governmental holders.",
+   "title": "Taxable mortgage pools",
+   "verified": true
+  },
+  "sec-datacenter": {
+   "appliesTo": "sector:datacenter",
+   "citation": "Treas. Reg. §1.856-10(d) and (g), Example 6; §856(d)(7)",
+   "order": 32,
+   "text": "Buildings and their structural components are real property. In the regulations' data center example, the HVAC, security, fire suppression and humidity control systems are listed structural components, and the electrical and telecommunications infrastructure is also treated as structural components under the facts-and-circumstances factors. Services beyond those customary for the space, such as some interconnection services, may need to be provided through a TRS.",
+   "title": "Data centers",
+   "verified": true
+  },
+  "sec-healthcare": {
+   "appliesTo": "sector:healthcare",
+   "citation": "§856(d)(8)(B), (e)(6)(D)",
+   "order": 31,
+   "text": "Senior housing and other qualified health care property can use the same TRS lease and eligible independent contractor structure as hotels (often called RIDEA structures).",
+   "title": "Health care facilities",
+   "verified": true
+  },
+  "sec-lodging": {
+   "appliesTo": "sector:lodging",
+   "citation": "§856(d)(8)(B), (d)(9)",
+   "order": 30,
+   "text": "Lease hotels to a TRS that hires an eligible independent contractor to operate them. Rent from the TRS qualifies; the TRS pays tax on operating profit. Gaming facilities are excluded from qualified lodging facilities.",
+   "title": "Hotels",
+   "verified": true
+  },
+  "sec-residential": {
+   "appliesTo": "sector:residential",
+   "citation": "§856(d)(1)(B), (d)(2)(C), (d)(7); Treas. Reg. §1.856-4(b)(1), (b)(5)",
+   "order": 36,
+   "text": "Services customary for apartment buildings of the same class in the market qualify, such as utilities, trash collection, cleaning of common areas, routine maintenance, laundry equipment, security, parking and pool access (including submetered utilities where customary). Non-customary amenities and services should be provided through a TRS or an independent contractor from whom the REIT derives no income, to avoid impermissible tenant service income (beyond a 1% de minimis per property).",
+   "title": "Residential",
+   "verified": true
+  },
+  "sec-retail": {
+   "appliesTo": "sector:retail",
+   "citation": "§856(d)(2)(A)",
+   "order": 37,
+   "text": "Percentage rent based on a fixed percentage of a tenant's gross receipts or sales qualifies. Rent that depends in whole or in part on anyone's net income or profits from the property does not.",
+   "title": "Retail",
+   "verified": true
+  },
+  "sec-storage": {
+   "appliesTo": "sector:storage",
+   "citation": "§856(c)(2)–(3), (d), (l); Extra Space Storage Inc. Form 10-K (FY2025)",
+   "order": 35,
+   "text": "Unit rent qualifies as rents from real property. Ancillary businesses whose income would not qualify, such as tenant insurance or reinsurance and third-party store management, are commonly run through a TRS (Extra Space, for example, uses TRSs for both). Income from merchandise sales and truck rental should be reviewed the same way before it is earned directly by the REIT.",
+   "title": "Self-storage",
+   "verified": true
+  },
+  "sec-timber": {
+   "appliesTo": "sector:timber",
+   "citation": "§857(b)(6)(D); §856(c)(5)(H), (c)(10); §631(b)",
+   "order": 34,
+   "text": "Sales of timber property can use a separate prohibited transactions safe harbor in §857(b)(6)(D): the property was held at least 2 years in the trade or business of producing timber, timber-related capital spending in the prior 2 years is no more than 30% of the net selling price (and other capital spending no more than 5%), the sales price is not based on income or profits, and either no more than 7 sales in the year or the 10%/20% basis or value limits are met (if more than 7 sales, marketing must be done through an independent contractor or a TRS). The explicit statutory rule in §856(c)(5)(H) treating §631(a) and §631(b) timber gains as real property gains does not apply to dispositions after the termination date defined in §856(c)(10), so confirm current treatment of timber cutting contracts with an adviser. Harvesting and processing are usually done in a TRS.",
+   "title": "Timberland",
+   "verified": true
+  },
+  "sec-towers": {
+   "appliesTo": "sector:towers",
+   "citation": "Treas. Reg. §1.856-10(d)(2), (g) Example 12",
+   "order": 33,
+   "text": "The regulations list microwave transmission, cell, broadcast and electrical transmission towers, pipelines, transmission lines, bridges and railroad tracks as inherently permanent structures that are real property. A permit or similar right to place a tower on land can be an interest in real property if it works like a leasehold. Many infrastructure REITs also rely on private letter rulings for assets not clearly covered.",
+   "title": "Towers and infrastructure",
+   "verified": true
+  }
+ },
+ "itemBasis": {},
+ "states": {
+  "AL": {
+   "captive": "Captive REIT: shares not regularly traded on an established securities market and owned or controlled by a non-exempt corporation; the instructions exclude certain entities (such as REIT-owned REITs, listed Australian property trusts and qualified foreign entities). The captive REIT adds back dividends paid to related members.",
+   "citation": "Ala. Code §40-18-35(a)(7)(d) and (c); §10-13-21; 2024 Form 20C Instructions",
+   "code": "AL",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "One month after the federal return due date (including federal extensions); tax is due by the original due date",
+     "form": "Form 20C",
+     "name": "Alabama Corporation Income Tax Return",
+     "note": "Captive REITs report the dividends-paid deduction addback on Schedule A"
+    },
+    {
+     "form": "Form BIT-V",
+     "name": "Business Income Tax Payment Voucher",
+     "note": "Estimated payments required if liability exceeds $500, due on the 15th day of the 4th, 6th, 9th and 12th months; payments of $750 or more must be made electronically (My Alabama Taxes or ACH)"
+    },
+    {
+     "form": "Form 2220AL",
+     "name": "Underpayment of Estimated Tax by Corporations"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-02",
+   "minTax": 0,
+   "name": "Alabama",
+   "rate": 6.5,
+   "rateNote": "Flat 6.5% of Alabama net income; Alabama allows a deduction for federal income tax paid or accrued (not modeled). Single sales factor apportionment from 2021. A separate Business Privilege Tax return also applies (not modeled).",
+   "rateSource": "https://revenue.alabama.gov/corporate-income-tax/",
+   "rateYear": 2026,
+   "sourceName": "Alabama DOR, 2024 Form 20C Instructions",
+   "sourceUrl": "https://revenue.alabama.gov/wp-content/uploads/2025/01/24f20cinstr.pdf",
+   "summary": "REITs start from federal Form 1120-REIT taxable income on Form 20C. A captive REIT must add back its federal dividends-paid deduction, and a corporate shareholder owning more than 20% may deduct captive REIT dividends only to the extent §243 would allow if the payer were not a REIT.",
+   "treatment": "strict",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "AR": {
+   "brackets": [
+    {
+     "over": 0,
+     "rate": 1
+    },
+    {
+     "over": 3000,
+     "rate": 2
+    },
+    {
+     "over": 6000,
+     "rate": 3
+    },
+    {
+     "over": 11000,
+     "rate": 4.3
+    }
+   ],
+   "captive": "Captive REIT: shares or beneficial interests not regularly traded on an established securities market and more than 50% of voting power or value owned or controlled, directly, indirectly or constructively, by a single non-exempt entity taxed as a corporation. Non-captive REITs, most QRSs, listed Australian property trusts and qualified foreign entities are not counted as that entity.",
+   "citation": "Ark. Code Ann. §26-51-440",
+   "code": "AR",
+   "exemption": 0,
+   "forms": [
+    {
+     "form": "AR1100CT",
+     "name": "Arkansas Corporation Income Tax Return"
+    },
+    {
+     "form": "AR1100ESCT",
+     "name": "Corporation Estimated Tax Vouchers"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-04",
+   "minTax": 0,
+   "name": "Arkansas",
+   "rate": 4.3,
+   "rateNote": "Graduated rates for 2026 (top 4.3% over $11,000). The top rate falls to 4.1% for tax years beginning Jan 1, 2027 (2026 First Extraordinary Session).",
+   "rateSource": "https://tax.thomsonreuters.com/news/arkansas-cuts-individual-and-corporate-income-tax-rates/",
+   "rateYear": 2026,
+   "sourceName": "Ark. Code Ann. §26-51-440 (FindLaw; confirm against the current official code)",
+   "sourceUrl": "https://codes.findlaw.com/ar/title-26-taxation/ar-code-sect-26-51-440/",
+   "summary": "Arkansas adopts federal Subchapter M (as of Jan 1, 2019), so REITs generally keep the dividends-paid deduction. For tax years beginning on or after Jan 1, 2009, a captive REIT must add back its federal dividends-paid deduction. A REIT that does not become regularly traded within a year of becoming a REIT is treated as never regularly traded.",
+   "treatment": "strict",
+   "verified": false,
+   "wholeIncome": false
+  },
+  "AZ": {
+   "captive": "No captive REIT dividends-paid deduction addback found in A.R.S. §§43-1121 or 43-1122.",
+   "citation": "A.R.S. §§43-1111, 43-1121, 43-1122; ADOR CTR 99-7",
+   "code": "AZ",
+   "forms": [
+    {
+     "due": "15th day of the 4th month after year end",
+     "form": "120",
+     "name": "Arizona Corporation Income Tax Return",
+     "note": "Multistate, combined and consolidated filers"
+    },
+    {
+     "due": "15th day of the 4th month after year end",
+     "form": "120A",
+     "name": "Arizona Corporation Income Tax Return (Short Form)",
+     "note": "Corporations taxed entirely in Arizona filing on a separate-company basis"
+    },
+    {
+     "form": "120ES",
+     "name": "Corporation Estimated Tax Payment"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-07",
+   "minTax": 50,
+   "name": "Arizona",
+   "rate": 4.9,
+   "rateNote": "4.9% of net income or $50, whichever is greater (A.R.S. §43-1111).",
+   "rateSource": "https://www.azleg.gov/ars/43/01111.htm",
+   "rateYear": 2026,
+   "sourceName": "Arizona Revised Statutes §43-1111 (Arizona Legislature); ADOR CTR 99-7",
+   "sourceUrl": "https://www.azleg.gov/ars/43/01111.htm",
+   "summary": "A REIT files as a corporation on Form 120 starting from federal taxable income, so the federal dividends-paid deduction carries through, and it owes at least the $50 minimum tax (ADOR ruling CTR 99-7). Arizona's additions and subtractions (A.R.S. §§43-1121, 43-1122) contain no captive REIT addback. REIT dividends generally do not qualify for Arizona's dividends-received subtraction.",
+   "treatment": "conf",
+   "verified": true
+  },
+  "CA": {
+   "citation": "R&TC §§24870–24872, 25106; OTA pending precedential opinion (2026)",
+   "code": "CA",
+   "forms": [
+    {
+     "form": "Form 100",
+     "name": "California Corporation Franchise or Income Tax Return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-10-28",
+   "minTax": 800,
+   "name": "California",
+   "rate": 8.84,
+   "rateNote": "Minimum franchise tax applies.",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "KPMG This Week in State Tax, Oct 12 2026",
+   "sourceUrl": "https://kpmg.com/us/en/articles/this-week-in-state-tax/twist-261012.html",
+   "summary": "Starts from federal taxable income after the dividends-paid deduction. In a 2026 pending precedential opinion, the Office of Tax Appeals held a REIT cannot both eliminate unitary intercompany dividends under R&TC §25106 and claim the dividends-paid deduction on them; the related deduction must be added back.",
+   "treatment": "mod",
+   "verified": true
+  },
+  "CO": {
+   "captive": "Captive REIT defined in C.R.S. 39-22-503; captive REIT–parent transactions are reportable listed transactions under 39-22-652(5)(b). No dividends-paid deduction addback found.",
+   "citation": "C.R.S. 39-22-301, 39-22-503, 39-22-652",
+   "code": "CO",
+   "forms": [
+    {
+     "form": "DR 0112",
+     "name": "Colorado C Corporation Income Tax Return"
+    },
+    {
+     "form": "DR 0112EP",
+     "name": "Colorado C Corporation Estimated Tax Payment Form"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-07",
+   "minTax": 0,
+   "name": "Colorado",
+   "rate": 4.4,
+   "rateNote": "4.4% (C.R.S. 39-22-301; 2026 DR 0112EP). Temporary TABOR-triggered reductions under 39-22-627 may apply; not confirmed for 2026. No minimum tax.",
+   "rateSource": "https://tax.colorado.gov/sites/tax/files/documents/DR0112EP_2026.pdf",
+   "rateYear": 2026,
+   "sourceName": "C.R.S. 39-22-503 (Colorado Revised Statutes)",
+   "sourceUrl": "https://colorado.public.law/statutes/crs_39-22-503",
+   "summary": "A REIT's Colorado net income is its federal REIT taxable income with standard Colorado adjustments (C.R.S. 39-22-503), so the dividends-paid deduction is kept. Colorado defines captive REITs (non-traded and more than 50% owned by one taxable C corporation) and treats transactions between a captive REIT and its majority owner as listed transactions that must be reported (C.R.S. 39-22-652), but it does not add back the dividends-paid deduction. Whether captive REITs must join a combined report is not confirmed.",
+   "treatment": "mod",
+   "verified": true
+  },
+  "CT": {
+   "captive": "More than 50% owned or controlled, directly or constructively, by a single entity and not regularly traded on an established securities market, with exceptions for qualified pre-1997 REITs and REITs owned by certain REITs, exempt organizations or qualifying foreign REIT-type entities.",
+   "citation": "Conn. Gen. Stat. §§12-213, 12-217(a)(1)(A)(iv), 12-217(a)(3), 12-219(c)",
+   "code": "CT",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "15th day of the month after the federal due date (May 15 for calendar-year filers)",
+     "form": "CT-1120",
+     "name": "Corporation Business Tax Return"
+    },
+    {
+     "form": "CT-1120 ESA/ESB/ESC/ESD",
+     "name": "Estimated Connecticut Corporation Business Tax"
+    },
+    {
+     "form": "CT-1120 EXT",
+     "name": "Application for Extension of Time to File"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-10-29",
+   "minTax": 0,
+   "name": "Connecticut",
+   "rate": 7.5,
+   "rateNote": "7.5% flat. A 10% surtax on tax liability (effective 8.25%) applies to companies with gross proceeds of $100 million or more or that file a combined unitary return, scheduled through 2028. REITs are not subject to the $250 minimum tax on capital.",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "CT DRS IP 2010(21) and 2025 Form CT-1120 instructions",
+   "sourceUrl": "https://portal.ct.gov/drs/publications/informational-publications/2010/ip-201021-corporation-business-tax-application-to-real-estate-investment-trusts-reits-and-owners-of",
+   "summary": "REITs pay the corporation business tax on net income starting from federal Form 1120-REIT taxable income, but are exempt from the tax on capital. Non-captive REITs deduct the federal dividends-paid deduction on Form CT-1120 Schedule D; captive REITs may not. A corporate owner can deduct dividends from a captive REIT that is itself taxable in Connecticut.",
+   "treatment": "strict",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "DE": {
+   "captive": "No captive REIT rule: §1902(b)(13) exempts every REIT as defined in IRC §856, and chapter 19 contains no dividends-paid deduction addback or captive REIT definition.",
+   "citation": "30 Del. C. §§1902(a), 1902(b)(13), 1903, 1904, 1905",
+   "code": "DE",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "15th day of the 4th month after year end (April 15 for calendar-year filers); a federal extension carries over if a copy is attached",
+     "form": "CIT-TAX",
+     "name": "Corporate Income Tax Return",
+     "note": "Exempt REITs generally owe no tax; confirm any filing obligation with the Division of Revenue"
+    },
+    {
+     "form": "CIT-EST",
+     "name": "Corporate Tentative Income Tax Return (estimated tax)",
+     "note": "Regular corporations pay 50% by the 15th day of the 4th month, then 20%, 20% and 10% on the 15th of the 6th, 9th and 12th months; small corporations (gross receipts of $20 million or less, indexed) pay 25% each date"
+    },
+    {
+     "form": "CIT-EXT",
+     "name": "Corporate Request for Extension",
+     "note": "Extends time to file only, not to pay"
+    },
+    {
+     "form": "CIT-VCH",
+     "name": "Electronic Filer Payment Voucher"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-09",
+   "minTax": 0,
+   "name": "Delaware",
+   "rate": 8.7,
+   "rateNote": "Flat 8.7% on Delaware taxable income; REITs as defined in IRC §856 are exempt (§1902(b)(13)), so the estimate for a qualifying REIT should be zero. A taxable subsidiary (e.g., a TRS) would pay 8.7%.",
+   "rateSource": "https://revenuefiles.delaware.gov/2025/BusinessTaxForms_Instructions/CIT-TAX_2025-01_Instructions.pdf",
+   "rateYear": 2026,
+   "sourceName": "Delaware Code Title 30, Chapter 19 (Corporation Income Tax)",
+   "sourceUrl": "https://delcode.delaware.gov/title30/c019/index.html",
+   "summary": "Delaware's corporate income tax (30 Del. C. ch. 19) exempts any entity that is a REIT under IRC §856 outright, with no ownership or captive REIT exception, so a qualifying REIT owes no Delaware corporate income tax. No payor-side REIT addback was found in chapter 19. Delaware franchise tax is a separate, non-income tax on Delaware-incorporated entities administered by the Secretary of State.",
+   "treatment": "mod",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "FL": {
+   "captive": "No captive REIT dividends-paid deduction addback identified in s. 220.13.",
+   "citation": "Fla. Stat. §220.13(1)(a)3 and (2)(e); Fla. Admin. Code R. 12C-1.013",
+   "code": "FL",
+   "exemption": 50000,
+   "forms": [
+    {
+     "due": "1st day of the 5th month after year end (4th month for a June 30 year end)",
+     "form": "F-1120",
+     "name": "Florida Corporate Income/Franchise Tax Return"
+    },
+    {
+     "form": "F-1120ES",
+     "name": "Declaration/Installment of Florida Estimated Income/Franchise Tax",
+     "note": "Installments due by the last day of the 5th (4th for June 30 year end), 6th and 9th months and the last day of the year"
+    },
+    {
+     "form": "F-7004",
+     "name": "Florida Tentative Income/Franchise Tax Return and Application for Extension of Time to File"
+    },
+    {
+     "form": "F-2220",
+     "name": "Underpayment of Estimated Tax on Florida Corporate Income/Franchise Tax"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-03",
+   "name": "Florida",
+   "rate": 5.5,
+   "rateNote": "5.5% of Florida net income after a $50,000 exemption (shared within a controlled group).",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Florida DOR, Form F-1120 (R. 01/26); Fla. Stat. §220.13",
+   "sourceUrl": "https://www.floridarevenue.com/rules/pdf/F-1120_2026.pdf",
+   "summary": "For a REIT, Florida taxable income starts from the income subject to federal tax under IRC §857 (after the dividends-paid deduction). A REIT must add back net long-term capital gain that exceeds its capital gain dividends for the year. No captive REIT addback was identified.",
+   "treatment": "conf",
+   "verified": true
+  },
+  "GA": {
+   "captive": "Addback applies at the payor level; exceptions apply where the income was taxed by Georgia or another state.",
+   "citation": "O.C.G.A. §48-7-28.4; Reg. 560-7-3-.04",
+   "code": "GA",
+   "forms": [
+    {
+     "form": "Form 600",
+     "name": "Corporation Tax Return"
+    },
+    {
+     "form": "IT-REIT",
+     "name": "Captive REIT addback schedule, filed by the payor",
+     "payorOnly": true
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-10-28",
+   "name": "Georgia",
+   "rate": 5.19,
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Georgia DOR Form IT-REIT",
+   "sourceUrl": "https://dor.georgia.gov/document/form/tsdcaptiverealestateinvestmenttrustit-reitpdf/download",
+   "summary": "A taxpayer that pays rent, interest or other costs to a related captive REIT must add those captive REIT costs back to income before claiming any exception (Form IT-REIT).",
+   "treatment": "strict",
+   "verified": true
+  },
+  "HI": {
+   "brackets": [
+    {
+     "over": 0,
+     "rate": 4.4
+    },
+    {
+     "over": 25000,
+     "rate": 5.4
+    },
+    {
+     "over": 100000,
+     "rate": 6.4
+    }
+   ],
+   "citation": "HRS ch. 235; SB 2362 SD1 (2026); SB 592 (2025–2026)",
+   "code": "HI",
+   "forms": [
+    {
+     "form": "N-30",
+     "name": "Corporation Income Tax Return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-04",
+   "name": "Hawaii",
+   "rate": 6.4,
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Hawaii Legislature, SB 2362 SD1 (2026)",
+   "sourceUrl": "https://data.capitol.hawaii.gov/sessions/session2026/Bills/SB2362_SD1_.HTM",
+   "summary": "Has allowed the REIT dividends-paid deduction, but bills to repeal it for REITs have been introduced repeatedly. In 2026, SB 2362 was amended into a study of disallowing the deduction and passed the Senate but was not enacted, and SB 592 (disallowance from 2026) was carried over; no enactment identified as of Nov 2026. Confirm current status before relying on it.",
+   "treatment": "conf",
+   "verified": false
+  },
+  "IA": {
+   "brackets": [
+    {
+     "over": 0,
+     "rate": 5.5
+    },
+    {
+     "over": 100000,
+     "rate": 7.1
+    }
+   ],
+   "captive": "No captive REIT addback found in Iowa Code §§422.32, 422.35 or IAC 701—602 (2026); §422.33 not separately searched.",
+   "citation": "Iowa Code §§422.33, 422.35; Iowa Admin. Code r. 701—501.1(5), 701—505.2; IDR Order 2025-02",
+   "code": "IA",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "Last day of the 4th month after year end (April 30 for calendar-year filers)",
+     "form": "IA 1120",
+     "name": "Iowa Corporation Income Tax Return"
+    },
+    {
+     "form": "IA 1120V",
+     "name": "Iowa Corporation Income Tax Payment Voucher"
+    },
+    {
+     "form": "IA 2220",
+     "name": "Underpayment of Estimated Tax by Corporations",
+     "note": "Calendar-year estimates due April 30, June 30, September 30 and December 31"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-09",
+   "minTax": 0,
+   "name": "Iowa",
+   "rate": 7.1,
+   "rateNote": "IDR Order 2025-02 keeps the 2024–2025 rates for tax years beginning in 2026 because FY2025 net receipts ($621.2M) were below the $700M trigger: 5.5% on the first $100,000 and 7.1% above (confirmed against the order and the IDR rates page).",
+   "rateSource": "https://revenue.iowa.gov/news/2025-10-21/idr-issues-order-related-tax-year-2026-corporate-income-tax-rates",
+   "rateYear": 2026,
+   "sourceName": "Iowa Admin. Code r. 701—501.1 (Iowa Legislature)",
+   "sourceUrl": "https://www.legis.iowa.gov/docs/iac/rule/02-05-2025.701.501.1.pdf",
+   "summary": "Iowa Admin. Code r. 701—501.1(5) treats REITs as entities whose federally taxable corporate income is Iowa corporate income, so Iowa starts from federal REIT taxable income after the dividends-paid deduction, with Iowa adjustments. Iowa Code §§422.32, 422.34 and 422.35 contain no REIT or captive REIT provision.",
+   "treatment": "conf",
+   "verified": true,
+   "wholeIncome": false
+  },
+  "IL": {
+   "captive": "More than 50% of value or voting power owned directly or indirectly by a single corporation, unless that owner is a non-captive REIT, a §501 exempt organization, a listed Australian property trust, or a qualifying foreign REIT-type entity.",
+   "citation": "35 ILCS 5/203(b)(2)(E-15)",
+   "code": "IL",
+   "forms": [
+    {
+     "form": "IL-1120",
+     "name": "Corporation Income and Replacement Tax Return"
+    },
+    {
+     "captiveOnly": true,
+     "form": "Schedule M, line 8",
+     "name": "Captive REIT dividends-paid deduction addback"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-10-28",
+   "name": "Illinois",
+   "rate": 9.5,
+   "rateNote": "7% income tax plus 2.5% personal property replacement tax.",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "IL Schedule M instructions (2025)",
+   "sourceUrl": "https://tax.illinois.gov/content/dam/soi/en/web/tax/forms/incometax/documents/currentyear/business/miscellaneous/schedule-m-instr.pdf",
+   "summary": "Follows the federal dividends-paid deduction for ordinary REITs. A captive REIT must add back its federal dividends-paid deduction (Schedule M, line 8).",
+   "treatment": "strict",
+   "verified": true
+  },
+  "IN": {
+   "captive": "More than 50% of voting power, beneficial interests or shares held directly or constructively (IRC §318 as modified by §856(d)(5)) by one entity taxed under Subchapter C; shares not regularly traded; exclusions where the parent is owned by a REIT, a §501 exempt person, a treaty-country listed property trust/foreign REIT, or a REIT intending to go public. Dividends-paid deduction added back under IC 6-3-1-3.5(b)(9).",
+   "citation": "Ind. Code §6-3-1-34.5 (definition); §6-3-1-3.5(b)(9) (add-back)",
+   "code": "IN",
+   "forms": [
+    {
+     "form": "IT-20",
+     "name": "Indiana Corporate Adjusted Gross Income Tax Return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-10",
+   "name": "Indiana",
+   "rate": 4.9,
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Indiana Code §6-3-1-34.5 and §6-3-1-3.5 (Justia)",
+   "sourceUrl": "https://law.justia.com/codes/indiana/title-6/article-3/chapter-1/section-6-3-1-34-5/",
+   "summary": "Indiana requires a corporation to add back the federal dividends-paid deduction for distributions to shareholders of a captive REIT. A captive REIT is a REIT whose shares are not regularly traded on an established securities market and more than 50% of which is owned or controlled (with constructive ownership) by a single C corporation; it is not captive if that owner is itself owned by a REIT, a tax-exempt organization, a qualifying treaty-country listed property trust or foreign REIT, or a REIT that is going public under §856(h). Non-captive REITs keep the deduction.",
+   "treatment": "strict",
+   "verified": true
+  },
+  "KS": {
+   "brackets": [
+    {
+     "over": 0,
+     "rate": 3.5
+    },
+    {
+     "over": 50000,
+     "rate": 6.5
+    }
+   ],
+   "captive": "No captive REIT addback found in K.S.A. 79-32,138.",
+   "citation": "K.S.A. 79-32,110, 79-32,138, 74-50,321; KDOR Notices 23-10, 25-06, 26-11",
+   "code": "KS",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "Tax due April 15 for calendar-year filers; return due one month after the federal due date; federal Form 7004 gives a six-month extension to file",
+     "form": "K-120",
+     "name": "Kansas Corporation Income Tax Return"
+    },
+    {
+     "form": "K-121",
+     "name": "Combined Income Method of Reporting",
+     "note": "Combined filers"
+    },
+    {
+     "form": "K-120AS",
+     "name": "Corporation Apportionment Schedule"
+    },
+    {
+     "form": "K-120ES",
+     "name": "Kansas Corporate Estimated Income Tax Voucher",
+     "note": "Required if liability is expected to exceed $500; due the 15th day of the 4th, 6th, 9th and 12th months"
+    },
+    {
+     "form": "K-220",
+     "name": "Underpayment of Estimated Corporation Tax"
+    },
+    {
+     "form": "K-120V",
+     "name": "Corporate Income Tax Payment Voucher"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-07",
+   "minTax": 0,
+   "name": "Kansas",
+   "rate": 6.5,
+   "rateNote": "3.5% normal tax (cut from 4% by the APEX trigger, KDOR Notice 23-10) plus 3% surtax on income over $50,000. KDOR Notices 25-06 and 26-11 say no revenue-trigger cut for 2026 or 2027. Tax Foundation's 2026 table shows 4%/7%, which conflicts with KDOR; 2026 Form K-120 not yet published.",
+   "rateSource": "https://ksrevenue.gov/taxnotices/notice25-06.pdf",
+   "rateYear": 2026,
+   "sourceName": "K.S.A. 79-32,138 (Kansas Revisor of Statutes)",
+   "sourceUrl": "https://ksrevisor.gov/statutes/chapters/ch79/079_032_0138.html",
+   "summary": "Kansas taxable income starts from federal taxable income with the modifications in K.S.A. 79-32,138, which contain no REIT or captive REIT provision, so the federal dividends-paid deduction appears to carry through. No captive REIT addback was found. Whether REITs are included in Kansas combined reports (Schedule K-121) is not confirmed.",
+   "treatment": "conf",
+   "verified": false,
+   "wholeIncome": false
+  },
+  "KY": {
+   "captive": "REIT under IRC §856 that (a) is not regularly traded on an established securities market or lacks enough shareholders to register with the SEC, (b) is at least 25% owned (10% if the owners occupy its property) directly or constructively by corporations taxable under KRS 141.040, and (c) is not owned by another REIT. No deduction for dividends paid is allowed.",
+   "citation": "KRS 141.010(2) (captive REIT definition) and 141.010(35)(d) (no dividends-paid deduction)",
+   "code": "KY",
+   "forms": [
+    {
+     "form": "720",
+     "name": "Kentucky Corporation Income and Limited Liability Entity Tax Return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-10",
+   "minTax": 175,
+   "name": "Kentucky",
+   "rate": 5,
+   "rateNote": "Flat 5% income tax; the separate limited liability entity tax (LLET) on Form 720 carries a $175 minimum.",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Kentucky Revised Statutes 141.010 (Kentucky Legislature)",
+   "sourceUrl": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=57913",
+   "summary": "Kentucky taxes a REIT on its federal REIT taxable income under §857(b)(2), but a captive REIT may not take any dividends-paid deduction. A captive REIT is one whose shares are not regularly traded (or that has too few holders to register with the SEC), that is not owned by another REIT, and in which Kentucky-taxable corporations own at least 25% (or 10% if they occupy its property).",
+   "treatment": "strict",
+   "verified": true
+  },
+  "LA": {
+   "captive": "Dividends-paid deduction denied unless the REIT is publicly traded or a 'qualified REIT', which excludes REITs more than 50% owned or controlled (by vote or value) by a single taxable C corporation.",
+   "citation": "La. R.S. 47:287.736(A)-(D) (Acts 2005, No. 396)",
+   "code": "LA",
+   "forms": [
+    {
+     "form": "CIFT-620",
+     "name": "Louisiana Corporation Income Tax Return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-10",
+   "name": "Louisiana",
+   "rate": 5.5,
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Louisiana Legislature, R.S. 47:287.736",
+   "sourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=101724",
+   "summary": "Louisiana taxes REITs on the portion of net income subject to federal tax under §§857 and 858, but allows the federal dividends-paid deduction only to publicly traded REITs and 'qualified' REITs. A REIT is not qualified when a single entity subject to federal corporate tax (and not exempt) directly or indirectly owns or controls more than 50% of its vote or value; see the statute for the other controlling-entity categories.",
+   "treatment": "strict",
+   "verified": true
+  },
+  "MA": {
+   "captive": "No captive REIT dividends-paid deduction addback identified. Corporate recipients (including related members) may not take the dividends-received deduction on REIT distributions (G.L. c. 63 §30.4 and §38(a)(1), as amended by St. 2003, c. 4); a REIT interest held by a related member is not a qualifying security for security corporation status (§38B).",
+   "citation": "G.L. c. 63 §§30.4, 31I, 38(a)(1), 38B; St. 2003, c. 4; Directive 02-12; TIR 03-9",
+   "code": "MA",
+   "forms": [
+    {
+     "form": "Form 355",
+     "name": "Business or Manufacturing Corporation Excise Return",
+     "note": "For corporate-form REITs taxed as business corporations; attach federal Form 1120-REIT"
+    },
+    {
+     "form": "Form 63 FI",
+     "name": "Financial Institution Excise Return",
+     "note": "For REITs meeting the financial institution definition in G.L. c. 63 §1; attach Form 1120-REIT"
+    },
+    {
+     "form": "Form 3F",
+     "name": "Corporate Trust Return",
+     "note": "For REITs organized as corporate trusts"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-03",
+   "minTax": 456,
+   "name": "Massachusetts",
+   "rate": 8,
+   "rateNote": "8% income measure plus a non-income (property or net worth) measure not modeled; minimum excise applies.",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Mass. DOR Directive 02-12 and TIR 03-9",
+   "sourceUrl": "https://www.mass.gov/directive/directive-02-12-tax-treatment-of-reits",
+   "summary": "Massachusetts generally follows federal REIT treatment: a corporate-form REIT filing as a business corporation or financial institution takes the same dividends-paid deduction as federally, so distributed income is taxed only at the shareholder level. No captive REIT addback was identified. REIT dividends are not treated as dividends for the corporate dividends-received deduction, and a related-member REIT interest disqualifies security corporation status.",
+   "treatment": "conf",
+   "verified": true
+  },
+  "MD": {
+   "citation": "Md. Code, Tax-General; SB 968",
+   "code": "MD",
+   "forms": [
+    {
+     "form": "Form 500",
+     "name": "Corporation Income Tax Return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-10-28",
+   "name": "Maryland",
+   "rate": 8.25,
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "PwC tax insight",
+   "sourceUrl": "https://pwc.com/us/en/services/tax/library/maryland-law-provides-beneficial-rules-for-certain-captive-reits.html",
+   "summary": "Disallows the dividends-paid deduction for captive REITs. Later legislation (SB 968) widened the entities excluded from the captive REIT definition, so qualifying entities avoid the addback.",
+   "treatment": "strict",
+   "verified": true
+  },
+  "MN": {
+   "captive": "No captive REIT addback: Minn. Stat. §290.0133 has no dividends-paid-deduction addback and §290.17, subd. 4 has no REIT-specific combined-report rule. Instead, §290.21, subd. 4 denies the dividends-received deduction for any REIT dividend, so captive REIT dividends are fully taxable to a corporate parent.",
+   "citation": "Minn. Stat. §290.21, subd. 4; §290.0133; §290.17, subd. 4; §290.06, subd. 1; HMN Financial, Inc. v. Comm'r, 782 N.W.2d 558 (Minn. 2010)",
+   "code": "MN",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "Federal return due date; automatic 7-month extension to file",
+     "form": "M4",
+     "name": "Corporation Franchise Tax Return",
+     "note": "Includes M4I income calculation (starts from Form 1120-REIT for REITs), M4A apportionment and minimum fee, and M4T tax calculation"
+    },
+    {
+     "form": "M15C",
+     "name": "Additional Charge for Underpayment of Estimated Tax",
+     "note": "Quarterly estimates required if tax exceeds $500"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-08",
+   "minTax": 0,
+   "name": "Minnesota",
+   "rate": 9.8,
+   "rateNote": "Flat 9.8% franchise tax. A separate tiered minimum fee applies when Minnesota property, payroll and sales total at least $1,250,000 (amounts indexed; not modeled here).",
+   "rateSource": "https://www.revisor.mn.gov/statutes/cite/290.06",
+   "rateYear": 2026,
+   "sourceName": "Minnesota Revisor of Statutes, §§290.21, 290.0133, 290.17, 290.06 (2026)",
+   "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/290.21",
+   "summary": "The REIT itself starts from federal Form 1120-REIT taxable income, so the dividends-paid deduction carries through, and Minnesota has no captive REIT addback or REIT combined-report rule. The offset is at the shareholder level: Minnesota denies its dividends-received deduction for REIT dividends (2026 Schedule DIV subtracts REIT dividends before the deduction), so a corporate parent is taxed on captive REIT dividends. In HMN Financial (Minn. 2010) the Supreme Court refused to disregard a bank's captive REIT under economic substance.",
+   "treatment": "mod",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "MO": {
+   "captive": "No captive REIT addback found in RSMo §143.431 or the 2025 MO-1120 instructions; not otherwise confirmed.",
+   "citation": "RSMo §§143.071.3, 143.431, 143.521",
+   "code": "MO",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "15th day of the 4th month after year end (April 15 for calendar-year filers)",
+     "form": "MO-1120",
+     "name": "Missouri Corporation Income Tax Return",
+     "note": "REITs attach Form 1120-REIT; a federal extension (Form 7004) extends filing but not payment"
+    },
+    {
+     "form": "MO-1120ES",
+     "name": "Declaration of Estimated Tax for Corporations",
+     "note": "Required if Missouri estimated tax is expected to be at least $250 (RSMo §143.521)"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-08",
+   "minTax": 0,
+   "name": "Missouri",
+   "rate": 4,
+   "rateNote": "Flat 4% of Missouri taxable income for tax years beginning on or after January 1, 2020 (RSMo §143.071.3). Missouri's federal income tax deduction (§143.171) is not modeled here.",
+   "rateSource": "https://revisor.mo.gov/main/OneSection.aspx?section=143.071",
+   "rateYear": 2026,
+   "sourceName": "Missouri DOR, 2025 Form MO-1120 Instructions; RSMo §143.431",
+   "sourceUrl": "https://dor.mo.gov/forms/MO-1120%20Instructions_2025.pdf",
+   "summary": "Missouri taxable income starts from federal taxable income with the modifications in RSMo §143.431, and REITs compute on Form MO-1120 using their attached Form 1120-REIT. No REIT- or captive-REIT-specific addback was found in §143.431 or the 2025 MO-1120 instructions, so the federal dividends-paid deduction appears to flow through; this has not been confirmed by explicit guidance.",
+   "treatment": "conf",
+   "verified": false,
+   "wholeIncome": true
+  },
+  "MS": {
+   "brackets": [
+    {
+     "over": 0,
+     "rate": 0
+    },
+    {
+     "over": 5000,
+     "rate": 4
+    },
+    {
+     "over": 10000,
+     "rate": 5
+    }
+   ],
+   "code": "MS",
+   "forms": [
+    {
+     "form": "83-105",
+     "name": "Mississippi Corporate Income and Franchise Tax Return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-10-28",
+   "name": "Mississippi",
+   "rate": 5,
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "MTC hearing officer report",
+   "sourceUrl": "https://www.mtc.gov/wp-content/uploads/2023/02/hearingreportmodified1229final.pdf",
+   "summary": "Listed by the Multistate Tax Commission as having a statute denying the dividends deduction for captive REITs. Current statute not yet confirmed.",
+   "treatment": "strict",
+   "verified": false
+  },
+  "NC": {
+   "captive": "Shares not regularly traded on an established securities market and owned or controlled, at any time in the last half of the year, by a person subject to NC corporate tax that is not a REIT or listed Australian property trust.",
+   "citation": "N.C.G.S. §105-130.12",
+   "code": "NC",
+   "forms": [
+    {
+     "form": "CD-405",
+     "name": "C-Corporation Tax Return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-10-28",
+   "name": "North Carolina",
+   "rate": 2,
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "NC General Statutes",
+   "sourceUrl": "https://www.ncleg.gov/enactedlegislation/statutes/html/bysection/chapter_105/gs_105-130.12.html",
+   "summary": "REIT income is taxed in accordance with the Code unless the REIT is captive. A captive REIT adds its dividends-paid deduction back to federal taxable income.",
+   "treatment": "strict",
+   "verified": true
+  },
+  "NJ": {
+   "brackets": [
+    {
+     "over": 0,
+     "rate": 6.5
+    },
+    {
+     "over": 50000,
+     "rate": 7.5
+    },
+    {
+     "over": 100000,
+     "rate": 9
+    },
+    {
+     "over": 10000000,
+     "rate": 11.5
+    }
+   ],
+   "captive": "Captive REIT: not regularly traded on an established securities market and more than 50% of voting stock owned or controlled, directly or indirectly, by a single entity taxable as a corporation that is not tax-exempt and not itself a REIT. Excluded from the combined group if at least 50% is owned by a bank, savings bank or S&L with average assets of $15 billion or less.",
+   "citation": "N.J.S.A. 54:10A-4(ii), 54:10A-5(d); P.L. 2023, c. 96; Technical Bulletin TB-113",
+   "code": "NJ",
+   "forms": [
+    {
+     "form": "CBT-100",
+     "name": "Corporation Business Tax Return",
+     "note": "Separate return for non-captive REITs"
+    },
+    {
+     "captiveOnly": true,
+     "form": "CBT-100U",
+     "name": "Corporation Business Tax Unitary (combined) Return",
+     "note": "Captive REIT included in the combined group"
+    },
+    {
+     "form": "CBT-150",
+     "name": "Corporation Business Tax estimated payment vouchers"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-04",
+   "name": "New Jersey",
+   "rate": 9,
+   "rateNote": "Top rate includes the surtax on income above $10 million.",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "NJ Division of Taxation, Technical Bulletin TB-113",
+   "sourceUrl": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb113.pdf",
+   "summary": "Non-captive REITs file separate returns and keep the REIT treatment provided by N.J.S.A. 54:10A-5(d). For privilege periods ending on or after July 31, 2023, a captive REIT must be included in its owner's combined return, is taxed as a regular C corporation, and cannot use federal deductions available only to REITs, such as the dividends-paid deduction.",
+   "treatment": "strict",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "NY": {
+   "brackets": [
+    {
+     "over": 0,
+     "rate": 6.5
+    },
+    {
+     "over": 5000000,
+     "rate": 7.25
+    }
+   ],
+   "captive": "REIT not regularly traded and more than 50% of voting stock owned or controlled by a single corporation (with exceptions).",
+   "citation": "Tax Law Article 9-A; Part F, Ch. 60, Laws of 2007",
+   "code": "NY",
+   "forms": [
+    {
+     "form": "CT-3",
+     "name": "General Business Corporation Franchise Tax Return"
+    },
+    {
+     "captiveOnly": true,
+     "form": "CT-3-A",
+     "name": "Combined franchise tax return including the captive REIT"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-10-28",
+   "name": "New York",
+   "rate": 6.5,
+   "rateNote": "Business income base only; fixed dollar minimum and MTA surcharge not included.",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "NY Office of Tax Policy Analysis",
+   "sourceUrl": "https://www.tax.ny.gov/pdf/stats/policy_special/reported_effects_of_the_captive_reit_and_ric_legislative_amendments.pdf",
+   "summary": "Captive REITs must be included in a combined report with their corporate parent group, and the federal dividends-paid deduction is not allowed in computing combined income.",
+   "treatment": "strict",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "OK": {
+   "captive": "Captive REIT: a REIT whose shares or beneficial interests are not regularly traded on an established securities market and more than 50% of whose voting power or value is owned or controlled, directly or indirectly, by a single non-exempt entity taxed as a corporation. Non-captive REITs and most qualified REIT subsidiaries are not counted as that entity.",
+   "citation": "Okla. Admin. Code 710:50-17-52; 68 O.S. §2358",
+   "code": "OK",
+   "exemption": 0,
+   "forms": [
+    {
+     "form": "Form 512",
+     "name": "Oklahoma Corporation Income and Franchise Tax Return"
+    },
+    {
+     "form": "OW-8-ES",
+     "name": "Oklahoma Corporate Estimated Tax Vouchers"
+    },
+    {
+     "form": "Rent/interest addback",
+     "name": "Captive REIT rent and interest addback reported by the payor",
+     "note": "Form line not confirmed",
+     "payorOnly": true
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-06",
+   "minTax": 0,
+   "name": "Oklahoma",
+   "rate": 4,
+   "rateNote": "Flat 4% corporate income tax. Oklahoma's separate franchise tax was repealed for years after 2023 (not modeled).",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Okla. Admin. Code 710:50-17-52 (Justia, current through June 2025)",
+   "sourceUrl": "https://regulations.justia.com/states/oklahoma/title-710/chapter-50/subchapter-17/part-5/section-710-50-17-52",
+   "summary": "Oklahoma applies the captive REIT rule at the payor level: a taxpayer that pays rent or interest to a related captive REIT must add those expenses back in computing Oklahoma taxable income (OAC 710:50-17-52, effective 2009). Ownership is tested under IRC §318 as modified by §856(d)(5). Whether the captive REIT itself loses its dividends-paid deduction was not confirmed.",
+   "treatment": "strict",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "PA": {
+   "captive": "No captive REIT addback statute found; whether the related-party intangible expense addback reaches payments to captive REITs is not confirmed.",
+   "citation": "72 P.S. §7401(1); 61 Pa. Code §153.1(b)",
+   "code": "PA",
+   "forms": [
+    {
+     "form": "RCT-101",
+     "name": "PA Corporate Net Income Tax Report"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-07",
+   "name": "Pennsylvania",
+   "rate": 7.49,
+   "rateNote": "7.49% for tax years beginning in 2026, falling 0.5 point a year to 4.99% from 2031 (PA DOR). Act 45 of 2025 decouples from several 2025 federal changes (§§174/174A, 168(n), 163(j)).",
+   "rateSource": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/corporation-taxes/corporate-net-income-tax",
+   "rateYear": 2026,
+   "sourceName": "61 Pa. Code §153.1 (Cornell LII); PA Department of Revenue CNIT page",
+   "sourceUrl": "https://www.law.cornell.edu/regulations/pennsylvania/61-Pa-Code-SS-153-1",
+   "summary": "A REIT organized as a business trust (and a qualified REIT subsidiary of one) is excluded from the definition of corporation and is not subject to Pennsylvania corporate net income tax; REITs organized as corporations are taxable. The Department has challenged corporate REITs' federal dividends-paid deduction as a special deduction; a reported Commonwealth Court case (WP Glimcher) gave the taxpayer relief, but that is from a secondary source. No captive REIT addback statute was found.",
+   "treatment": "mod",
+   "verified": true
+  },
+  "RI": {
+   "captive": "Captive REITs add back the total deduction for dividends paid under R.I. Gen. Laws §44-11-11 and compute tax on Form RI-1120C.",
+   "citation": "R.I. Gen. Laws §44-11-11; 2025 Form RI-1120C instructions",
+   "code": "RI",
+   "forms": [
+    {
+     "captiveOnly": true,
+     "due": "15th day of the 4th month after year end (April 15 for calendar-year filers)",
+     "form": "RI-1120C",
+     "name": "Business Corporation Tax Return",
+     "note": "Captive REITs; non-captive REITs file RI-1120F instead"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-10",
+   "minTax": 400,
+   "name": "Rhode Island",
+   "rate": 7,
+   "rateNote": "7% of Rhode Island adjusted taxable income; $400 minimum tax ($400 per nexus member on a combined return).",
+   "rateSource": "https://tax.ri.gov/sites/g/files/xkgbur541/files/2026-01/2025%201120C%20Instructions%20with%20Credit%20Worksheets.pdf",
+   "rateYear": 2026,
+   "sourceName": "Rhode Island Division of Taxation, 2025 RI-1120C Instructions",
+   "sourceUrl": "https://tax.ri.gov/sites/g/files/xkgbur541/files/2026-01/2025%201120C%20Instructions%20with%20Credit%20Worksheets.pdf",
+   "summary": "A captive REIT files Form RI-1120C, adds its total dividends-paid deduction back to federal taxable income, and pays tax at the 7% corporate rate (minimum $400). A non-captive REIT does not file RI-1120C; it checks the 1120F box and files Form RI-1120F, per the Division of Taxation's instructions.",
+   "treatment": "strict",
+   "verified": true
+  },
+  "TN": {
+   "captive": "Captive REIT: REIT election in effect, at least 80% owned by value (GAAP) directly or indirectly by another entity or individual, shares not traded on a national stock exchange (Tenn. Code Ann. §67-4-2004(7)). Dividends-paid deduction added back on Schedule J, line 14 under §67-4-2006(b)(1)(O) unless owned by a bank, bank holding company or public REIT. Captive REITs may elect three-factor apportionment for franchise tax.",
+   "citation": "Tenn. Code Ann. §§67-4-2004(7), 67-4-2006(b)(1)(O); 2025 FAE 174 instructions; Rev. Rul. 24-01",
+   "code": "TN",
+   "exemption": 0,
+   "forms": [
+    {
+     "form": "FAE 174",
+     "name": "Franchise and Excise Tax Return",
+     "note": "Captive REIT groups use Schedules F1, I, N and N1 within this return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-10",
+   "minTax": 100,
+   "name": "Tennessee",
+   "rate": 6.5,
+   "rateNote": "Excise tax 6.5% of net earnings; separate franchise tax of $0.25 per $100 of net worth (property measure repealed), $100 minimum.",
+   "rateSource": "https://www.tn.gov/content/dam/tn/revenue/documents/forms/fae/fae174instructions2025.pdf",
+   "rateYear": 2026,
+   "sourceName": "Tennessee Department of Revenue, 2025 Franchise and Excise Tax Return (FAE 174) Instructions",
+   "sourceUrl": "https://www.tn.gov/content/dam/tn/revenue/documents/forms/fae/fae174instructions2025.pdf",
+   "summary": "REITs are subject to Tennessee franchise (net worth) and excise (income) taxes like corporations. A non-captive REIT keeps the federal dividends-paid deduction in its excise tax base, but a captive REIT (80% or more owned by one person or entity and not traded on a national exchange) adds the deduction back unless it is owned by a bank, bank holding company or public REIT. Captive REIT affiliated groups file a combined return. A 2026 bill to remove REIT tax treatment (HB 1777) stalled in committee and was not enacted.",
+   "treatment": "strict",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "TX": {
+   "citation": "Tex. Tax Code §171.0002(c)(4); 34 TAC §3.581",
+   "code": "TX",
+   "forms": [
+    {
+     "due": "May 15",
+     "form": "05-158",
+     "name": "Franchise Tax Report",
+     "note": "If a taxable entity with revenue above the no-tax-due threshold. A REIT that does not directly hold real estate it doesn't occupy is excluded"
+    },
+    {
+     "due": "May 15",
+     "form": "05-102 or 05-167",
+     "name": "Public Information Report or Ownership Information Report",
+     "note": "Replaces the No Tax Due Report from report year 2024"
+    }
+   ],
+   "formsSource": "https://comptroller.texas.gov/taxes/franchise/filing-requirements.php",
+   "formsVerified": true,
+   "lastVerified": "2026-10-28",
+   "name": "Texas",
+   "rate": 0.75,
+   "rateNote": "0.375% for retail or wholesale entities.",
+   "rateSource": "https://comptroller.texas.gov/taxes/franchise/",
+   "rateYear": 2026,
+   "sourceName": "34 Tex. Admin. Code §3.581",
+   "sourceUrl": "https://www.law.cornell.edu/regulations/texas/34-Tex-Admin-Code-SS-3-581",
+   "summary": "Franchise (margin) tax, not income tax. A REIT and its qualified REIT subsidiaries are not taxable entities if the REIT does not directly hold real estate other than real estate it occupies for business. Entities that directly hold the real estate under a REIT remain taxable.",
+   "threshold": 2650000,
+   "treatment": "mod",
+   "verified": true
+  },
+  "UT": {
+   "captive": "Captive REIT: shares or beneficial interests not regularly traded on an established securities market, and more than 50% of the voting power or value owned or controlled (directly, indirectly or constructively) by a non-exempt corporation (the controlling entity).",
+   "citation": "Utah Code §59-7-101, §59-7-104; 2025 TC-20 Instructions; S.B. 60 (2026)",
+   "code": "UT",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "15th day of the 4th month after year end (or the federal due date if later); automatic 6-month extension to file",
+     "form": "TC-20",
+     "name": "Utah Corporation Franchise or Income Tax Return",
+     "note": "Captive REIT income is reported in the unitary group's combined return (Schedule A line 1; subtractions on Schedule C lines 15–16)"
+    },
+    {
+     "form": "TC-559",
+     "name": "Corporate/Partnership Payment Coupon",
+     "note": "Used for extension prepayments and quarterly estimates (required if tax is $3,000 or more); due the 15th of the 4th, 6th, 9th and 12th months"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-03",
+   "minTax": 100,
+   "name": "Utah",
+   "rate": 4.45,
+   "rateNote": "Flat 4.45% for taxable years beginning on or after Jan 1, 2026 (S.B. 60, 2026), down from 4.5%; $100 minimum tax.",
+   "rateSource": "https://le.utah.gov/Session/2026/bills/enrolled/SB0060.pdf",
+   "rateYear": 2026,
+   "sourceName": "Utah State Tax Commission, 2025 TC-20 Instructions",
+   "sourceUrl": "https://files.tax.utah.gov/tax/forms/current/tc-20inst.pdf",
+   "summary": "A captive REIT must be included in its controlling entity's unitary combined report, starting from its Form 1120-REIT taxable income before the dividends-paid deduction and NOL; the §857(b)(2)(E) amount is deductible and dividends from the captive REIT to group members are subtracted, eliminating the intercompany transfer. Non-captive REITs follow federal treatment.",
+   "treatment": "strict",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "VA": {
+   "captive": "Captive REIT: not regularly traded on an established securities market; more than 50% of voting power or value owned or controlled, at any time in the last half of the year, by a single non-exempt corporation; and more than 25% of its income is rents from real property under §856(d). Non-captive REITs, most REIT subsidiaries, listed Australian property trusts and qualified foreign entities are not counted as the controlling corporation, and interests held in a life insurer's segregated asset account are disregarded (from 2016).",
+   "citation": "Va. Code §58.1-402(A), (B)(10)",
+   "code": "VA",
+   "forms": [
+    {
+     "form": "Form 500",
+     "name": "Virginia Corporation Income Tax Return"
+    },
+    {
+     "form": "Form 500ES",
+     "name": "Virginia Estimated Tax Declaration for Corporations"
+    },
+    {
+     "form": "Form 500C",
+     "name": "Underpayment of Virginia Estimated Tax by Corporations"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-04",
+   "name": "Virginia",
+   "rate": 6,
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Code of Virginia §58.1-402",
+   "sourceUrl": "https://law.lis.virginia.gov/vacode/title58.1/chapter22/section58.1-402",
+   "summary": "REITs start from federal REIT taxable income, so non-captive REITs keep the dividends-paid deduction. For taxable years beginning on or after Jan 1, 2009, a captive REIT must add back its §§561/857 dividends-paid deduction. A separate subtraction for income from certified 'Virginia REITs' applied only to investments made from 2019 through 2024.",
+   "treatment": "strict",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "WI": {
+   "captive": "Wis. Stat. §71.22(9ad) treats a non-traded REIT more than 50% owned by a single corporation as not 'qualified'. The REIT keeps its deduction, but payors add back interest and rent paid to it (§71.26(2)(a)7–9) and combined reports include its dividends to consolidated foreign operating corporations (§71.255(2)(d)3, (4)(f)).",
+   "citation": "Wis. Stat. §§71.22(9ad), 71.26(2)(a)7–9, 71.26(2)(b), 71.255; 2025 Form 4 Instructions",
+   "code": "WI",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "15th day of the 4th month after year end (April 15 for calendar-year filers); 30 days after the federal extended due date if federally extended",
+     "form": "Form 4",
+     "name": "Wisconsin Non-Combined Corporation Franchise or Income Tax Return",
+     "note": "Electronic filing required unless a waiver is approved"
+    },
+    {
+     "form": "Corp-ES",
+     "name": "Wisconsin Corporation Estimated Tax Voucher",
+     "note": "Estimates required if tax plus economic development surcharge is $500 or more; EFT required if prior-year net tax was $1,000 or more"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-09",
+   "minTax": 0,
+   "name": "Wisconsin",
+   "rate": 7.9,
+   "rateNote": "Flat 7.9% franchise or income tax. An economic development surcharge of 3% of gross tax (minimum $25, maximum $9,800) applies when gross receipts are $4 million or more (not modeled here).",
+   "rateSource": "https://www.revenue.wi.gov/TaxForms2025/2025-Form4-Inst.pdf",
+   "rateYear": 2026,
+   "sourceName": "Wis. Stat. §71.26 (2025, via Justia) and Wisconsin DOR 2025 Form 4 Instructions",
+   "sourceUrl": "https://law.justia.com/codes/wisconsin/chapter-71/section-71-26/",
+   "summary": "For tax years beginning after 2022, a REIT's Wisconsin net income is its federal REIT taxable income (after the dividends-paid deduction), with only limited adjustments (depreciation/basis differences and non-adopted IRC changes). REITs cannot be included in a combined group and file separately. Wisconsin's anti-captive rules work on the payor side: a REIT that is not 'qualified' (non-traded and more than 50% owned by one corporation) is a related entity, so interest and rent paid to it are added back by the payor, and its dividends to certain combined-group members are not eliminated.",
+   "treatment": "conf",
+   "verified": true,
+   "wholeIncome": true
+  },
+  "WV": {
+   "citation": "W. Va. Code §11-24-4b",
+   "code": "WV",
+   "forms": [
+    {
+     "form": "CNF-120",
+     "name": "Corporation Net Income Tax Return"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-10-28",
+   "name": "West Virginia",
+   "rate": 6.5,
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "WV Code",
+   "sourceUrl": "https://code.wvlegislature.gov/email/11-24-4b/",
+   "summary": "The dividends-paid deduction is added back in determining net income for captive REITs and captive RICs. Related intangible expenses and interest are also added back.",
+   "treatment": "strict",
+   "verified": true
+  }
+ },
+ "regimes": {
+  "ae": {
+   "country": "United Arab Emirates",
+   "distribution": "The REIT itself is exempt from the 9% corporate tax once the FTA approves it as a Qualifying Investment Fund. From tax periods beginning 1 Jan 2025, juridical-person investors (resident or non-resident) must include 80% of their pro-rata share of the REIT's immovable property income in their own taxable income; natural persons are outside this rule. If the REIT distributes at least 80% of that income within 9 months of year end, investors who exited before the distribution are not taxed on it. Other distributions to investors are generally exempt. The SCA's onshore REIT rules separately require distribution of at least 80% of net profits.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-09",
+   "leverage": "No corporate tax leverage limit. SCA Administrative Decision No. 6 R.T. of 2019 (onshore public REITs) caps borrowing at 50% of total asset value (2019 source; current text not re-checked). DIFC/DFSA limits not confirmed.",
+   "localFilings": [
+    {
+     "form": "Qualifying Investment Fund exemption application",
+     "name": "Application to the FTA (EmaraTax) to be treated as an exempt QIF/REIT"
+    },
+    {
+     "due": "Within 10 months of financial year end (FTA Decision No. 8 of 2025)",
+     "form": "Annual declaration",
+     "name": "Exempt QIF/REIT annual declaration to the FTA"
+    },
+    {
+     "due": "Within 9 months of financial year end",
+     "form": "Investor notice",
+     "name": "Written statement to investors on whether 80% of immovable property income was distributed, with the data they need"
+    },
+    {
+     "due": "Register within 12 months of the REIT's year end in which nexus arises; file and pay by the later of 12 months after that year end or 9 months after the investor's own period end",
+     "form": "Corporate Tax return",
+     "name": "Non-resident juridical investors with nexus: registration and return"
+    }
+   ],
+   "order": 23,
+   "ownership": "Either at least 20% of shares floated on a Recognised Stock Exchange (Ministerial Decision No. 96 of 2025 cut this to 10% for REITs first listed in May 2025), with no purchase of the float by the REIT or its related parties, or wholly and directly owned by 2 or more institutional investors, at least 2 of them unrelated.",
+   "recent": "Cabinet Decision No. 34 of 2025 replaced Cabinet Decision No. 81 of 2023 for tax periods from 1 Jan 2025, introducing the 80% investor-level inclusion and the rental-property asset test. FTA Decision No. 8 of 2025 set compliance deadlines for exempt funds and their investors (annual declaration within 10 months; investor notice within 9 months).",
+   "regime": "REIT as a Qualifying Investment Fund (Federal Decree-Law No. 47 of 2022, Art. 10; Cabinet Decision No. 34 of 2025)",
+   "sourceName": "UAE Cabinet Decision No. 34 of 2025 (UAE Legislation portal); FTA news release 6 May 2025; KPMG UAE",
+   "sourceUrl": "https://uaelegislation.gov.ae/en/legislations/2823/download",
+   "tests": "Immovable property (excluding land) owned or managed must exceed AED 100 million; rental-income-generating property must average at least 70% of total assets (property held only for capital appreciation excluded); the REIT or its manager must be regulated, avoiding tax must not be a main purpose, and it must give investors the information needed to compute their taxable income.",
+   "verified": true
+  },
+  "au": {
+   "country": "Australia",
+   "distribution": "No fixed distribution percentage. Income is taxed to investors through present entitlement or attribution; undistributed income can be taxed to the trustee.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "localFilings": [
+    {
+     "form": "Company tax return",
+     "name": "Income tax return for Australian-source income"
+    },
+    {
+     "form": "FIRB",
+     "name": "Foreign investment approval and register filings for land"
+    }
+   ],
+   "order": 8,
+   "ownership": "No capital or listing requirements for the trust itself; widely held requirements apply for MIT status. No restriction on foreign assets.",
+   "regime": "MIT / AMIT",
+   "sourceName": "PwC Worldwide REIT Regimes",
+   "sourceUrl": "https://www.pwc.com/gx/en/industries/financial-services/asset-management/publications/worldwide-real-estate-investment-trust-regimes.html",
+   "tests": "Trust must not carry on or control an active trading business (eligible investment business rules).",
+   "verified": false
+  },
+  "be": {
+   "country": "Belgium",
+   "distribution": "Must distribute at least 80% of the net operational result (as defined by Royal Decree), reduced by the net decrease in debt for the year. No distribution if debt exceeds 65% of assets. Realised gains are exempt if reinvested within four years. Dividend withholding tax is 30%, or 15% if at least 80% of assets are EEA health care property.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-30",
+   "leverage": "Debt capped at 65% of asset fair value; a financial plan must be filed with the FSMA above 50%. Mortgages limited to 50% of portfolio value and 75% of any single property.",
+   "localFilings": [
+    {
+     "form": "Biztax",
+     "name": "Corporate income tax return",
+     "note": "Filed electronically through Biztax"
+    },
+    {
+     "form": "273S",
+     "name": "Withholding tax return on dividends",
+     "note": "Filed with payment of dividend withholding tax"
+    }
+   ],
+   "order": 14,
+   "ownership": "Belgian public limited company (SA/NV) licensed by the FSMA, minimum capital EUR 1.2 million, all shares listed with at least 30% free float. Unlisted institutional BE-REIT subsidiaries are allowed.",
+   "recent": "No regime changes identified for 2026. The specialised real estate investment fund (FIIS/GVBF) remains the main unlisted alternative.",
+   "regime": "BE-REIT (SIR/GVV, Law of 12 May 2014)",
+   "sourceName": "EPRA Global REIT Survey 2024 (Loyens & Loeff), Belgium chapter",
+   "sourceUrl": "https://www.loyensloeff.com/epra-global-reit-survey-2024.pdf",
+   "tests": "Principal activity must be active real estate management. No more than 20% of assets in one real estate project (EEA-state tenants excepted). Completed developments cannot be sold within five years. The 25% corporate tax applies only to a minimal base (abnormal benefits, disallowed expenses); rental income and gains are excluded. Converting into a BE-REIT triggers a 15% exit tax on latent gains.",
+   "verified": true
+  },
+  "br": {
+   "country": "Brazil",
+   "distribution": "At least 95% of cash-basis profits from the June 30 and December 31 semiannual balance sheets must be paid out at least every six months (Lei 8.668 art. 10). Distributions bear 20% withholding, final for individuals and creditable for companies. Resident individuals are exempt if the quotas trade only on an exchange or organized OTC market, the fund has at least 100 quotaholders, and the individual holds less than 10% of the quotas and income (Lei 11.033 art. 3, as amended by Lei 14.754/2023). Non-residents investing under CMN Res. 4.373 from non-haven jurisdictions generally pay 15%.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-07",
+   "leverage": "No numeric leverage cap in CVM Res. 175 Annex III. The fund cannot lend its resources, may encumber properties only to secure its own obligations, may use derivatives only for hedging, and cannot invest abroad.",
+   "localFilings": [
+    {
+     "form": "EFD-Reinf (R-4000 events)",
+     "name": "Withholding tax reporting by the administrator (replaced DIRF from 2025)"
+    },
+    {
+     "form": "DCTFWeb",
+     "name": "Declaration of federal tax debts, including withholding"
+    },
+    {
+     "due": "Annually",
+     "form": "Informe de rendimentos",
+     "name": "Annual income statement to quotaholders"
+    },
+    {
+     "form": "Informe Mensal / Trimestral / Anual (CVM)",
+     "name": "CVM periodic reports filed through Fundos.NET",
+     "note": "Monthly within 15 days, quarterly within 45 days, annual with audited financial statements within 90 days"
+    }
+   ],
+   "order": 21,
+   "ownership": "Closed-end; quotas cannot be redeemed and are distributed through the securities distribution system. No legal minimum number of holders except as a condition of the individual exemption (exchange trading and 100+ holders).",
+   "recent": "Lei 14.754/2023 raised the exemption threshold to 100 holders and kept FIIs out of semiannual come-cotas. MP 1.303/2025, which would have taxed new-quota distributions at 5%, lapsed in October 2025. Lei 15.270/2025 (dividend withholding and minimum tax on high incomes from 2026) excludes exempt FII distributions from the minimum-tax base. Under the consumption-tax reform, FIIs meeting widely-held conditions are non-contributors to IBS/CBS (LC 214/2025, LC 227/2026); implementing regulations are still under consultation.",
+   "regime": "FII – Fundo de Investimento Imobiliário (Lei 8.668/1993)",
+   "sourceName": "CVM Res. 175 Annex III; Câmara dos Deputados (16 Dec 2025); Mayer Brown on Lei 15.270/2025",
+   "sourceUrl": "https://conteudo.cvm.gov.br/export/sites/cvm/legislacao/resolucoes/anexos/100/resol175consolid_Anexo03.pdf",
+   "tests": "The fund itself is not taxed on its real estate income; withholding on financial investments can be offset against distribution withholding. If the fund invests in a project whose developer, builder or partner holds more than 25% of the quotas (alone or with related persons), the fund is taxed like a company (Lei 9.779/1999 art. 2). Permitted assets include real estate rights, SPV shares, CRI, LCI, LH, LIG, CEPACs and other FII quotas (CVM Res. 175, Annex III). Gains on quota sales are taxed at 20%.",
+   "verified": false
+  },
+  "ca": {
+   "country": "Canada",
+   "distribution": "No statutory percentage; trusts typically distribute all taxable income to avoid trust-level tax.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "localFilings": [
+    {
+     "form": "T2",
+     "name": "Corporation income tax return, if carrying on business in Canada"
+    },
+    {
+     "form": "NR4 / Section 216",
+     "name": "Non-resident withholding on rent, with an optional Section 216 return to be taxed on net rent"
+    }
+   ],
+   "order": 10,
+   "ownership": "Canadian-resident trust with publicly listed units.",
+   "regime": "REIT exception (SIFT rules)",
+   "sourceName": "EPRA Global REIT Survey 2025",
+   "sourceUrl": "https://www.epra.com/application/files/8117/5759/1469/EPRA_Global_REIT_Survey_2025_ONLINE_v1.3.pdf",
+   "tests": "At least 90% of non-portfolio property is qualified REIT property; 90% of revenue qualifying REIT revenue; 75% from rents, mortgage interest and real property gains; 75% of equity value in real property, cash and government debt.",
+   "verified": false
+  },
+  "ch": {
+   "country": "Switzerland",
+   "distribution": "Switzerland has no REIT regime. The usual vehicle is a real estate fund under the Collective Investment Schemes Act (CISA) that owns property directly, or since 1 March 2024 an L-QIF (Limited Qualified Investor Fund) for qualified investors. A direct-ownership fund is itself taxed on its real estate income at a reduced profit tax rate (roughly half the ordinary corporate rate, varying by canton); that income is then tax-free for investors and, when paid with a separate coupon, free of Swiss withholding tax. Distributing funds generally pay out at least 70% of the CISA result under their fund regulations.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-03",
+   "leverage": "Regulatory limits on borrowing and mortgage encumbrance apply to CISA real estate funds; the specific ratio is not confirmed here.",
+   "localFilings": [
+    {
+     "form": "Fund profit tax return",
+     "name": "Cantonal and federal tax return for direct-ownership real estate funds",
+     "note": "Filed with the canton(s) where property is located; confirm forms and dates with the fund administrator"
+    },
+    {
+     "form": "Withholding tax return",
+     "name": "Federal Tax Administration withholding tax declaration on distributions",
+     "note": "Distributions of direct real estate income with a separate coupon are exempt"
+    }
+   ],
+   "order": 17,
+   "ownership": "Retail CISA real estate funds require FINMA approval. L-QIFs need no FINMA authorization but must be managed by a FINMA-supervised institution and are limited to qualified investors; private individuals who are qualified investors may not invest in an L-QIF that owns property directly. Foreign-buyer restrictions (Lex Koller) not reviewed here.",
+   "recent": "The L-QIF became available from 1 March 2024; it gets no special tax treatment and is taxed like other collective investment schemes.",
+   "regime": "No REIT regime",
+   "sourceName": "Taxpartner, Indirect real estate investments – fund units versus shares (Oct 2024); KPMG Switzerland, Tax aspects of the L-QIF",
+   "sourceUrl": "https://taxpartner.ch/en/indirect-real-estate-investments-tax-advantages-of-real-estate-investment-fund-units-versus-shares/",
+   "tests": "No REIT-style asset or income tests. Fund-level tax applies to income and gains from directly owned Swiss property; funds holding property indirectly (through real estate companies) are fiscally transparent and the companies are taxed normally. Investors in Swiss private wealth pay tax only on their share of non-real-estate income (mainly net interest); unit redemptions or sales give private investors a tax-free capital gain and do not trigger real estate transfer or gains tax.",
+   "verified": true
+  },
+  "de": {
+   "country": "Germany",
+   "distribution": "At least 90% of HGB distributable profit.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "localFilings": [
+    {
+     "form": "KSt return",
+     "name": "Corporate income tax return, including for German rental income"
+    },
+    {
+     "form": "GewSt return",
+     "name": "Trade tax return where there is a permanent establishment"
+    }
+   ],
+   "order": 6,
+   "ownership": "Listed stock corporation with €15m minimum capital and German seat. At least 15% free float (25% at IPO); no shareholder may directly hold 10% or more.",
+   "regime": "G-REIT",
+   "sourceName": "EPRA Global REIT Survey (Germany)",
+   "sourceUrl": "https://www.epra.com/media/EPRA_REIT_2010_Germany.pdf",
+   "tests": "At least 75% of assets in immovable property and at least 75% of income from it. German residential property built before 2007 is excluded.",
+   "verified": false
+  },
+  "es": {
+   "country": "Spain",
+   "distribution": "80% of rental profits, 50% of qualifying gains and 100% of dividends from qualifying subsidiaries. Distribution decided within 6 months of year end and paid within the following month.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "localFilings": [
+    {
+     "form": "Modelo 200 or 210",
+     "name": "Corporate tax return (with a permanent establishment) or non-resident income tax return"
+    },
+    {
+     "form": "Modelo 213",
+     "name": "Special tax on real estate held by certain non-resident entities",
+     "note": "Exemptions may apply"
+    }
+   ],
+   "order": 7,
+   "ownership": "Shares traded on a regulated market or a multilateral trading facility.",
+   "recent": "A 15% special levy applies to undistributed profits.",
+   "regime": "SOCIMI",
+   "sourceName": "Ashurst on the SOCIMI regime",
+   "sourceUrl": "https://www.ashurst.com/en/insights/legal-regime-for-spanish-reit-socimi/",
+   "tests": "At least 80% of assets and income linked to qualifying urban real estate held for rent; minimum holding periods apply.",
+   "verified": false
+  },
+  "fr": {
+   "country": "France",
+   "distribution": "95% of rental income, 70% of disposal gains, and 100% of dividends from SIIC subsidiaries.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "localFilings": [
+    {
+     "form": "2065",
+     "name": "Corporate income tax return"
+    },
+    {
+     "form": "2746",
+     "name": "Annual 3% tax on French real estate held by certain entities",
+     "note": "Exemptions may apply"
+    }
+   ],
+   "order": 5,
+   "ownership": "Listed on a French regulated market; minimum share capital of €15m; no single shareholder or group acting together may hold 60% or more.",
+   "regime": "SIIC",
+   "sourceName": "EPRA European REIT table",
+   "sourceUrl": "https://www.epra.com/download_file/2257/0",
+   "tests": "Principal purpose of acquiring or building property for rental.",
+   "verified": false
+  },
+  "hk": {
+   "country": "Hong Kong",
+   "distribution": "At least 90% of audited annual net income after tax.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "leverage": "Borrowing limit of 50% of gross asset value.",
+   "localFilings": [
+    {
+     "form": "BIR51",
+     "name": "Profits Tax Return"
+    },
+    {
+     "form": "Property tax",
+     "name": "Property tax on Hong Kong rental property, unless covered by profits tax"
+    }
+   ],
+   "order": 11,
+   "ownership": "Collective investment scheme authorized by the SFC and listed on HKEX.",
+   "regime": "HK REIT",
+   "sourceName": "EPRA Global REIT Survey 2025",
+   "sourceUrl": "https://www.epra.com/application/files/8117/5759/1469/EPRA_Global_REIT_Survey_2025_ONLINE_v1.3.pdf",
+   "tests": "At least 75% of gross asset value in income-generating real estate; property development limited.",
+   "verified": false
+  },
+  "ie": {
+   "country": "Ireland",
+   "distribution": "At least 85% of property income each year, with 25% dividend withholding tax on distributions of property income (exemptions or reduced rates for eligible investors). Disposal proceeds not reinvested or used to repay acquisition debt within 24 months are treated as property income.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-29",
+   "leverage": "Borrowings may not exceed 50% of asset market value; property income must cover financing costs at least 1.25 times, with any shortfall taxed (capped at 20% of property income).",
+   "localFilings": [
+    {
+     "form": "CT1",
+     "name": "Corporation tax return",
+     "note": "Filed through ROS"
+    }
+   ],
+   "order": 13,
+   "ownership": "Irish-incorporated and resident; shares listed on the main market of a recognised EU stock exchange; must not be a close company; one class of ordinary shares.",
+   "recent": "Budget 2027 and Finance (No. 2) Bill 2026 (published Oct 2026) made no changes to the REIT or IREF regimes.",
+   "regime": "Irish REIT (Part 25A TCA 1997)",
+   "sourceName": "Irish Revenue Notes for Guidance, Part 25A; PwC Worldwide Tax Summaries (Aug 2026)",
+   "sourceUrl": "https://revenue.ie/en/tax-professionals/documents/notes-for-guidance/tca/part25a.pdf",
+   "tests": "At least 75% of aggregate income and 75% of asset market value from the property rental business. At least three properties, none above 40% of total property value (three-year grace period).",
+   "verified": true
+  },
+  "in": {
+   "country": "India",
+   "distribution": "At least 90% of net distributable cash flows to unitholders.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "leverage": "Aggregate borrowing limits under SEBI REIT Regulations.",
+   "localFilings": [
+    {
+     "form": "ITR-6",
+     "name": "Income tax return for companies"
+    }
+   ],
+   "order": 12,
+   "ownership": "Trust registered with SEBI; units listed on a recognized exchange.",
+   "recent": "Taxation and Other Laws (Amendment) Act, 2026 (assent 18 Aug 2026, generally effective 1 Apr 2026): unitholders' dividends are exempt whether or not the SPV chose the concessional tax regime, while the surcharge on such SPVs rises from 10% to 25%.",
+   "regime": "InvIT / REIT (SEBI)",
+   "sourceName": "EPRA Global REIT Survey 2025",
+   "sourceUrl": "https://www.epra.com/application/files/8117/5759/1469/EPRA_Global_REIT_Survey_2025_ONLINE_v1.3.pdf",
+   "tests": "At least 80% of value in completed, revenue-generating properties.",
+   "verified": false
+  },
+  "it": {
+   "country": "Italy",
+   "distribution": "Distribute at least 70% of net profit from the exempt rental business each year (or 70% of total profit if lower) and 50% of net gains on qualifying property and holdings within the next two years. Distributions are subject to withholding: the parliamentary research service cites 20%, while advisers commonly apply 26% following the 2014 general increase in financial income rates; confirm the current rate.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-01",
+   "leverage": "No statutory leverage limit identified.",
+   "localFilings": [
+    {
+     "form": "Modello Redditi SC",
+     "name": "Corporate income tax return"
+    },
+    {
+     "form": "Modello IRAP",
+     "name": "Regional tax on productive activities return"
+    },
+    {
+     "form": "Modello 770",
+     "name": "Withholding agent return",
+     "note": "Reports withholding on distributions"
+    }
+   ],
+   "order": 15,
+   "ownership": "SIIQ: Italian-resident SpA listed on an EU/EEA regulated market; no shareholder may hold more than 60% of voting or profit rights, and at least 25% of shares must be held by shareholders with no more than 2% each (not required if already listed). SIINQ: unlisted SpA, Srl or SApA with capital of at least EUR 50,000 and more than 50% held by a SIIQ or SIINQ, using IFRS accounts.",
+   "recent": "No regime changes identified for 2025–2026 in the Chamber of Deputies research summary (updated July 2026).",
+   "regime": "SIIQ / SIINQ (Law 296/2006, art. 1, paras. 119–141-bis)",
+   "sourceName": "Camera dei Deputati, Il regime fiscale SIIQ e SIINQ",
+   "sourceUrl": "https://temi.camera.it/leg19/post/il-regime-fiscale-siiq-e-siinq.html",
+   "tests": "Rental must be the main activity: at least 80% of assets in rental property (and qualifying SIIQ/SIINQ or real estate fund holdings) and at least 80% of income from rents. Rental income is exempt from IRES and IRAP. On entry, rental properties are deemed sold at normal value and the net gain bears a 20% substitute tax (or can be included in income, optionally over five years).",
+   "verified": false
+  },
+  "jp": {
+   "country": "Japan",
+   "distribution": "More than 90% of distributable profits must be distributed to deduct dividends.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "localFilings": [
+    {
+     "form": "Corporate tax return",
+     "name": "National and local corporate tax returns for Japan-source income"
+    }
+   ],
+   "order": 9,
+   "ownership": "Investment corporation; listed or widely held; no group of three or fewer holding more than 50%.",
+   "regime": "J-REIT",
+   "sourceName": "PwC Worldwide REIT Regimes",
+   "sourceUrl": "https://www.pwc.com/gx/en/industries/financial-services/asset-management/publications/worldwide-real-estate-investment-trust-regimes.html",
+   "tests": "Majority of assets in specified real estate assets.",
+   "verified": false
+  },
+  "lu": {
+   "country": "Luxembourg",
+   "distribution": "Luxembourg has no REIT regime. Real estate is usually held through a SIF (Specialised Investment Fund, CSSF-approved) or a RAIF (Reserved Alternative Investment Fund, not CSSF-approved but managed by an authorised EU/EEA AIFM), often with SARL acquisition vehicles and SCSp partnerships for investors. There is no statutory distribution requirement; distributions follow the fund documents. Withholding on fund distributions not confirmed here.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-02",
+   "leverage": "No statutory leverage limit identified; limits are set in the fund documents and AIFM disclosures.",
+   "localFilings": [
+    {
+     "form": "Subscription tax return",
+     "name": "Taxe d'abonnement return (SIF/RAIF)",
+     "note": "Confirm filing frequency and format with the fund administrator"
+    },
+    {
+     "form": "Real estate levy declaration",
+     "name": "20% levy on Luxembourg real estate income and gains",
+     "note": "Applies to SIFs/RAIFs and similar vehicles holding Luxembourg property; confirm due date"
+    }
+   ],
+   "order": 16,
+   "ownership": "SIFs and RAIFs are limited to well-informed investors; investors committing at least EUR 100,000 (lowered from EUR 125,000 in 2023) can qualify by self-certification.",
+   "recent": "The 2023 fund law reform (Bill 8183, in force 29 July 2023) lowered the well-informed investor threshold to EUR 100,000, broadened legal forms and extended ramp-up periods. The 20% real estate levy applies from 2021.",
+   "regime": "No REIT regime",
+   "sourceName": "Loyens & Loeff, Real Estate Investment Trusts 2024 – Luxembourg (Lexology GTDT)",
+   "sourceUrl": "https://www.loyensloeff.com/lexology-gtdt---real-estate-investment-trusts-2024---luxembourg.pdf",
+   "tests": "No asset or income tests. SIFs and RAIFs follow a risk-spreading rule: generally no more than 30% of assets or commitments in securities of the same kind from one issuer, applied on a look-through basis. SIFs and RAIFs under the default regime pay a 0.01% annual subscription tax on net assets; since 2021 certain tax-exempt vehicles pay a flat 20% real estate levy on income and gains from Luxembourg-situated property. SARL holding companies are ordinary taxpayers.",
+   "verified": true
+  },
+  "mx": {
+   "country": "Mexico",
+   "distribution": "At least 95% of the trust's fiscal result must be distributed each year, no later than March 15 of the following year. The trustee withholds 30% on distributions to Mexican holders (creditable for Mexican companies); foreign holders are taxed under the non-resident rules of Title V. Congress approved LIF 2027 (Oct 2026) with a rule that scales the 95% minimum down where the new LISR art. 78-B deduction and loss controls inflate the fiscal result; DOF publication not yet confirmed.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-06",
+   "leverage": "PwC (2015) describes FIBRA indebtedness as limited to 50% of asset value unless the technical committee approves otherwise; current CNBV issuer rules not confirmed here.",
+   "localFilings": [
+    {
+     "form": "Declaración anual de personas morales",
+     "name": "Annual income tax return for Mexican companies holding property outside a FIBRA",
+     "note": "Confirm forms with a Mexican adviser"
+    },
+    {
+     "form": "Trustee information returns",
+     "name": "Informational returns filed by the FIBRA trustee on distributions and withholding",
+     "note": "Required under LISR art. 188; confirm form names and dates"
+    }
+   ],
+   "order": 20,
+   "ownership": "Real estate trust certificates (CBFIs) must be placed publicly with the investing public on a Mexican stock exchange and registered with the CNBV.",
+   "recent": "LIF 2027, approved by the Chamber of Deputies on 15 Oct 2026 and by the Senate without changes on 27 Oct 2026, adds a formula reducing the minimum FIBRA distribution in proportion to the increase in fiscal result caused by LISR art. 78-B. Publication in the DOF and the final text are pending confirmation; the LIF takes effect 1 Jan 2027.",
+   "regime": "FIBRA (LISR arts. 187–188)",
+   "sourceName": "SDV Asesores, LISR arts. 187–188 compendium (text verified 2026); TaxToday Mexico (Thomson Reuters), Oct 2026",
+   "sourceUrl": "https://sdv.com.mx/compendio/ley-isr/articulo-188/",
+   "tests": "The trust must be dedicated to acquiring or building real estate for lease, with at least 70% of its patrimony invested in that real estate. The trust itself is not an income tax payer; income is taxed to certificate holders. Contributors of property can defer gain until the certificates or the property are sold. FIBRA-E is a related vehicle for energy and infrastructure companies (at least 90% of income from qualifying activities).",
+   "verified": false
+  },
+  "nl": {
+   "country": "Netherlands",
+   "distribution": "Mandatory annual distribution of profits, generally subject to 15% Dutch dividend withholding tax; 0% corporate income tax rate.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "localFilings": [
+    {
+     "form": "Vpb return",
+     "name": "Corporate income tax return, including non-resident taxpayers with Dutch real estate"
+    }
+   ],
+   "order": 4,
+   "ownership": "Shareholder conditions apply under the FBI regime.",
+   "recent": "Direct Dutch real estate excluded from the FBI regime from 1 Jan 2025; such entities are taxed at the regular CIT rate.",
+   "regime": "FBI",
+   "sourceName": "Loyens & Loeff, Budget Day 2023",
+   "sourceUrl": "https://www.loyensloeff.com/de/insights/news--events/news/budget-day-2023-expected-changes/",
+   "tests": "Since 1 Jan 2025 an FBI may not invest directly in Dutch real estate. It may hold non-Dutch real estate directly and Dutch real estate indirectly through a regularly taxed subsidiary. 60% financing limit on real estate investments.",
+   "verified": true
+  },
+  "nz": {
+   "country": "New Zealand",
+   "distribution": "New Zealand has no dedicated REIT regime. Listed property vehicles generally register as listed portfolio investment entities (PIEs): the company pays tax on its own income at its basic rate (the company rate), cannot pass losses to investors, and pays fully imputation-credited dividends without deducting resident withholding tax. Resident individuals can choose whether to include listed PIE dividends in their returns. No minimum distribution is required.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-10",
+   "leverage": "No tax-law leverage limit identified in this run.",
+   "localFilings": [
+    {
+     "form": "Income tax return",
+     "name": "Company income tax return (listed PIEs do not file periodic PIE returns or annual reconciliations)"
+    }
+   ],
+   "order": 24,
+   "ownership": "Listed on a recognised NZ exchange (or listing within 2 years of registration).",
+   "recent": "No recent changes confirmed in this run.",
+   "regime": "No REIT regime (listed PIE used for property vehicles)",
+   "sourceName": "Inland Revenue, Listed portfolio investment entity",
+   "sourceUrl": "https://www.ird.govt.nz/roles/portfolio-investment-entities/types-of-portfolio-investment-entities/listed-portfolio-investment-entity",
+   "tests": "Listed PIE status requires listing on a recognised New Zealand exchange and registration with Inland Revenue (cannot be a multi-rate PIE). An unlisted company may register if it intends to list, has 100+ shareholders or meets other conditions, but must list within 2 years. General PIE investor and income-type eligibility rules also apply.",
+   "verified": false
+  },
+  "pl": {
+   "country": "Poland",
+   "distribution": "Poland has no REIT regime; REITs cannot currently be established under Polish law. Investors usually hold property directly or through ordinary companies, and investment funds are an alternative but have little market share. There is no distribution requirement outside the regime. A Polish REIT (SINN, Spółka Inwestująca w Najem Nieruchomości) has been proposed repeatedly since 2018; the announced assumptions (proposal only) include distributing at least 90% of income as dividends.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-05",
+   "leverage": "No REIT-specific limit; the proposal would cap loan-to-value at 50%.",
+   "localFilings": [
+    {
+     "form": "CIT-8",
+     "name": "Corporate income tax return",
+     "note": "For Polish companies holding property; confirm forms and due dates with a Polish adviser"
+    }
+   ],
+   "order": 19,
+   "ownership": "Proposed SINN would have to be listed on a stock exchange (proposal only).",
+   "recent": "No enacted REIT law identified as of Nov 2026. Real estate tax rules changed from 1 Jan 2025 with new autonomous definitions of buildings and structures, which may raise tax burdens.",
+   "regime": "No REIT regime",
+   "sourceName": "KPMG Poland, Real Estate Investment Trusts in Poland; EY, The Polish Real Estate Guide 2026",
+   "sourceUrl": "https://kpmg.com/pl/en/insights/law/real-estate-investment-trusts-in-poland.html",
+   "tests": "No enacted asset or income tests. Proposed SINN assumptions (not enacted): KNF-supervised listed joint-stock company with PLN 100 million minimum share capital, at least 90% of income from leasing or selling Polish property (commercial or residential), maximum 50% loan-to-value, and a preferential 10% tax rate with no further tax for investors. EY said in March 2026 that the framework and timeline for a draft were still unknown.",
+   "verified": false
+  },
+  "se": {
+   "country": "Sweden",
+   "distribution": "Sweden has no REIT regime and no tax-transparent real estate vehicle; trusts are not a recognised form. Property is usually held by ordinary Swedish limited companies (aktiebolag), often one company per property, inside listed or private property groups. These companies pay 20.6% corporate tax on rental income and gains, and there is no distribution requirement.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-04",
+   "leverage": "No REIT-specific leverage limit; general Swedish interest deduction limitation rules apply (not detailed here).",
+   "localFilings": [
+    {
+     "form": "INK2",
+     "name": "Corporate income tax return (Inkomstdeklaration 2)"
+    },
+    {
+     "form": "Real estate tax return",
+     "name": "Real estate tax/fee reported to the Swedish Tax Agency",
+     "note": "Confirm form and due date with a Swedish adviser"
+    }
+   ],
+   "order": 18,
+   "ownership": "No REIT-specific ownership or listing requirements. Many Swedish property groups are listed on Nasdaq Stockholm as ordinary companies.",
+   "recent": "No REIT regime changes identified for 2026.",
+   "regime": "No REIT regime",
+   "sourceName": "RSM Sweden, Tax treatment of income and gains of Swedish real estate (updated March 2026)",
+   "sourceUrl": "https://www.rsm.global/sweden/en/quick-overview-swedish-real-estate",
+   "tests": "No REIT-style asset or income tests. Investors usually buy and sell property companies rather than the properties themselves, because sales of unlisted shares in property companies are generally exempt from corporate tax, while a direct transfer of property attracts 4.25% stamp duty for company buyers (1.5% for individuals) on the higher of price and assessed value. Annual real estate tax is about 1% for commercial office property and 0.5% for industrial property; residential property pays a per-flat fee.",
+   "verified": false
+  },
+  "sg": {
+   "country": "Singapore",
+   "distribution": "At least 90% of taxable income must be distributed for tax transparency; distributed income is taxed only at the unitholder level.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "leverage": "Single aggregate leverage limit of 50% and minimum interest coverage ratio of 1.5 times for all REITs.",
+   "localFilings": [
+    {
+     "form": "Form C",
+     "name": "Corporate income tax return"
+    },
+    {
+     "form": "Property tax",
+     "name": "Annual value property tax on owned property"
+    }
+   ],
+   "order": 3,
+   "ownership": "Listed on SGX and regulated by MAS.",
+   "recent": "MAS leverage changes took effect 28 Nov 2024, replacing the 45% limit and 2.5x ICR gate.",
+   "regime": "S-REIT",
+   "sourceName": "Allen & Gledhill on MAS changes",
+   "sourceUrl": "https://www.allenandgledhill.com/vn/publication/articles/29485/mas-rationalises-leverage-requirements-and-introduces-additional-disclosures-for-reits",
+   "tests": "Investment restrictions under the MAS Code on Collective Investment Schemes.",
+   "verified": true
+  },
+  "uk": {
+   "country": "United Kingdom",
+   "distribution": "90% of property rental business profits (tax basis) within 12 months of year end, plus 100% of distributions received from other REITs, paid as property income distributions.",
+   "filingsVerified": false,
+   "lastVerified": "2026-10-28",
+   "leverage": "Property profits must cover property financing costs at least 1.25 times.",
+   "localFilings": [
+    {
+     "form": "CT600",
+     "name": "Company tax return",
+     "note": "Non-UK companies with UK property income are within UK corporation tax"
+    }
+   ],
+   "order": 2,
+   "ownership": "Admitted to trading on a recognised exchange, unless institutional investors hold at least 70% of ordinary shares. Non-close company condition.",
+   "recent": "Single-property exception for commercial property of £20m or more applies from April 2023.",
+   "regime": "UK REIT",
+   "sourceName": "IQ-EQ private REIT guide",
+   "sourceUrl": "https://iqeq.com/insights/the-background-requirements-and-considerations-for-establishing-a-private-reit-in-the-uk/",
+   "tests": "Balance of business: at least 75% of profits and 75% of assets from the property rental business. At least 3 properties with none above 40% of value, or one commercial property worth £20m or more.",
+   "verified": true
+  },
+  "us": {
+   "country": "United States",
+   "distribution": "At least 90% of REIT taxable income (excluding net capital gain); 4% excise tax if calendar-year distributions fall short of 85% of ordinary income.",
+   "lastVerified": "2026-10-28",
+   "order": 1,
+   "ownership": "At least 100 shareholders; five or fewer individuals may not own more than 50%. Listing not required.",
+   "recent": "OBBBA (July 2025) raised the TRS limit to 25% and made the §199A deduction on REIT dividends permanent.",
+   "regime": "REIT",
+   "sourceName": "NETSTREIT prospectus supplement (SEC)",
+   "sourceUrl": "https://www.sec.gov/Archives/edgar/data/0001798100/000110465926046145/tm2612014-2_424b5.htm",
+   "tests": "75% and 95% gross income tests; 75% real estate asset test; TRS securities limited to 25% of assets from 2026 (20% before).",
+   "verified": true
+  },
+  "za": {
+   "country": "South Africa",
+   "distribution": "A REIT (and a 'controlled company' subsidiary of a REIT) deducts 'qualifying distributions' under s25BB, provided at least 75% of its gross income is rental income; the deduction is capped at taxable income before the deduction and taxable capital gains. Listing rules require distribution of at least 75% of distributable earnings each year. Investors are taxed on REIT dividends as income (the ordinary dividend exemption does not apply); dividends tax of 20% applies to non-residents, reduced under tax treaties.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-08",
+   "leverage": "Debt reported as limited to 60% of gross asset value under the JSE REIT listing rules (2015 adviser source; not yet confirmed against current Listings Requirements).",
+   "localFilings": [
+    {
+     "due": "Last day of the month after the dividend is paid",
+     "form": "DTR01 / DTR02",
+     "name": "Dividends tax return and declaration"
+    }
+   ],
+   "order": 22,
+   "ownership": "Listed company (shares held by the public per JSE listing rules), or, for years of assessment beginning after 19 August 2026, an unlisted company owned by specified institutional investors (such as insurers, retirement funds, certain state-owned companies and listed REITs) that meets the conditions in Notice R7839 (Taxand summary: at least 80% property assets, 75% rental revenue, liabilities no more than 60% of assets, gross assets of at least R300 million, 75% distribution within six months of year end, SA residence).",
+   "recent": "Notices R7838 and R7839 (Government Gazettes 55220 and 55221, 19 Aug 2026) brought into operation the TLAA 2024 amendment to the REIT definition and prescribed the conditions for unlisted REITs, for years of assessment beginning after 19 August 2026. Earlier: TLAA 2014 allowed IFRS-based property-company tests and required REIT status at disposal for the capital gains disregard. The section 8F(3)(d) linked-unit exclusion is legislated to lapse on 1 January 2027 (SAIT has asked for a later date for some companies; not enacted).",
+   "regime": "SA REIT (Income Tax Act s25BB; JSE Listings Requirements)",
+   "sourceName": "ENS via Mondaq (Feb 2015); Cliffe Dekker Hofmeyr Budget Alert 2015; SARS Dividends Tax page",
+   "sourceUrl": "https://www.mondaq.com/southafrica/income-tax/376094/a-recap-of-the-reit-provisions-and-the-latest-amendments-thereto",
+   "tests": "Must be a resident company listed as a REIT on the JSE (or another licensed exchange). Listing conditions reported by advisers: property assets of at least R300 million and at least 75% of income from rental. Rental income includes property rentals, REIT dividends and dividends from 'property companies' (20%+ held, 80%+ property assets). Capital gains on immovable property, REIT shares and property-company shares are disregarded.",
+   "verified": false
+  }
+ },
+ "changes": {
+  "2023-04-01-uk-single": {
+   "date": "2023-04-01",
+   "effective": "April 2023",
+   "jurisdiction": "United Kingdom",
+   "sourceName": "IQ-EQ",
+   "sourceUrl": "https://iqeq.com/gb/wp-json/wp/v2/posts/65",
+   "summary": "A UK REIT can meet the property rental business condition with one commercial property worth at least £20m, instead of three properties.",
+   "title": "Single-property UK REITs allowed for large commercial assets"
+  },
+  "2024-11-28-sg-leverage": {
+   "date": "2024-11-28",
+   "effective": "28 Nov 2024",
+   "jurisdiction": "Singapore",
+   "sourceName": "Allen & Gledhill",
+   "sourceUrl": "https://www.allenandgledhill.com/vn/publication/articles/29485/mas-rationalises-leverage-requirements-and-introduces-additional-disclosures-for-reits",
+   "summary": "MAS replaced the 45% limit (50% with a 2.5x interest coverage ratio) with a single 50% aggregate leverage limit and a 1.5x minimum ICR for all REITs, plus new sensitivity disclosures.",
+   "title": "Single 50% leverage limit and 1.5x ICR floor for S-REITs"
+  },
+  "2025-01-01-nl-fbi": {
+   "date": "2025-01-01",
+   "effective": "1 Jan 2025",
+   "jurisdiction": "Netherlands",
+   "sourceName": "PwC Netherlands",
+   "sourceUrl": "https://www.pwc.nl/en/insights-and-publications/tax-news/income/major-changes-in-the-dutch-tax-treatment-of-real-estate.html",
+   "summary": "An FBI that directly holds Dutch real estate no longer qualifies and is taxed at regular corporate rates. Indirect holdings through taxed subsidiaries and direct foreign real estate remain allowed.",
+   "title": "Direct Dutch real estate excluded from the FBI regime"
+  },
+  "2025-07-04-us-163j": {
+   "date": "2025-07-04",
+   "jurisdiction": "United States",
+   "sourceName": "Wiss",
+   "sourceUrl": "https://wiss.com/?p=22827",
+   "summary": "Adjusted taxable income is again computed before depreciation and amortization, increasing deductible business interest for TRSs and REITs that have not elected out as real property trades or businesses.",
+   "title": "§163(j) interest limit returns to an EBITDA base"
+  },
+  "2025-07-04-us-199a": {
+   "date": "2025-07-04",
+   "jurisdiction": "United States",
+   "sourceName": "Wiss",
+   "sourceUrl": "https://wiss.com/reit-the-one-big-beautiful-bill-act-investors-sponsors/",
+   "summary": "The 20% deduction for qualified REIT dividends received by individuals, which was due to expire after 2025, is now permanent at 20%.",
+   "title": "§199A deduction on REIT dividends made permanent"
+  },
+  "2025-07-04-us-trs": {
+   "date": "2025-07-04",
+   "effective": "Taxable years beginning after Dec 31, 2025",
+   "jurisdiction": "United States",
+   "sourceName": "Paul Hastings client alert",
+   "sourceUrl": "https://www.paulhastings.com/insights/client-alerts/reit-all-about-it-one-big-beautiful-bill-tax-updates-for-reits",
+   "summary": "The One Big Beautiful Bill Act amended §856(c)(4)(B)(ii) so a REIT may hold TRS securities worth up to 25% of its total assets. The checker applies 25% to years beginning in 2026 or later and 20% to earlier years.",
+   "title": "TRS asset limit raised from 20% to 25%"
+  },
+  "2025-07-28-us-plr-ev-charging-markup": {
+   "date": "2025-07-28",
+   "effective": "Private letter ruling (EY alert July 28, 2025); binding only on the taxpayer",
+   "jurisdiction": "United States",
+   "sourceName": "EY Tax News, 28 July 2025",
+   "sourceUrl": "https://taxnews.ey.com/news/2025-1602-irs-rules-for-first-time-that-reits-income-from-markup-on-electricity-from-ev-charging-stations-is-rents-from-real-property",
+   "status": "ruling",
+   "summary": "For an outdoor industrial storage REIT, the IRS treated charges for electricity drawn from tenant-only EV charging stations, including a markup meant to recover installation and upkeep costs, as analogous to submetered utilities: a customary service producing rents from real property, not impermissible tenant service income. Separately charged amenity access fees were not rent but did not taint other rents.",
+   "title": "PLR 202530005: EV charging electricity sold at a markup is rents from real property"
+  },
+  "2025-12-15-us-892-proposed": {
+   "date": "2025-12-15",
+   "effective": "Proposed; not yet final",
+   "jurisdiction": "United States",
+   "sourceName": "DLA Piper REIT Tax News, March 2026",
+   "sourceUrl": "https://www.dlapiper.com/en-us/insights/publications/reit-tax-news/2026/reit-tax-news-march-2026",
+   "status": "proposed",
+   "summary": "Proposed regulations include an example where a sovereign wealth fund with veto rights over distributions, major capital spending, new equity and the budget may have effective control and lose §892 benefits. This could affect co-investments structured through private REITs.",
+   "title": "Proposed §892 regulations could affect sovereign fund private REIT joint ventures"
+  },
+  "2025-12-22-us-plr-carbon-storage": {
+   "date": "2025-12-22",
+   "effective": "Private letter ruling (reported Dec 22, 2025); binding only on the taxpayer",
+   "jurisdiction": "United States",
+   "sourceName": "Bloomberg Tax Daily Tax Report",
+   "sourceUrl": "https://news.bloomberglaw.com/daily-tax-report/irs-plr-carbon-storage-rights-payments-qualify-as-reit-income-irc-856",
+   "status": "ruling",
+   "summary": "The IRS ruled that payments a REIT receives for granting carbon storage rights are qualifying income under §856, as rents from real property for temporary rights or as gain from disposing of a real property interest for permanent rights.",
+   "title": "PLR 202551041: carbon storage rights payments are qualifying REIT income"
+  },
+  "2025-12-26-us-plr-outdoor-advertising": {
+   "date": "2025-12-26",
+   "effective": "Private letter ruling released December 26, 2025; binding only on the taxpayer",
+   "jurisdiction": "United States",
+   "sourceName": "EY Tax News, 6 January 2026",
+   "sourceUrl": "https://taxnews.ey.com/news/2026-1038-irs-rules-reits-income-from-leasing-advertising-space-on-outdoor-displays-is-qualifying-income",
+   "status": "ruling",
+   "summary": "The IRS ruled that a REIT's income from leasing advertising space on outdoor displays (including digital displays treated as real property under a §1033(g) election) is rents from real property for the 75% and 95% income tests. Customary services such as maintenance, lighting, electricity and security did not create impermissible tenant service income, and at-cost TRS cost-sharing reimbursements were not gross income.",
+   "title": "PLR 202552014: outdoor advertising display income is rents from real property"
+  },
+  "2026-01-02-us-plr-hedges": {
+   "date": "2026-01",
+   "effective": "Released January 2026; applies to the requesting taxpayer",
+   "jurisdiction": "United States",
+   "sourceName": "DLA Piper REIT Tax News, March 2026",
+   "sourceUrl": "https://www.dlapiper.com/en-us/insights/publications/reit-tax-news/2026/reit-tax-news-march-2026",
+   "status": "ruling",
+   "summary": "The IRS ruled that income from interest rate swaps hedging variable-rate debt is not gross income for the 75% and 95% tests, and that counteracting hedges that economically end existing hedges also qualify for the exclusion. A private letter ruling binds only the taxpayer that requested it.",
+   "title": "PLR 202601013: hedge and counteracting hedge income excluded from income tests"
+  },
+  "2026-01-14-us-plr-liquidated-damages": {
+   "date": "2026-01-14",
+   "effective": "Private letter ruling (discussed Jan 14, 2026); binding only on the taxpayer",
+   "jurisdiction": "United States",
+   "sourceName": "EisnerAmper, Jan 14, 2026",
+   "sourceUrl": "https://www.eisneramper.com/insights/real-estate/irs-private-letter-ruling-reit-0126/",
+   "status": "ruling",
+   "summary": "Using its §856(c)(5)(J) authority, the IRS excluded from both the 75% and 95% gross income tests a forfeited escrow deposit (liquidated damages) and related legal fee recoveries a REIT received when a buyer defaulted on purchasing its multifamily portfolio. A private letter ruling binds only the taxpayer that requested it.",
+   "title": "PLR 202522001: liquidated damages from a failed property sale excluded from income tests"
+  },
+  "2026-02-11-us-ridea-bill": {
+   "date": "2026-02-11",
+   "effective": "Proposed legislation; not enacted",
+   "jurisdiction": "United States",
+   "sourceName": "DLA Piper REIT Tax News, March 2026",
+   "sourceUrl": "https://www.dlapiper.com/en-us/insights/publications/reit-tax-news/2026/reit-tax-news-march-2026",
+   "status": "proposed",
+   "summary": "A reintroduced Senate bill would roll back the RIDEA rules that let health care REITs lease senior housing and care facilities to TRSs operated by independent contractors. Its prospects are uncertain.",
+   "title": "Senate bill would repeal parts of RIDEA for health care REITs"
+  },
+  "2026-03-18-us-revproc-2026-17": {
+   "date": "2026-03-18",
+   "effective": "Withdrawals due by Oct 15, 2026 (now closed)",
+   "jurisdiction": "United States",
+   "sourceName": "BDO, IRS Provides Section 163(j) Guidance on Withdrawing Real Property Trade or Business Elections",
+   "sourceUrl": "https://www.bdo.com/insights/tax/irs-provides-section-163-j-guidance-on-withdrawing-real-property-trade-or-business-elections",
+   "status": "ruling",
+   "summary": "The IRS allowed taxpayers that made an electing real property trade or business election under §163(j)(7) for a 2022, 2023 or 2024 tax year to withdraw it on an amended return, regaining bonus depreciation on property that had been stuck on ADS. The window closed on the earlier of October 15, 2026 or the end of the assessment period.",
+   "title": "Rev. Proc. 2026-17 let taxpayers withdraw 2022–2024 real property trade or business elections"
+  },
+  "2026-05-12-ar-rate-cut": {
+   "date": "2026-05-12",
+   "effective": "Tax years beginning Jan 1, 2027",
+   "jurisdiction": "Arkansas",
+   "sourceName": "Thomson Reuters Tax & Accounting News, May 12, 2026",
+   "sourceUrl": "https://tax.thomsonreuters.com/news/arkansas-cuts-individual-and-corporate-income-tax-rates/",
+   "status": "enacted",
+   "summary": "Legislation from the 2026 First Extraordinary Session lowers the top corporate income tax rate from 4.3% to 4.1% on income over $11,000, keeping the lower brackets at 1%, 2% and 3%.",
+   "title": "Arkansas top corporate income tax rate cut to 4.1% from 2027"
+  },
+  "2026-06-01-us-892-dates": {
+   "date": "2026-06-01",
+   "effective": "Proposed; not yet final",
+   "jurisdiction": "United States",
+   "sourceName": "DLA Piper REIT Tax News, June 2026",
+   "sourceUrl": "https://www.dlapiper.com/en-us/insights/publications/reit-tax-news/2026/reit-tax-news-june-2026",
+   "status": "proposed",
+   "summary": "New proposed regulations replace only the applicability-date rules of the December 2025 proposal, giving 90 days after final regulations are published. Debt acquired before then, or under binding commitments, stays under existing rules.",
+   "title": "Revised §892 proposed regulations add a transition period"
+  },
+  "2026-06-08-us-plr-jv-loans": {
+   "date": "2026-06-08",
+   "effective": "Private letter ruling (reported June 8, 2026); binding only on the taxpayer; PLR number not confirmed",
+   "jurisdiction": "United States",
+   "sourceName": "Bloomberg Tax Daily Tax Report, June 8, 2026",
+   "sourceUrl": "https://news.bloombergtax.com/daily-tax-report/irs-issues-plr-excluding-reit-joint-venture-loans-from-asset-tests",
+   "status": "ruling",
+   "summary": "The IRS ruled that loans between a REIT and its joint venture partnerships, to the extent of the REIT's capital interest, are disregarded in applying the §856(c)(4) asset tests, and the REIT's share of loans from the joint ventures is likewise excluded. A private letter ruling binds only the taxpayer that requested it.",
+   "title": "PLR: loans between a REIT and its joint ventures disregarded for asset tests"
+  },
+  "2026-08-18-in-dividend-exemption": {
+   "date": "2026-08-18",
+   "effective": "Generally from 1 April 2026 (retrospective)",
+   "jurisdiction": "India",
+   "sourceName": "The Bar Bulletin: Taxation and Other Laws (Amendment) Act, 2026",
+   "sourceUrl": "https://thebarbulletin.com/taxation-other-laws-amendment-act-2026-key-changes/",
+   "status": "enacted",
+   "summary": "The Taxation and Other Laws (Amendment) Act, 2026 removes the condition that the SPV stay in the old tax regime for unitholders' dividends to be exempt. SPVs taxed under the concessional regime now pay a 25% surcharge instead of 10%. Interest and other distribution components stay taxable.",
+   "title": "REIT and InvIT unitholder dividends exempt regardless of SPV regime"
+  },
+  "2026-08-19-za-unlisted-reit": {
+   "date": "2026-08-19",
+   "effective": "Years of assessment beginning after 19 August 2026",
+   "jurisdiction": "South Africa",
+   "sourceName": "SARS What's New (Notices R7838 and R7839, Government Gazettes 55220 and 55221 of 19 Aug 2026); Taxand",
+   "sourceUrl": "https://www.sars.gov.za/whats-new-at-sars/3/",
+   "status": "enacted",
+   "summary": "Two notices gazetted on 19 August 2026 brought into operation the Taxation Laws Amendment Act 2024 change to the Income Tax Act REIT definition and set the conditions an unlisted company must meet to be a REIT under paragraph (b) of that definition. Advisers report the conditions include ownership by specified institutional investors, at least 80% property assets, at least 75% rental revenue, gearing of no more than 60%, gross assets of at least R300 million and distribution of at least 75% of distributable profits.",
+   "title": "Unlisted companies can now qualify as REITs"
+  },
+  "2026-08-31-us-plr-858-extension": {
+   "date": "2026-08-31",
+   "effective": "Private letter ruling (reported Aug 31, 2026); binding only on the taxpayer; PLR number not confirmed",
+   "jurisdiction": "United States",
+   "sourceName": "Bloomberg Tax Daily Tax Report, Aug 31, 2026",
+   "sourceUrl": "https://news.bloombergtax.com/daily-tax-report/irs-issues-plr-granting-extension-for-prior-year-dividend-election",
+   "status": "ruling",
+   "summary": "After the REIT's tax preparer failed to make the election properly, the IRS granted 9100 relief giving the REIT 60 days to elect under §858 to treat a dividend paid in the following year as paid in the prior year. A private letter ruling binds only the taxpayer that requested it.",
+   "title": "PLR: 60-day extension to make a §858 prior-year dividend election"
+  },
+  "2026-09-08-us-plr-reit-election-extension": {
+   "date": "2026-09-08",
+   "effective": "Private letter ruling (reported Sept 8, 2026); binding only on the taxpayer",
+   "jurisdiction": "United States",
+   "sourceName": "Bloomberg Tax Daily Tax Report, Sept 8, 2026",
+   "sourceUrl": "https://news.bloombergtax.com/daily-tax-report/irs-issues-plr-granting-extension-for-reit-real-property-trade-business-elections",
+   "status": "ruling",
+   "summary": "The IRS granted an extension under Treas. Reg. §301.9100 to make a REIT election and a §163(j) real property trade or business election that were missed by one day after a courier failed to deliver the Form 7004 extension request. Relief rested on reasonable reliance on a professional. A private letter ruling binds only the taxpayer that requested it.",
+   "title": "PLR 202636006: 9100 relief to make a late REIT election and real property trade or business election"
+  },
+  "2026-10-12-ca-ota": {
+   "date": "2026-10-12",
+   "jurisdiction": "California",
+   "sourceName": "KPMG This Week in State Tax",
+   "sourceUrl": "https://kpmg.com/us/en/articles/this-week-in-state-tax/twist-261012.html",
+   "status": "ruling",
+   "summary": "In a pending precedential opinion, the Office of Tax Appeals required a REIT to add back the dividends-paid deduction attributable to unitary intercompany dividends it had eliminated under R&TC §25106.",
+   "title": "OTA denies double benefit on REIT intercompany dividends"
+  },
+  "2026-10-27-mx-fibra-distribution": {
+   "date": "2026-10-27",
+   "effective": "1 Jan 2027 if published as approved",
+   "jurisdiction": "Mexico",
+   "sourceName": "TaxToday Mexico (Thomson Reuters), 15 Oct 2026",
+   "sourceUrl": "https://www.taxtodaymexico.com/diputados-amplian-la-regularizacion-fiscal-e-incorporan-reglas-para-fibras-en-lif-2027/",
+   "status": "proposed",
+   "summary": "Congress approved a Ley de Ingresos 2027 provision that scales down a FIBRA's required 95% distribution when the new LISR art. 78-B deduction and loss controls increase its fiscal result, so FIBRAs are not forced to distribute cash they did not generate. Passed by both chambers; publication in the DOF not yet confirmed.",
+   "title": "LIF 2027 adjusts the FIBRA 95% distribution minimum for new deduction controls"
+  }
+ },
+ "reviews": {
+  "2026-11-01": {
+   "added": [
+    "Italy REIT regime"
+   ],
+   "attention": [],
+   "changed": [],
+   "date": "2026-11-01",
+   "reconstructed": true,
+   "summary": "Reconstructed from the rule data: this review ran before the daily log existed, so only the rules it added or re-checked are shown, not the full list of sources it searched.",
+   "title": "Daily rule review",
+   "verified": []
+  },
+  "2026-11-02": {
+   "added": [
+    "Alabama state rules",
+    "Luxembourg REIT regime"
+   ],
+   "attention": [],
+   "changed": [],
+   "date": "2026-11-02",
+   "reconstructed": true,
+   "summary": "Reconstructed from the rule data: this review ran before the daily log existed, so only the rules it added or re-checked are shown, not the full list of sources it searched.",
+   "title": "Daily rule review",
+   "verified": []
+  },
+  "2026-11-03": {
+   "added": [
+    "Switzerland REIT regime",
+    "Utah state rules"
+   ],
+   "attention": [],
+   "changed": [],
+   "date": "2026-11-03",
+   "reconstructed": true,
+   "summary": "Reconstructed from the rule data: this review ran before the daily log existed, so only the rules it added or re-checked are shown, not the full list of sources it searched.",
+   "title": "Daily rule review",
+   "verified": [
+    "Florida state rules: re-checked against current sources",
+    "Massachusetts state rules: re-checked against current sources"
+   ]
+  },
+  "2026-11-04": {
+   "added": [
+    "Arkansas state rules",
+    "Sweden REIT regime"
+   ],
+   "attention": [],
+   "changed": [],
+   "date": "2026-11-04",
+   "reconstructed": true,
+   "summary": "Reconstructed from the rule data: this review ran before the daily log existed, so only the rules it added or re-checked are shown, not the full list of sources it searched.",
+   "title": "Daily rule review",
+   "verified": [
+    "Hawaii state rules: re-checked against current sources",
+    "New Jersey state rules: re-checked against current sources",
+    "Virginia state rules: re-checked against current sources"
+   ]
+  },
+  "2026-11-05": {
+   "added": [
+    "Poland REIT regime"
+   ],
+   "attention": [],
+   "changed": [],
+   "date": "2026-11-05",
+   "reconstructed": true,
+   "summary": "Reconstructed from the rule data: this review ran before the daily log existed, so only the rules it added or re-checked are shown, not the full list of sources it searched.",
+   "title": "Daily rule review",
+   "verified": []
+  },
+  "2026-11-06": {
+   "added": [
+    "Mexico REIT regime",
+    "Oklahoma state rules"
+   ],
+   "attention": [],
+   "changed": [],
+   "date": "2026-11-06",
+   "reconstructed": true,
+   "summary": "Reconstructed from the rule data: this review ran before the daily log existed, so only the rules it added or re-checked are shown, not the full list of sources it searched.",
+   "title": "Daily rule review",
+   "verified": []
+  },
+  "2026-11-07": {
+   "added": [
+    "Brazil REIT regime",
+    "Kansas state rules"
+   ],
+   "attention": [],
+   "changed": [],
+   "date": "2026-11-07",
+   "reconstructed": true,
+   "summary": "Reconstructed from the rule data: this review ran before the daily log existed, so only the rules it added or re-checked are shown, not the full list of sources it searched.",
+   "title": "Daily rule review",
+   "verified": [
+    "Arizona state rules: re-checked against current sources",
+    "Colorado state rules: re-checked against current sources",
+    "Pennsylvania state rules: re-checked against current sources"
+   ]
+  },
+  "2026-11-08": {
+   "added": [
+    "Missouri state rules",
+    "South Africa REIT regime"
+   ],
+   "attention": [],
+   "changed": [],
+   "date": "2026-11-08",
+   "reconstructed": true,
+   "summary": "Reconstructed from the rule data: this review ran before the daily log existed, so only the rules it added or re-checked are shown, not the full list of sources it searched.",
+   "title": "Daily rule review",
+   "verified": [
+    "Minnesota state rules: re-checked against current sources"
+   ]
+  },
+  "2026-11-09": {
+   "added": [
+    "Delaware state rules",
+    "United Arab Emirates REIT regime"
+   ],
+   "attention": [],
+   "changed": [],
+   "date": "2026-11-09",
+   "reconstructed": true,
+   "summary": "Reconstructed from the rule data: this review ran before the daily log existed, so only the rules it added or re-checked are shown, not the full list of sources it searched.",
+   "title": "Daily rule review",
+   "verified": [
+    "Iowa state rules: re-checked against current sources",
+    "Wisconsin state rules: re-checked against current sources"
+   ]
+  },
+  "2026-11-10": {
+   "added": [
+    "Tennessee state rules",
+    "New Zealand regime (no REIT regime; listed PIE)"
+   ],
+   "attention": [
+    "South Africa: the linked-unit exclusion in s8F(3)(d) lapses on 1 Jan 2027; unlisted property companies relying on it should check whether they qualify under the new unlisted REIT conditions.",
+    "Mexico: confirm DOF publication and final text of the LIF 2027 FIBRA distribution formula before planning 2027 distributions."
+   ],
+   "changed": [
+    "South Africa: unlisted REIT conditions in force for years of assessment beginning after 19 Aug 2026 (SARS What's New, Notices R7838/R7839; Taxand)"
+   ],
+   "changesFound": 1,
+   "date": "2026-11-10",
+   "summary": "Checked federal (IRS rulings, forms, legislation), state and international REIT sources since Nov 9. No new federal or state changes found; recorded South Africa's August 2026 notices that let qualifying unlisted companies become REITs, which earlier runs had missed. Mexico's LIF 2027 FIBRA provision is still awaiting confirmed DOF publication.",
+   "title": "Daily rule review",
+   "verified": [
+    "Indiana: captive REIT definition and dividends-paid deduction add-back confirmed against Ind. Code §§6-3-1-34.5 and 6-3-1-3.5(b)(9)",
+    "Kentucky: captive REIT definition and denial of the dividends-paid deduction confirmed against KRS 141.010(2) and (35)(d); LLET $175 minimum added",
+    "Louisiana: dividends-paid deduction limited to publicly traded and qualified REITs, confirmed against La. R.S. 47:287.736",
+    "Rhode Island: captive REIT add-back, RI-1120C form, 7% rate and $400 minimum confirmed against the 2025 RI-1120C instructions; non-captive REITs file RI-1120F",
+    "South Africa: ownership and recent-changes text updated from SARS notices R7838/R7839"
+   ]
+  }
+ }
+}
