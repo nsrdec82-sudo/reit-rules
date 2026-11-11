@@ -156,6 +156,11 @@ button.link:hover{color:var(--fail)}
 .dashnext{margin:0;text-align:right}
 .btnlink{display:inline-block;padding:8px 14px;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;text-decoration:none}
 .btnlink:hover{filter:brightness(1.08)}
+#filingsBody .tag{white-space:nowrap}
+#filingsBody td.due{width:1%;min-width:120px;max-width:200px;white-space:normal}
+#filingsBody td.due .dd{display:block;font-weight:600;white-space:nowrap}
+#filingsBody td.due .dn{display:block;font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:2px}
+#filingsBody td.due .dx summary{font-size:12.5px;color:var(--accent);cursor:pointer;margin-top:2px}
 .considerfor{font-size:14px;color:var(--muted);margin:-4px 0 14px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;min-width:0}
 .panel h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
@@ -1846,6 +1851,12 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     if(f.kind==="estimate")extra=" first installment; then "+[-6,-3,0].map(function(n){return fmtDate(bizDay(nthMonth(n)).d)}).join(", ")+" (typical federal-style schedule; some states differ)";
     if(f.kind==="stateReturn"&&!f.dueDate&&!/^May 15/.test(f.due||""))extra=" (typical; confirm the state's due date)";
     return {date:b.d,text:fmtDate(b.d)+(b.moved?" (moved from a weekend)":"")+extra};}
+  // Due date cell: the date on one line, any condition in small text below; long rules fold into "Details"
+  function dueCell(t){t=String(t||"");var m=t.match(/^((?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4})[,\s]*(.*)$/);
+    if(m)return '<span class="dd">'+esc(m[1])+'</span>'+(m[2]?'<span class="dn">'+esc(m[2].replace(/^\((.*)\)$/,"$1"))+'</span>':'');
+    if(/45th day after the organizational action/.test(t))return '<span class="dd">45 days after the action</span><span class="dn">or January 15 of the next year, if earlier</span><details class="dx"><summary>Details</summary><span class="dn">'+esc(t)+'</span></details>';
+    if(t.length>60)return '<span class="dn">'+esc(t.slice(0,t.lastIndexOf(" ",56))+"…")+'</span><details class="dx"><summary>Details</summary><span class="dn">'+esc(t)+'</span></details>';
+    return '<span class="dd">'+esc(t)+'</span>';}
   function renderFilings(){var el=$("filingsBody");if(!el||!PROFILE)return;
     var F=LAST_FILINGS.map(function(f){var d=dueOf(f);return Object.assign({},f,{dueDateObj:d.date,dueText:d.text})});
     var sec=$("filF").value;if(sec)F=F.filter(function(f){return sec==="Federal"?f.sec==="Federal":sec==="State"?!!SNAME_BY_NAME[f.sec]||f.sec==="Maryland":f.sec!=="Federal"&&!SNAME_BY_NAME[f.sec]});
@@ -1856,7 +1867,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       '<div class="chip"><b>'+(next?fmtDate(next.dueDateObj):"—")+'</b><span>Next due'+(next?": "+esc(next.form):"")+'</span></div></div>'+
       '<p class="why" style="margin:10px 0 0">For '+esc(PROFILE.name||"the entity")+', tax year beginning in '+esc(PROFILE.year)+' and ending '+fmtDate(ye.date)+'. Dates move to the next business day when they fall on a weekend; holidays are not adjusted.</p>';
     el.innerHTML=F.length?'<div class="tbwrap"><table class="tbt"><thead><tr><th>Due</th><th>Form</th><th>Jurisdiction</th><th>What it is</th><th>Why it applies</th><th>Status</th></tr></thead><tbody>'+
-      F.map(function(f){var c=/^Only if|^If /.test(f.why);return '<tr><td style="white-space:nowrap">'+esc(f.dueText)+'</td><td class="f" style="font-family:var(--f-mono)">'+esc(f.form)+'</td><td>'+esc(f.sec)+'</td><td>'+esc(f.name)+'</td><td>'+esc(f.why)+'</td><td><span class="tag '+(c?"t-pend":"t-conf")+'">'+(c?"If applicable":"Required")+'</span></td></tr>'}).join("")+'</tbody></table></div>':'<div class="empty">No filings for this selection.</div>';}
+      F.map(function(f){var c=/^Only if|^If /.test(f.why);return '<tr><td class="due">'+dueCell(f.dueText)+'</td><td class="f" style="font-family:var(--f-mono)">'+esc(f.form)+'</td><td>'+esc(f.sec)+'</td><td>'+esc(f.name)+'</td><td>'+esc(f.why)+'</td><td><span class="tag '+(c?"t-pend":"t-conf")+'">'+(c?"If applicable":"Required")+'</span></td></tr>'}).join("")+'</tbody></table></div>':'<div class="empty">No filings for this selection.</div>';}
 
   // ---------- Client-specific part of the Tax rules tab ----------
   function clientFacts(){var P=PROFILE,R=[],cap=isCaptive(),nd=nondiv();
