@@ -10,4 +10,4 @@ window.FIREBASE_CONFIG = {
 window.FIRM_NAME = "Your firm name";
 // Live rule feed updated by the daily rule review (leave "" to use public/rules.json only).
 // Example: "https://raw.githubusercontent.com/YOUR-USER/reit-rules/main/rules.json"
-window.RULES_URL = "https://raw.githubusercontent.com/nsrdec82-sudo/reit-rules/main/rules.json";
+window.RULES_URL = "https://raw.githubusercontent.com/snimmagadda-cpa/reit-navigator/main/rules.json";

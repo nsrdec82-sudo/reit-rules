@@ -18,6 +18,8 @@
 <meta name="rules-url" content="https://raw.githubusercontent.com/nsrdec82-sudo/reit-rules/main/rules.json">
 <!-- Live rule feed updated daily (leave content empty to use rules.json only) -->
 <meta name="rules-url" content="https://raw.githubusercontent.com/nsrdec82-sudo/reit-rules/main/rules.json">
+<!-- Live rule feed updated daily (leave content empty to use rules.json only) -->
+<meta name="rules-url" content="https://raw.githubusercontent.com/snimmagadda-cpa/reit-navigator/main/rules.json">
 <title>Demo · REIT Rule Navigator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
@@ -3432,7 +3434,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     if(HOSTED){
       // A live feed (window.RULES_URL, or <meta name="rules-url">) is refreshed by the daily rule review.
       // Use whichever copy, live feed or local rules.json, was checked most recently.
-      var mu=document.querySelector('meta[name="rules-url"]');var RU=(window.RULES_URL||(mu&&mu.content)||"").trim();
+      var mu=document.querySelector('meta[name="rules-url"]');var RU=(window.RULES_URL||(mu&&mu.content)||"").trim();RU=RU.replace("/nsrdec82-sudo/reit-rules/","/snimmagadda-cpa/reit-navigator/");
       async function grab(u){try{var r=await fetch(u,{cache:"no-store"});if(r.ok){var j=await r.json();if(j&&j.meta)return j;}}catch(e){}return null;}
       var both=await Promise.all([RU?grab(RU+(RU.indexOf("?")<0?"?":"&")+"t="+Date.now()):null,grab("rules.json")]);
       var stamp=function(j){return j&&j.meta&&j.meta.status&&j.meta.status.lastChecked||"";};

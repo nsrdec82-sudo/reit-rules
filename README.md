@@ -1,7 +1,7 @@
 # REIT rule data and private site
 
 - `rules.json`: the live REIT rule data. The daily rule review (7:43 AM Central) replaces it each morning; the websites read it from
-  `https://raw.githubusercontent.com/nsrdec82-sudo/reit-rules/main/rules.json`.
+  `https://raw.githubusercontent.com/snimmagadda-cpa/reit-navigator/main/rules.json`.
 - `firebase-site/`: the private REIT Rule Navigator website. Every change pushed to `main` under `firebase-site/` is published to
   Firebase Hosting (and the Firestore access rules) by `.github/workflows/deploy-firebase.yml`.
 
