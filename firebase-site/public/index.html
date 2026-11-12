@@ -14,7 +14,7 @@
   --bg:#F9FAFE; --surface:#FFFFFF; --sunk:#F2F5FA; --line:#E3E8F1;
   --fg:#1F2A3C; --muted:#667085; --accent:#5A5FD8; --accent-soft:#EEEFFD;
   --c-dashboard:#9CC3FB; --c-structure:#C9B8FA; --c-rules:#8EE3D3; --c-filings:#F9D57A; --c-checker:#F6B3D4; --c-tb:#8FE0F0;
-  --c-estimates:#C8E98B; --c-states:#EDB5F5; --c-global:#9FD5F7; --c-updates:#CED6E2; --c-report:#F8B4BE; --c-admin:#D4D8E0; --c-qn:#FBC79A; --c-consider:#A7E3B4; --c-ptx:#FCA5A5;
+  --c-estimates:#C8E98B; --c-states:#EDB5F5; --c-global:#9FD5F7; --c-updates:#CED6E2; --c-report:#F8B4BE; --c-admin:#D4D8E0; --c-qn:#FBC79A; --c-consider:#A7E3B4; --c-proposed:#D8B4FE; --c-ptx:#FCA5A5;
   --pass:#1E7B48; --pass-bg:#EAF7EF; --warn:#99640A; --warn-bg:#FEF6E2; --fgn:#EDF3FD; --fgnT:#3558A0; --fail:#B42318; --fail-bg:#FDEEEC;
   --tint:color-mix(in srgb, var(--sec, var(--accent-soft)) 22%, var(--surface));
   --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
@@ -25,13 +25,13 @@
   --bg:#12131A; --surface:#1A1C26; --sunk:#232633; --line:#333748;
   --fg:#E6E8F2; --muted:#A0A6BC; --accent:#A5B4FC; --accent-soft:#2A2C55;
   --c-dashboard:#60A5FA; --c-structure:#A78BFA; --c-rules:#2DD4BF; --c-filings:#FBBF24; --c-checker:#F472B6; --c-tb:#22D3EE;
-  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-ptx:#F87171;
+  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-proposed:#C084FC; --c-ptx:#F87171;
   --pass:#6FD29A; --pass-bg:#173326; --warn:#E8B655; --warn-bg:#3A2D12; --fgn:#1D2840; --fgnT:#A9C0F0; --fail:#F2867D; --fail-bg:#3D1C1A; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#12131A; --surface:#1A1C26; --sunk:#232633; --line:#333748;
   --fg:#E6E8F2; --muted:#A0A6BC; --accent:#A5B4FC; --accent-soft:#2A2C55;
   --c-dashboard:#60A5FA; --c-structure:#A78BFA; --c-rules:#2DD4BF; --c-filings:#FBBF24; --c-checker:#F472B6; --c-tb:#22D3EE;
-  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-ptx:#F87171;
+  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-proposed:#C084FC; --c-ptx:#F87171;
   --pass:#6FD29A; --pass-bg:#173326; --warn:#E8B655; --warn-bg:#3A2D12; --fgn:#1D2840; --fgnT:#A9C0F0; --fail:#F2867D; --fail-bg:#3D1C1A; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
@@ -147,6 +147,7 @@ button.link:hover{color:var(--fail)}
 .savenote{font-size:12px;color:var(--muted);margin:0}
 .dashout{display:grid;gap:16px;min-width:0}
 .dash.dashprofile{display:block}
+.dash.stinputs{display:block}.stinputs>.panel{max-width:1100px}
 .dashprofile #profile{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
 .dashprofile #profile>fieldset:first-of-type,.dashprofile #profile>.sample,.dashprofile #profile>.dashnext{grid-column:1/-1}
 .dashprofile #profile>fieldset{margin:0}
@@ -165,6 +166,15 @@ details.yardi{margin:10px 0 0;font-size:14px}details.yardi summary{cursor:pointe
 @media (min-width:1001px){#ptxOut{position:sticky;top:112px;max-height:calc(100vh - 128px);overflow:auto}}
 @media (max-width:1000px){.ptxwrap{grid-template-columns:minmax(0,1fr)}}
 .ptxwrap fieldset{margin:0 0 16px}.ptxgrid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+.memo .memohead{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:16px}
+.memofirm{font-weight:700;color:var(--accent);letter-spacing:.3px}.memotitle{font-size:26px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:4px 0 10px}
+.memokv{border-collapse:collapse;font-size:14px}.memokv th{text-align:left;padding:3px 18px 3px 0;color:var(--muted);font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:1px;vertical-align:top}.memokv td{padding:3px 0}
+.memo .rsec h3{color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:4px}
+.memo .memosign{margin-top:14px;font-weight:600}
+.rtab td.num,.rtab th.num,.rkv td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rtab td.st-ok,.rkv td.st-ok{background:color-mix(in srgb,var(--pass) 16%,var(--surface));color:color-mix(in srgb,var(--pass) 75%,var(--ink,#111));font-weight:600}
+.rtab td.st-warn,.rkv td.st-warn{background:color-mix(in srgb,#f59e0b 18%,var(--surface));color:color-mix(in srgb,#b45309 85%,var(--ink,#111));font-weight:600}
+.rtab td.st-bad,.rkv td.st-bad{background:color-mix(in srgb,var(--fail) 16%,var(--surface));color:color-mix(in srgb,var(--fail) 80%,var(--ink,#111));font-weight:600}
 .ptxrpt{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between;margin-bottom:16px}.ptxrpt .why{display:block;margin:2px 0 0;max-width:640px}
 .ptxrptbtns{display:flex;flex-wrap:wrap;gap:8px}.ptxrpt .savenote{flex-basis:100%;margin:0}.ptxpreview{margin-bottom:16px}.ptxpreview #ptxRptClose{margin-bottom:6px}
 .ptxsale{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 12px;background:var(--surface)}
@@ -432,7 +442,8 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
 <nav><div class="wrap"><div class="tabs" role="tablist">
   <a href="#dashboard" data-view="dashboard" style="--sec:var(--c-dashboard)">Client dashboard</a>
   <a href="#consider" data-view="consider" style="--sec:var(--c-consider)">Entity tax considerations</a>
-  <a href="#structure" data-view="structure" style="--sec:var(--c-structure)">REIT structure</a>
+  <a href="#structure" data-view="structure" style="--sec:var(--c-structure)">REIT structure evaluation</a>
+  <a href="#proposed" data-view="proposed" style="--sec:var(--c-proposed)">Proposed REIT structure</a>
   <a href="#questionnaire" data-view="questionnaire" style="--sec:var(--c-qn)">Questionnaire</a>
   <a href="#rules" data-view="rules" style="--sec:var(--c-rules)">Tax rules</a>
   <a href="#filings" data-view="filings" style="--sec:var(--c-filings)">Tax filings</a>
@@ -513,15 +524,14 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   <!-- REIT STRUCTURE -->
   <section class="view" id="v-structure" style="--sec:var(--c-structure)" hidden>
     <h2>REIT structure evaluation</h2>
-    <p class="lead">Answer the questions about the investors, strategy and exit. The page suggests a structure above and below the REIT that keeps tax and filings down for these facts, with the rules behind each point.</p>
-    <div class="dash">
-      <div class="panel"><h3 class="sthead">Facts <button type="button" id="stUpdateTop">Update results</button></h3><p class="savenote" id="stStatus" aria-live="polite">Results update as you change an answer. Use Update results to recalculate and jump to them.</p><div class="grid stgrid" id="stForm"></div>
+    <p class="lead">Enter the client's facts: the investors, strategy and exit, who owns the REIT, and (optionally) the current structure chart. The results and the recommended structure are on the <a href="#proposed">Proposed REIT structure</a> tab.</p>
+    <div class="dash stinputs">
+      <div class="panel"><h3 class="sthead">Facts <button type="button" id="stUpdateTop">See the proposed structure</button></h3><p class="savenote" id="stStatus" aria-live="polite">Results on the Proposed REIT structure tab update as you change an answer.</p><div class="grid stgrid" id="stForm"></div>
         <div class="stholders" id="stHolders" hidden></div>
-        <div class="stfoot"><button type="button" class="primary" id="stUpdate">Update results</button></div></div>
-      <div class="dashout" id="stOut"></div>
+        <div class="stfoot"><button type="button" class="primary" id="stUpdate">See the proposed structure</button></div></div>
     </div>
-    <h2 class="sub2" id="orgTitle" style="margin-top:32px">Existing structure: compliance review</h2>
-    <p class="lead">Import your current structure chart as an entity list. The page draws the chart, lists the filings each entity needs, flags problems, and proposes a structure with fewer filings.</p>
+    <h2 class="sub2" id="orgTitle" style="margin-top:32px">Existing structure chart (optional)</h2>
+    <p class="lead">Import the client's current structure chart as an entity list. The chart, the filings each entity needs, the problems found and a structure with fewer filings appear on the Proposed REIT structure tab.</p>
     <div class="panel" style="margin-bottom:16px">
       <div class="orgbar">
         <label class="filebtn" for="orgFile">Import entity list<input type="file" id="orgFile" accept=".csv,.xlsx,.xls,text/csv"></label>
@@ -532,10 +542,23 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       <p class="why" style="margin:10px 0 0">One row per entity: name, tax classification, owners and ownership %, country, state of formation, states where it operates or files, and activity. Excel or CSV. A picture or PDF of a chart can't be read automatically; copy it into the template first.</p>
       <p class="savenote" id="orgNote" aria-live="polite"></p>
     </div>
-    <div id="orgOut" class="dashout"></div>
     <details class="panel" id="orgEditWrap" hidden style="margin-top:16px"><summary style="cursor:pointer;font-weight:600">Entity list: check and edit</summary>
       <p class="why">Changes update the chart and the review straight away. Write owners as IDs with percentages, for example "REIT 91%; GP 1%; CLP 8%".</p>
       <div id="orgEdit"></div><button type="button" id="orgAdd" style="margin-top:10px">Add entity</button></details>
+  </section>
+
+  <!-- PROPOSED REIT STRUCTURE -->
+  <section class="view" id="v-proposed" style="--sec:var(--c-proposed)" hidden>
+    <h2>Proposed REIT structure</h2>
+    <p class="lead">The results of the evaluation: the recommended structure above and below the REIT, the ownership tests, the legal issues it addresses and the rules behind each point. To change the facts, use the <a href="#structure">REIT structure evaluation</a> tab.</p>
+    <div class="panel ptxrpt"><div><b>Structure memo to the client</b><span class="why">A memo addressed to the client with the proposed structure, the ownership tests and the existing-structure review, with color-coded results.</span></div>
+      <div class="ptxrptbtns"><button type="button" id="stRptPreview">Preview memo</button><button type="button" class="primary" id="stRptPdf">Download PDF</button><button type="button" id="stRptXlsx">Download Excel</button></div>
+      <p class="savenote" id="stRptNote" aria-live="polite"></p></div>
+    <div class="ptxpreview"><button type="button" class="link" id="stRptClose" hidden>Close the preview</button><div id="stReport" class="dashout" hidden></div></div>
+    <p class="savenote" id="stProposedFor"></p>
+    <div class="dashout" id="stOut"></div>
+    <h2 class="sub2" style="margin-top:32px">Existing structure: compliance review</h2>
+    <div id="orgOut" class="dashout"><p class="empty">No structure chart imported. Import one on the <a href="#structure">REIT structure evaluation</a> tab.</p></div>
   </section>
   <section class="view" id="v-questionnaire" style="--sec:var(--c-qn)" hidden>
     <h2>Client questionnaire</h2>
@@ -672,11 +695,13 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
         <div class="checks" id="rptSections"></div>
         <h3 style="margin-top:18px">Options</h3>
         <div class="grid">
-          <label for="rptPreparer">Prepared by<input type="text" id="rptPreparer" placeholder="Name or firm"></label>
+          <label for="rptTo">Memo to<input type="text" id="rptTo" placeholder="e.g. Jane Smith, CFO"></label>
+          <label for="rptPreparer">From (prepared by)<input type="text" id="rptPreparer" placeholder="e.g. Sivakumar Nimmagadda, CPA"></label>
+          <label for="rptFirm">Firm name<input type="text" id="rptFirm" placeholder="Shown at the top of the memo"></label>
           <label for="rptOrient">Orientation<select id="rptOrient"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
           <label for="rptPaper">Paper size<select id="rptPaper"><option value="letter">Letter</option><option value="a4">A4</option><option value="legal">Legal</option></select></label>
         </div>
-        <label for="rptNotes" style="margin-top:12px">Notes for the cover page<textarea id="rptNotes" rows="3" placeholder="Optional"></textarea></label>
+        <label for="rptNotes" style="margin-top:12px">Additional comments for the memo<textarea id="rptNotes" rows="3" placeholder="Optional"></textarea></label>
         <label class="check" for="rptBasis" style="margin-top:10px"><input type="checkbox" id="rptBasis">Include why each line item counts the way it does</label>
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px"><button type="button" class="primary" id="rptPrint" hidden>Print</button><button type="button" class="primary" id="rptPdf">Download PDF</button><button type="button" id="rptXlsx">Download Excel</button></div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"><button type="button" id="rptCopy">Copy report</button><button type="button" id="rptCopyTables">Copy tables for Excel</button></div>
@@ -1308,8 +1333,8 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   }
 
   // ---------- Router ----------
-  var views=["dashboard","consider","structure","questionnaire","rules","filings","checker","ptx","tb","estimates","states","global","updates","report","admin"];
-  var CLIENT_VIEWS=["dashboard","consider","structure","questionnaire"];
+  var views=["dashboard","consider","structure","proposed","questionnaire","rules","filings","checker","ptx","tb","estimates","states","global","updates","report","admin"];
+  var CLIENT_VIEWS=["dashboard","consider","structure","proposed","questionnaire"];
   function isClientUser(){return typeof FB!=="undefined"&&FB&&typeof FBS!=="undefined"&&FBS.role==="client"&&!FBS.admin;}
   function applyRoleUI(){var cl=isClientUser();Array.prototype.forEach.call(document.querySelectorAll(".tabs a[data-view]"),function(a){if(a.id==="navAdmin")return;a.hidden=cl&&CLIENT_VIEWS.indexOf(a.dataset.view)<0;});
     var br=$("btnReport");if(br)br.hidden=cl;var cb=$("clientBanner");if(cb)cb.hidden=!cl;route();}
@@ -2700,7 +2725,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   function refreshStructure(msg,scroll){if(!$("stForm").children.length)return;var hs=(PROFILE.structure||{}).holders;PROFILE.structure=readStructForm();if(Array.isArray(hs))PROFILE.structure.holders=hs;renderStructure();
     var t=new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit",second:"2-digit"});$("stStatus").textContent=(msg||"Results updated")+" at "+t+".";
     var out=$("stOut");out.classList.remove("flash");void out.offsetWidth;out.classList.add("flash");setTimeout(function(){out.classList.remove("flash")},1600);
-    if(scroll&&out.scrollIntoView)out.scrollIntoView({behavior:"smooth",block:"start"});
+    if(scroll){location.hash="#proposed";}
     clearTimeout(saveTimer);saveTimer=setTimeout(saveProfile,700);}
   $("stForm").addEventListener("change",function(e){var t=e.target,k=t.dataset.stm||t.dataset.st;if(!k)return;if(k==="bigtype")syncBigPartners();if(k==="count")shRender();refreshStructure("Updated for “"+questionLabel(k)+"”",false);});
   shInit();
@@ -2986,7 +3011,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     return {O:O,X:X,recs:recs,prop:prop,XP:XP,cur:orgTally(O.ents,X,O.costs),pro:orgTally(prop,XP,O.costs)};}
   function orgRenderAll(){orgRenderEdit();orgRender();}
   function orgRender(){var el=$("orgOut");if(!el)return;var S=orgState();
-    if(!S){el.innerHTML='<div class="empty">Import an entity list, or load the example structure, to see the chart, the filings each entity needs and simpler options.</div>';$("orgEditWrap").hidden=true;return;}
+    if(!S){el.innerHTML='<div class="empty">No structure chart imported. Import an entity list, or load the example structure, on the <a href="#structure">REIT structure evaluation</a> tab to see the chart, the filings each entity needs and simpler options here.</div>';$("orgEditWrap").hidden=true;return;}
     $("orgEditWrap").hidden=false;
     var c=S.cur,p=S.pro,saved=c.total-p.total,save$=c.cost-p.cost;
     var chips='<div class="chips orgchips">'+
@@ -3427,7 +3452,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     ["estimates","State estimated taxes",true],["stateRules","State rules",true],["intl","Other countries",true],
     ["filings","Filing calendar",true],["tb","Trial balance mapping",false],["changes","Recent rule developments",false]];
   function reportOpts(){var P=PROFILE;if(!P.report)P.report={};var r=P.report;if(!r.on){r.on={};}REPORT_SECTIONS.forEach(function(s){if(r.on[s[0]]===undefined)r.on[s[0]]=s[2]});
-    if(r.basis===undefined)r.basis=true;if(!r.orient)r.orient="portrait";if(!r.paper)r.paper="letter";if(r.preparer===undefined)r.preparer="";if(r.notes===undefined)r.notes="";return r;}
+    if(r.basis===undefined)r.basis=true;if(!r.orient)r.orient="portrait";if(!r.paper)r.paper="letter";if(r.preparer===undefined)r.preparer="";if(r.notes===undefined)r.notes="";if(r.to===undefined)r.to="";if(r.firm===undefined)r.firm="";return r;}
   function strip(t){return String(t==null?"":t).replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();}
   function sortedFilings(){return LAST_FILINGS.map(function(f){var d=dueOf(f);return {f:f,d:d}}).sort(function(a,b){if(a.d.date&&b.d.date)return a.d.date-b.d.date;return a.d.date?-1:b.d.date?1:0});}
   function mapLabel(m){var it=itemById(m);if(it)return it.label;for(var i=0;i<SPECIAL.length;i++)if(SPECIAL[i][0]===m)return SPECIAL[i][1];return m||"Not mapped";}
@@ -3480,23 +3505,56 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     var tbm=tbSets().length>1;
     sec("tb","Trial balance mapping",TB.length?(tbm?[{t:"table",head:["Trial balance","Sector","REIT share","Accounts","Gross income","Assets"],right:[3,4,5],rows:(function(){var st=tbSetStats();return tbSets().map(function(x){var s1=st[x.id]||{};return [x.label,x.sector==="diversified"?"Mixed":sectorName(x.sector),x.own+"%",String(s1.n||0),money(s1.inc||0),money(s1.ast||0)]})})()}]:[]).concat([{t:"table",head:(tbm?["Trial balance"]:[]).concat(["Account","Name","Debit","Credit","Maps to"]),right:tbm?[3,4]:[2,3],rows:TB.map(function(r){var st=tbSetOf(r);return (tbm?[st?st.label:""]:[]).concat([r.no,r.name,r.dr?money(r.dr):"",r.cr?money(r.cr):"",mapLabel(r.map)])})}]):[]);
     sec("changes","Recent rule developments",changes.length?[{t:"table",head:["Date","Status","Jurisdiction","Development"],rows:changes.slice().sort(function(a,b){return (b.date||"")<(a.date||"")?-1:1}).slice(0,15).map(function(c){return [c.date,(STATUS_TAG[c.status||"enacted"]||STATUS_TAG.enacted)[1],c.jurisdiction,c.title]}),wide:true}]:[]);
-    return {sections:S,opts:o,title:(RPT_TITLE?RPT_TITLE+": ":"")+(P.name||"REIT entity"),sub:typeLabel(P)+" · Tax year beginning "+P.year+(P.qtr?" · Q"+P.qtr+" (quarter ending "+fmtShort(qtrEnd(P.year,+P.qtr))+")":"")+" · Prepared "+fmtDate(new Date())};}
+    var per=P.qtr?"Q"+P.qtr+" "+P.year+" (quarter ending "+fmtShort(qtrEnd(P.year,+P.qtr))+")":"tax year beginning "+P.year,ent=P.name||"the REIT";
+    var subj=(RPT_TITLE||"REIT qualification and compliance review")+": "+ent+", "+per;
+    // Summary of results for the memo: the federal tests, the structure checks and the prohibited transactions result, when included
+    var SUM=[],inc=function(k){return S.some(function(x){return x.key===k})};
+    if(inc("tests"))LAST_TESTS.forEach(function(r){SUM.push([r.name,strip(r.val)||"—",r.label])});
+    if(inc("structure")){var SR2=evaluateStructure();
+      SUM.push(["Recommended above the REIT",SR2.nodes.above.map(function(n){return n.t}).join(", ")||"Not answered",""]);SUM.push(["Recommended below the REIT",SR2.nodes.below.map(function(n){return n.t}).join(", ")||"—",""]);
+      SUM.push(["Legal issues the structure addresses",String(SR2.legal.length),""]);
+      if(!SR2.owner.length)SUM.push(["Largest owner checks","No issues found","OK"]);SR2.owner.forEach(function(x){SUM.push([x.title,"",{ok:"OK",watch:"Watch",problem:"Problem"}[x.level]])});
+      if(SR2.holders&&SR2.holders.length){var ht=shTotal(SR2.holders);SUM.push(["Shareholder list total",ht.toFixed(2)+"%",Math.abs(ht-100)<0.005?"OK":"Review"]);}}
+    if(inc("orgReview")&&typeof orgState==="function"){var OS=orgState();if(OS){SUM.push(["Existing structure: entities reviewed",String(OS.O.ents.length),""]);SUM.push(["Filings a year: current structure",String(OS.cur.total),""]);
+      SUM.push(["Filings a year: proposed structure",String(OS.pro.total),OS.pro.total<OS.cur.total?"OK":"Review"]);if(OS.cur.cost||OS.pro.cost)SUM.push(["Estimated annual compliance cost saved",money(Math.max(0,OS.cur.cost-OS.pro.cost)),OS.cur.cost>OS.pro.cost?"OK":"Review"]);}}
+    if(inc("ptx")){var PR=ptxCalc();if(PR.rows.length){SUM.push(["Prohibited transactions: annual limit",PR.tests.filter(function(t){return t.ok}).length+" of "+PR.tests.length+" limits met",PR.annualOk?"Met":PR.annualUnknown?"Needs figures":"Not met"]);
+      SUM.push(["Sales within the safe harbor or an exception",(PR.safe+PR.notCounted)+" of "+PR.rows.length,PR.atRisk?"Review":"OK"]);SUM.push(["Gain exposed to the 100% tax",money(PR.exposure),PR.exposure>0?"Review":"OK"]);}}
+    var lc=function(t){return String(t).replace(/^([A-Z])([a-z])/,function(a,b,c){return b.toLowerCase()+c})};
+    var titles=S.filter(function(x){return x.key!=="cover"}).map(function(x){return lc(x.title)});
+    var purpose="This memorandum sets out our "+(RPT_TITLE?lc(RPT_TITLE):"REIT qualification and compliance review")+" for "+ent+" for "+per+(titles.length?", covering "+(titles.length>1?titles.slice(0,-1).join(", ")+" and "+titles[titles.length-1]:titles[0]):"")+". It is based on the information you provided"+(TB&&TB.length?", including the trial balance"+(tbSets().length>1?"s":""):"")+". Results are color coded: green is met, amber needs review or more information, and red is not met.";
+    var firm=o.firm||window.FIRM_NAME||"";
+    return {sections:S,opts:o,title:(RPT_TITLE?RPT_TITLE+": ":"")+(P.name||"REIT entity"),sub:typeLabel(P)+" · Tax year beginning "+P.year+(P.qtr?" · Q"+P.qtr+" (quarter ending "+fmtShort(qtrEnd(P.year,+P.qtr))+")":"")+" · Prepared "+fmtDate(new Date()),
+      memo:{firm:firm,to:o.to||("Management, "+(P.name||"the REIT")),from:o.preparer||firm||"REIT tax team",date:fmtDate(new Date()),re:subj,purpose:purpose,summary:SUM,notes:o.notes||"",
+        close:"Please review the facts above and let us know if anything differs from your records, since the conclusions depend on them. We would be glad to discuss the results and the next steps."}};}
+  // Status words in a table cell: green (met), amber (review) or red (not met)
+  function stClass(t){t=String(t==null?"":t).trim();if(!t||t.length>70)return "";
+    if(/^(pass|passed|met|ok|within the safe harbor|balanced|meets|qualif|answered|required: met|safe|no 100% tax|sale at a loss)/i.test(t))return "ok";
+    if(/^(fail|failed|not met|problem|outside the safe harbor|action needed|over )/i.test(t))return "bad";
+    if(/^(warn|review|watch|needs|incomplete|to confirm|if applicable|check|open|not enough|exception applies|likely|close)/i.test(t))return "warn";return "";}
+  function isNumCell(t){t=String(t==null?"":t).trim();return !!t&&/^[\(\-–]?\$?[\d,]+(\.\d+)?%?\)?( of \d+)?$/.test(t);}
+  function memoHtml(m){var M=m.memo;
+    return '<div class="rpage memo"><div class="memohead">'+(M.firm?'<div class="memofirm">'+esc(M.firm)+'</div>':'')+'<div class="memotitle">Memorandum</div>'+
+      '<table class="memokv"><tbody><tr><th>To</th><td>'+esc(M.to)+'</td></tr><tr><th>From</th><td>'+esc(M.from)+'</td></tr><tr><th>Date</th><td>'+esc(M.date)+'</td></tr><tr><th>Re</th><td><b>'+esc(M.re)+'</b></td></tr></tbody></table></div>'+
+      '<section class="rsec"><h3>Purpose</h3><p>'+esc(M.purpose)+'</p>'+(M.notes?'<p>'+esc(M.notes)+'</p>':'')+'</section>'+
+      (M.summary.length?'<section class="rsec"><h3>Summary of results</h3>'+blockHtml({t:"table",head:["Item","Value","Result"],rows:M.summary})+'</section>':'')+
+      (m.sections.length?m.sections.map(function(x,i){return '<section class="rsec"><h3>'+(i+1)+'. '+esc(x.title)+'</h3>'+x.blocks.map(blockHtml).join("")+'</section>'}).join(""):'<p class="why">Choose at least one schedule to include.</p>')+
+      '<section class="rsec"><h3>Next steps</h3><p>'+esc(M.close)+'</p><p class="memosign">'+esc(M.from)+(M.firm&&M.from!==M.firm?'<br>'+esc(M.firm):'')+'</p></section>'+
+      '<p class="why" style="margin-top:18px">This memorandum is a screening analysis based on the information provided. It is not a formal tax opinion. Confirm every position with a qualified tax advisor.</p></div>';}
 
   function renderReportOptions(){var o=reportOpts();
     $("rptSections").innerHTML=REPORT_SECTIONS.map(function(s){return '<label class="check" for="rs_'+s[0]+'"><input type="checkbox" id="rs_'+s[0]+'" data-rs="'+s[0]+'"'+(o.on[s[0]]?" checked":"")+'>'+s[1]+'</label>'}).join("");
-    $("rptPreparer").value=o.preparer;$("rptNotes").value=o.notes;$("rptOrient").value=o.orient;$("rptPaper").value=o.paper;$("rptBasis").checked=!!o.basis;}
-  function blockHtml(b){if(b.t==="kv")return '<table class="rkv"><tbody>'+b.rows.map(function(r){return '<tr><th>'+esc(r[0])+'</th><td>'+esc(r[1])+'</td></tr>'}).join("")+'</tbody></table>';
-    if(b.t==="table")return '<div class="ftable-wrap"><table class="ftable rtab"><thead><tr>'+b.head.map(function(h,i){return '<th'+((b.right||[]).indexOf(i)>=0?' style="text-align:right"':'')+'>'+esc(h)+'</th>'}).join("")+'</tr></thead><tbody>'+b.rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td'+((b.right||[]).indexOf(i)>=0?' class="f" style="text-align:right"':'')+'>'+esc(c)+'</td>'}).join("")+'</tr>'}).join("")+'</tbody></table></div>';
+    $("rptPreparer").value=o.preparer;$("rptNotes").value=o.notes;$("rptTo").value=o.to||"";$("rptFirm").value=o.firm||"";$("rptOrient").value=o.orient;$("rptPaper").value=o.paper;$("rptBasis").checked=!!o.basis;}
+  function cellHtml(v,right){var c=stClass(v),n=right||isNumCell(v);return '<td'+(c||n?' class="'+(c?"st-"+c:"")+(n?" num":"")+'"':'')+'>'+esc(v)+'</td>';}
+  function blockHtml(b){if(b.t==="kv")return '<table class="rkv"><tbody>'+b.rows.map(function(r){return '<tr><th>'+esc(r[0])+'</th>'+cellHtml(r[1])+'</tr>'}).join("")+'</tbody></table>';
     if(b.t==="svg")return '<div class="stchart">'+b.svg+'</div>';
+    if(b.t==="table")return '<div class="ftable-wrap"><table class="ftable rtab"><thead><tr>'+b.head.map(function(h,i){return '<th'+((b.right||[]).indexOf(i)>=0?' class="num"':'')+'>'+esc(h)+'</th>'}).join("")+'</tr></thead><tbody>'+b.rows.map(function(r){return '<tr>'+r.map(function(v,i){return cellHtml(v,(b.right||[]).indexOf(i)>=0)}).join("")+'</tr>'}).join("")+'</tbody></table></div>';
     if(b.t==="list")return b.items.length?'<ul class="plist">'+b.items.map(function(i){return '<li>'+esc(i)+'</li>'}).join("")+'</ul>':"";
     return '<p>'+(b.head?'<b>'+esc(b.head)+'.</b> ':'')+esc(b.text)+'</p>';}
   function renderReport(){if(!PROFILE||!$("rptPreview"))return;var m=reportModel();
-    $("rptPreview").innerHTML='<div class="rpage"><h2>'+esc(m.title)+'</h2><p class="why">'+esc(m.sub)+'</p>'+
-      (m.sections.length?m.sections.map(function(s){return '<section class="rsec"><h3>'+esc(s.title)+'</h3>'+s.blocks.map(blockHtml).join("")+'</section>'}).join(""):'<p class="why">Choose at least one schedule to include.</p>')+
-      '<p class="why" style="margin-top:18px">This report is a screening aid. It is not legal or tax advice. Confirm every position with a qualified tax advisor.</p></div>';
+    $("rptPreview").innerHTML=memoHtml(m);
     $("rptCount").textContent=m.sections.length+" of "+REPORT_SECTIONS.length+" schedules";}
   $("rptSections").addEventListener("change",function(e){var k=e.target.dataset.rs;if(!k)return;reportOpts().on[k]=e.target.checked;renderReport();clearTimeout(saveTimer);saveTimer=setTimeout(saveProfile,700);});
-  ["rptPreparer","rptNotes"].forEach(function(id){$(id).addEventListener("input",function(){var o=reportOpts();o.preparer=$("rptPreparer").value;o.notes=$("rptNotes").value;renderReport();clearTimeout(saveTimer);saveTimer=setTimeout(saveProfile,700);})});
+  ["rptPreparer","rptNotes","rptTo","rptFirm"].forEach(function(id){$(id).addEventListener("input",function(){var o=reportOpts();o.preparer=$("rptPreparer").value;o.notes=$("rptNotes").value;o.to=$("rptTo").value;o.firm=$("rptFirm").value;renderReport();clearTimeout(saveTimer);saveTimer=setTimeout(saveProfile,700);})});
   ["rptOrient","rptPaper","rptBasis"].forEach(function(id){$(id).addEventListener("change",function(){var o=reportOpts();o.orient=$("rptOrient").value;o.paper=$("rptPaper").value;o.basis=$("rptBasis").checked;renderReport();clearTimeout(saveTimer);saveTimer=setTimeout(saveProfile,700);})});
   $("rptAll").addEventListener("click",function(){var o=reportOpts();REPORT_SECTIONS.forEach(function(s){o.on[s[0]]=true});renderReportOptions();renderReport();saveProfile();});
   $("rptNone").addEventListener("click",function(){var o=reportOpts();REPORT_SECTIONS.forEach(function(s){o.on[s[0]]=false});renderReportOptions();renderReport();saveProfile();});
@@ -3526,18 +3584,29 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       var teal=[67,56,202],grey=[90,96,117];
       function brk(n){if(y>H-(n||70)){doc.addPage();y=54;}}
       function para(t,size,bold){doc.setFont("helvetica",bold?"bold":"normal");doc.setFontSize(size||9.5);doc.setTextColor(23,34,30);doc.splitTextToSize(pdfText(t),W-80).forEach(function(l){brk(50);doc.text(l,40,y);y+=12;});y+=4;}
-      function table(head,body,opt){doc.autoTable(Object.assign({head:[head.map(pdfText)],body:body.map(function(r){return r.map(pdfText)}),startY:y,margin:{left:40,right:40},styles:{fontSize:8.5,cellPadding:4,textColor:[23,34,30],overflow:"linebreak"},headStyles:{fillColor:teal,textColor:255},alternateRowStyles:{fillColor:[243,246,245]}},opt||{}));y=doc.lastAutoTable.finalY+16;}
-      doc.setFont("helvetica","bold");doc.setFontSize(20);doc.setTextColor(23,34,30);doc.text(pdfText(m.title),40,y);y+=18;
-      doc.setFont("helvetica","normal");doc.setFontSize(10);doc.setTextColor(grey[0],grey[1],grey[2]);doc.text(pdfText(m.sub),40,y);y+=24;
-      m.sections.forEach(function(s){brk(110);doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(teal[0],teal[1],teal[2]);doc.text(pdfText(s.title),40,y);y+=8;doc.setDrawColor(211,221,217);doc.line(40,y,W-40,y);y+=14;
+      var STC={ok:{bg:[220,243,228],fg:[22,101,52]},warn:{bg:[254,240,199],fg:[146,64,14]},bad:{bg:[254,226,226],fg:[153,27,27]}};
+      function colour(d){if(d.section!=="body")return;var t=String(d.cell.raw==null?"":d.cell.raw),c=stClass(t);if(c){d.cell.styles.fillColor=STC[c].bg;d.cell.styles.textColor=STC[c].fg;d.cell.styles.fontStyle="bold";}if(isNumCell(t))d.cell.styles.halign="right";}
+      function table(head,body,opt){doc.autoTable(Object.assign({head:[head.map(pdfText)],body:body.map(function(r){return r.map(pdfText)}),startY:y,margin:{left:40,right:40},styles:{fontSize:8.5,cellPadding:4,textColor:[23,34,30],overflow:"linebreak",lineColor:[226,230,238],lineWidth:0.4},headStyles:{fillColor:teal,textColor:255,fontStyle:"bold"},alternateRowStyles:{fillColor:[247,248,252]},didParseCell:colour},opt||{}));y=doc.lastAutoTable.finalY+16;}
+      var M=m.memo;
+      doc.setFillColor(teal[0],teal[1],teal[2]);doc.rect(0,0,W,8,"F");y=42;
+      if(M.firm){doc.setFont("helvetica","bold");doc.setFontSize(11);doc.setTextColor(teal[0],teal[1],teal[2]);doc.text(pdfText(M.firm),40,y);y+=26;}
+      doc.setFont("helvetica","bold");doc.setFontSize(22);doc.setTextColor(23,34,30);doc.text("MEMORANDUM",40,y);y+=14;
+      doc.autoTable({body:[["TO",M.to],["FROM",M.from],["DATE",M.date],["RE",M.re]].map(function(r){return r.map(pdfText)}),startY:y,margin:{left:40,right:40},theme:"plain",styles:{fontSize:10,cellPadding:{top:3,bottom:3,left:0,right:8},textColor:[23,34,30]},
+        columnStyles:{0:{fontStyle:"bold",textColor:grey,cellWidth:60,fontSize:8.5}},didParseCell:function(d){if(d.row.index===3&&d.column.index===1)d.cell.styles.fontStyle="bold";}});
+      y=doc.lastAutoTable.finalY+8;doc.setDrawColor(teal[0],teal[1],teal[2]);doc.setLineWidth(1.5);doc.line(40,y,W-40,y);doc.setLineWidth(0.5);y+=22;
+      function h3(t,need){brk(need||110);doc.setFont("helvetica","bold");doc.setFontSize(12.5);doc.setTextColor(teal[0],teal[1],teal[2]);doc.text(pdfText(t),40,y);y+=7;doc.setDrawColor(211,221,217);doc.line(40,y,W-40,y);y+=14;}
+      h3("Purpose");para(M.purpose,9.5);if(M.notes)para(M.notes,9.5);
+      if(M.summary.length){h3("Summary of results");table(["Item","Value","Result"],M.summary,{columnStyles:{0:{cellWidth:200},2:{cellWidth:80}}});}
+      m.sections.forEach(function(s,si){var b0=s.blocks[0];h3((si+1)+". "+s.title,b0&&b0.t==="svg"?360:150);
         s.blocks.forEach(function(b){
           if(b.t==="svg"){if(b.png){var iw=W-80,ih=iw*b.png.h/b.png.w;if(y+ih>H-60){doc.addPage();y=54;}doc.addImage(b.png.data,"PNG",40,y,iw,ih);y+=ih+14;}return;}
-          if(b.t==="kv")table(["Item","Detail"],b.rows,{theme:"plain",showHead:"never",columnStyles:{0:{fontStyle:"bold",cellWidth:170}}});
+          if(b.t==="kv")table(["Item","Detail"],b.rows,{theme:"grid",showHead:"never",styles:{fontSize:8.5,cellPadding:4,textColor:[23,34,30],lineColor:[226,230,238],lineWidth:0.4},columnStyles:{0:{fontStyle:"bold",cellWidth:170,fillColor:[247,248,252]}}});
           else if(b.t==="table"){var cs={};(b.right||[]).forEach(function(i){cs[i]={halign:"right"}});table(b.head,b.rows,{columnStyles:cs,styles:{fontSize:b.wide?7.5:8.5,cellPadding:b.wide?3:4,textColor:[23,34,30],overflow:"linebreak"}});}
           else if(b.t==="list")b.items.forEach(function(i){para("• "+i,9);});
           else{if(b.head)para(b.head,9.5,true);para(b.text,9);}});});
-      para("This report is a screening aid generated by REIT Rule Navigator. It is not legal or tax advice. Confirm every position with a qualified tax advisor.",8);
-      var pages=doc.internal.getNumberOfPages();for(var i=1;i<=pages;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(grey[0],grey[1],grey[2]);doc.text(pdfText("REIT Rule Navigator"+(o.preparer?" · Prepared by "+o.preparer:"")+" · Page "+i+" of "+pages),40,H-24);}
+      h3("Next steps");para(M.close,9.5);y+=6;para(M.from,9.5,true);if(M.firm&&M.from!==M.firm)para(M.firm,9.5);y+=8;
+      para("This memorandum is a screening analysis based on the information provided. It is not a formal tax opinion. Confirm every position with a qualified tax advisor.",8);
+      var pages=doc.internal.getNumberOfPages();for(var i=1;i<=pages;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(grey[0],grey[1],grey[2]);doc.text(pdfText("Confidential · "+M.re),40,H-24,{maxWidth:W-160});doc.text("Page "+i+" of "+pages,W-40,H-24,{align:"right"});}
       return {blob:doc.output("blob"),model:m,pages:pages};}
   $("rptPdf").addEventListener("click",function(){rptDownloadPdf($("rptNote"));});
   $("rptXlsx").addEventListener("click",function(){rptDownloadXlsx($("rptNote"));});
@@ -3552,8 +3621,12 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     try{var dl=await getDownloads(note);if(!dl)return;
       if(!window.XLSX){try{await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");}catch(e){}}
       if(!window.XLSX){note.textContent="The Excel builder couldn't load in this view. Reload the page and try again.";return;}
-      var m=reportModel(),wb=XLSX.utils.book_new(),used={};
-      m.sections.forEach(function(s){var rows=[[s.title],[]];
+      var m=reportModel(),wb=XLSX.utils.book_new(),used={"Memo":1},M=m.memo;
+      var mr=[[M.firm||""],["MEMORANDUM"],[],["To",M.to],["From",M.from],["Date",M.date],["Re",M.re],[],["Purpose"],[M.purpose]].concat(M.notes?[[M.notes]]:[]).concat([[]]);
+      if(M.summary.length){mr.push(["Summary of results"]);mr.push(["Item","Value","Result"]);M.summary.forEach(function(r){mr.push(r)});mr.push([]);}
+      mr.push(["Contents"]);m.sections.forEach(function(x,i){mr.push([(i+1)+". "+x.title])});mr.push([]);mr.push(["Next steps"]);mr.push([M.close]);mr.push([M.from]);
+      var mws=XLSX.utils.aoa_to_sheet(mr);mws["!cols"]=[{wch:58},{wch:40},{wch:18}];XLSX.utils.book_append_sheet(wb,mws,"Memo");
+      m.sections.forEach(function(s,si){var rows=[[(si+1)+". "+s.title],[]];
         s.blocks.forEach(function(b){if(b.t==="svg")return;if(b.t==="kv")b.rows.forEach(function(r){rows.push(r)});else if(b.t==="table"){rows.push(b.head);b.rows.forEach(function(r){rows.push(r)});}else if(b.t==="list")b.items.forEach(function(i){rows.push([i])});else rows.push([(b.head?b.head+". ":"")+b.text]);rows.push([]);});
         var ws=XLSX.utils.aoa_to_sheet(rows);ws["!cols"]=[{wch:42},{wch:28},{wch:18},{wch:40},{wch:40}];
         var name=s.title.replace(/[^A-Za-z0-9 &]/g,"").slice(0,31);while(used[name])name=name.slice(0,28)+" "+Math.floor(Math.random()*90+10);used[name]=1;XLSX.utils.book_append_sheet(wb,ws,name);});
@@ -3564,12 +3637,17 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   // Prohibited transactions tab: its own report (entity profile + the analysis)
   var PTX_SCOPE=[["cover","ptx"],"Prohibited transactions analysis","prohibited-transactions"];
   function ptxPreview(){var v=$("ptxReport");if(!v)return;withScope(PTX_SCOPE[0],PTX_SCOPE[1],PTX_SCOPE[2],function(){var m=reportModel();
-      v.innerHTML='<div class="rpage"><h2>'+esc(m.title)+'</h2><p class="why">'+esc(m.sub)+'</p>'+m.sections.map(function(s){return '<section class="rsec"><h3>'+esc(s.title)+'</h3>'+s.blocks.map(blockHtml).join("")+'</section>'}).join("")+
-        '<p class="why" style="margin-top:18px">This report is a screening aid. It is not legal or tax advice. Confirm every position with a qualified tax advisor.</p></div>';v.hidden=false;$("ptxRptClose").hidden=false;v.scrollIntoView({block:"start"});});}
+      v.innerHTML=memoHtml(m);v.hidden=false;$("ptxRptClose").hidden=false;v.scrollIntoView({block:"start"});window.scrollBy(0,-130);});}
   $("ptxRptPreview").addEventListener("click",ptxPreview);
   $("ptxRptClose").addEventListener("click",function(){$("ptxReport").hidden=true;this.hidden=true;});
   $("ptxRptPdf").addEventListener("click",function(){withScope(PTX_SCOPE[0],PTX_SCOPE[1],PTX_SCOPE[2],function(){return rptDownloadPdf($("ptxRptNote"));});});
   $("ptxRptXlsx").addEventListener("click",function(){withScope(PTX_SCOPE[0],PTX_SCOPE[1],PTX_SCOPE[2],function(){return rptDownloadXlsx($("ptxRptNote"));});});
+  // Proposed REIT structure tab: memo with the proposed structure and the existing-structure review
+  var ST_SCOPE=[["cover","structure","orgReview"],"Proposed REIT structure","proposed-structure-memo"];
+  $("stRptPreview").addEventListener("click",function(){var v=$("stReport");withScope(ST_SCOPE[0],ST_SCOPE[1],ST_SCOPE[2],function(){v.innerHTML=memoHtml(reportModel());v.hidden=false;$("stRptClose").hidden=false;v.scrollIntoView({block:"start"});window.scrollBy(0,-130);});});
+  $("stRptClose").addEventListener("click",function(){$("stReport").hidden=true;this.hidden=true;});
+  $("stRptPdf").addEventListener("click",function(){withScope(ST_SCOPE[0],ST_SCOPE[1],ST_SCOPE[2],function(){return rptDownloadPdf($("stRptNote"));});});
+  $("stRptXlsx").addEventListener("click",function(){withScope(ST_SCOPE[0],ST_SCOPE[1],ST_SCOPE[2],function(){return rptDownloadXlsx($("stRptNote"));});});
 
   // ---------- Jump from the Tax rules tab to the calculation ----------
   function testId(n){return "t_"+String(n).toLowerCase().replace(/[^a-z0-9]+/g,"-");}
