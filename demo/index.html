@@ -1808,7 +1808,10 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
         '<td><input type="text" inputmode="decimal" data-tbset="'+esc(x.id)+'" data-k="own" value="'+esc(x.own)+'" aria-label="REIT share percent" style="width:70px"></td><td class="why">'+esc(x.file||"")+'</td><td class="n">'+(st.n||0)+'</td><td>'+(st.bal?'<span class="tag t-conf">Yes</span>':'<span class="tag t-strict">Off by '+money(st.diff||0)+'</span>')+'</td><td class="n">'+money(st.inc||0)+'</td><td class="n">'+money(st.ast||0)+'</td><td><button type="button" class="link" data-tbrm="'+esc(x.id)+'">Remove</button></td></tr>'}).join("")+'</tbody></table></div>'+
       '<p class="why" style="margin:8px 0 0">REIT share: for a property held through a partnership or joint venture, enter the REIT\'s capital interest. The REIT counts that share of the partnership\'s gross income and assets (Treas. Reg. §1.856-3(g)). Income and assets here are the REIT\'s share.</p>'+tbSectorPanel(stats)+'</div>';}
   var TB_VIEW="all";
-  function renderTB(){tbEnsureSets();renderTBSets();var cf=$("tbCarry");if(cf){cf.hidden=!(PROFILE.tbFrom&&TB&&TB.length);cf.innerHTML=PROFILE.tbFrom?"<b>This trial balance is carried from "+esc(pidLabel(PROFILE.tbFrom))+".</b> It is shown so the previous answers still apply. Import the "+esc(pidLabel(curPid()))+" trial balance to replace it.":"";}var ac=$("tbAutoSector");if(ac)ac.checked=PROFILE.tbAutoSector!==false;
+  function renderTB(){tbEnsureSets();renderTBSets();var cf=$("tbCarry");if(cf){var cp=typeof PERIOD!=="undefined"&&PERIOD.y?curPid():"",pv=(typeof PREV!=="undefined"&&PREV.pid)||"",ro=typeof FB!=="undefined"&&FB&&FBS.role==="viewer";
+      if(PROFILE.tbCopied&&TB&&TB.length){cf.hidden=false;cf.innerHTML="<b>This trial balance is a copy of "+esc(pidLabel(PROFILE.tbCopied))+"'s.</b> Import the "+esc(pidLabel(cp))+" year-to-date trial balance to replace it.";}
+      else if(!(TB&&TB.length)&&cp){cf.hidden=false;cf.innerHTML="<b>No trial balance has been imported for "+esc(pidLabel(cp))+" yet.</b> Import this quarter's year-to-date trial balance."+(pv&&!ro?' Or <button type="button" class="link" id="tbCopyPrev">copy the '+esc(pidLabel(pv))+' trial balance</button> as a starting point.':"");}
+      else{cf.hidden=true;cf.innerHTML="";}}var ac=$("tbAutoSector");if(ac)ac.checked=PROFILE.tbAutoSector!==false;
     if(!TB.length){$("tbSummary").innerHTML="";$("tbTable").innerHTML='<div class="empty">Import one or more trial balances, or load a sample, to see account matching.</div>';return;}
     var S=tbSets(),multi=S.length>1;if(TB_VIEW!=="all"&&!S.some(function(x){return x.id===TB_VIEW}))TB_VIEW="all";
     $("tbTable").innerHTML=(multi?'<label class="tbview" for="tbView">Show accounts from<select id="tbView"><option value="all">All trial balances ('+TB.length+' accounts)</option>'+S.map(function(x){return '<option value="'+esc(x.id)+'"'+(TB_VIEW===x.id?" selected":"")+'>'+esc(x.label)+'</option>'}).join("")+'</select></label>':'')+
@@ -1836,7 +1839,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
           wb.SheetNames.forEach(function(sn){var tb=rowsToTB(XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:true,defval:""}));if(tb&&tb.length){var mt=tb.meta||{},lb=wb.SheetNames.length>1?sn:name;if(mt.property&&(wb.SheetNames.length<2||/^(sheet|report|tb|trial)/i.test(sn)))lb=mt.property;out.push({rows:tb,label:lb,file:name+(wb.SheetNames.length>1?" · "+sn:""),meta:mt});}});
           res(out.length?{sets:out}:{err:"Couldn't find account name and amount columns in "+name+". Check the header row."});}catch(e){res({err:"Couldn't read "+name+". Try saving it as CSV."});}};rd.readAsArrayBuffer(f);}
     else{rd.onload=function(){var tb=rowsToTB(parseCSV(String(rd.result)));res(tb&&tb.length?{sets:[{rows:tb,label:(tb.meta&&tb.meta.property)||name,file:name,meta:tb.meta||{}}]}:{err:"Couldn't find account name and amount columns in "+name+". Check the header row."});};rd.readAsText(f);}});}
-  $("tbFile").addEventListener("change",async function(){var files=Array.prototype.slice.call(this.files||[]);this.value="";if(!files.length)return;if(PROFILE.tbFrom){TB=[];PROFILE.tbSets=[];PROFILE.tbFrom="";}var errs=[],n=0;
+  $("tbFile").addEventListener("change",async function(){var files=Array.prototype.slice.call(this.files||[]);this.value="";if(!files.length)return;if(PROFILE.tbFrom||PROFILE.tbCopied){TB=[];PROFILE.tbSets=[];PROFILE.tbFrom="";PROFILE.tbCopied="";}var errs=[],n=0;
     var ys=[];for(var i=0;i<files.length;i++){var r=await tbReadFile(files[i]);if(r.err){errs.push(r.err);continue;}r.sets.forEach(function(x){loadTB(x.rows,x.label,{file:x.file});n++;if(x.meta&&(x.meta.yardi||x.meta.useEnd))ys.push(x.meta);});}
     var extra=[];if(ys.length){var y0=ys[0];extra.push((ys.some(function(m){return m.yardi})?"Recognized a Yardi Voyager trial balance":"Recognized a trial balance with ending balances")+(ys.length>1?" ("+ys.length+" reports)":"")+(y0.period?", period "+y0.period:"")+(y0.book?", "+y0.book+" book":"")+". Ending balances were used; the debit and credit columns are only the period's activity.");
       var pm=y0.period&&y0.period.match(/([A-Za-z]{3})[a-z]*\.?\s*(\d{4})\s*$/);if(pm&&PERIOD.q){var mi="janfebmaraprmayjunjulaugsepoctnovdec".indexOf(pm[1].toLowerCase())/3,qe=qtrEnd(PERIOD.y,+PERIOD.q);if(mi>=0&&(qe.getMonth()!==mi||qe.getFullYear()!==+pm[2]))extra.push("Check the period: the report ends "+pm[1]+" "+pm[2]+", but "+pidLabel(curPid())+" ends "+fmtShort(qe)+".");}}
@@ -1864,7 +1867,13 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   $("tbSets").addEventListener("click",function(e){var id=e.target.dataset.tbrm;if(!id)return;TB=TB.filter(function(r){return r.src!==id});PROFILE.tbSets=tbSets().filter(function(x){return x.id!==id});
     var sec=tbSyncSectors();if(sec)tbRemapAuto();tbSaveLocal();renderTB();if(sec)changed(true);else saveProfile();if(ORG_READY)qnRender();});
 
-  $("tbClear").addEventListener("click",function(){TB=[];PROFILE.tbSets=[];PROFILE.tbFrom="";try{localStorage.removeItem(tbLsKey())}catch(e){}$("tbNote").textContent="";renderTB();if(ORG_READY)qnRender();});
+  $("tbCarry").addEventListener("click",async function(e){if(e.target.id!=="tbCopyPrev")return;var pv=(typeof PREV!=="undefined"&&PREV.pid)||PROFILE.tbPrev;if(!pv)return;e.target.disabled=true;
+    try{var rows=[],sets=[];if(typeof FB!=="undefined"&&FB){var d=await fbFs().doc("entities/"+FBS.eid+"/years/"+pv).get();if(d.exists){rows=await fbLoadTB(FBS.eid,pv,d.data());sets=((d.data().profile||{}).tbSets)||[];}}
+      else{var r=await perGet(pv);if(r){rows=r.tb||[];sets=((r.profile||{}).tbSets)||[];}}
+      if(!rows.length){$("tbNote").textContent="No trial balance was found for "+pidLabel(pv)+".";e.target.disabled=false;return;}
+      TB=JSON.parse(JSON.stringify(rows));PROFILE.tbSets=JSON.parse(JSON.stringify(sets));PROFILE.tbCopied=pv;qnApplyTbMap();tbEnsureSets();renderTB();run();tbSaveLocal();
+      $("tbNote").textContent="Copied the "+pidLabel(pv)+" trial balance ("+rows.length+" accounts). Import this quarter's to replace it.";}catch(err){$("tbNote").textContent="Couldn't copy: "+((err&&err.message)||err);e.target.disabled=false;}});
+  $("tbClear").addEventListener("click",function(){TB=[];PROFILE.tbSets=[];PROFILE.tbFrom="";PROFILE.tbCopied="";try{localStorage.removeItem(tbLsKey())}catch(e){}$("tbNote").textContent="";renderTB();if(ORG_READY)qnRender();});
   $("tbApply").addEventListener("click",function(){if(!TB.length){$("tbNote").textContent="Import a trial balance first.";return;}
     if(!tbArmed){tbArmed=true;this.textContent="Replace checker figures";$("tbNote").textContent="This replaces the income, asset and distribution figures in the checker. Click again to confirm.";return;}
     tbArmed=false;this.textContent="Apply to checker";var x=tbTotals(),inc=0;
@@ -2261,7 +2270,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   function carryQa(qa,from){var o={};Object.keys(qa||{}).forEach(function(k){var a=qa[k];if(!a||a.v==null||a.v==="")return;
     o[k]={v:a.v,at:a.at||"",by:a.by||"",carried:true,from:from};});return o;}
   function carryProfile(p,from,y,q){var c=JSON.parse(JSON.stringify(p||{})),f=pidParts(from);
-    c.year=String(y);c.qtr=String(q||"");c.est={};if(c.ptx&&f&&f.y!==String(y)){var pr=c.ptx,bp=pn(pr.basisBOY)>0?(pr.sales||[]).filter(function(x){return x.fore!=="yes"&&x.conv!=="yes"&&x.seller!=="trs"}).reduce(function(t,x){return t+pn(x.basis)},0)/pn(pr.basisBOY)*100:"",fp=pn(pr.fmvBOY)>0?(pr.sales||[]).filter(function(x){return x.fore!=="yes"&&x.conv!=="yes"&&x.seller!=="trs"}).reduce(function(t,x){return t+(x.fmv!==""&&x.fmv!=null?pn(x.fmv):pn(x.price))},0)/pn(pr.fmvBOY)*100:"";c.ptx={basisBOY:"",fmvBOY:"",prior:[{basisPct:bp===""?"":bp.toFixed(2),fmvPct:fp===""?"":fp.toFixed(2)},(pr.prior||[{}])[0]||{}],sales:[]};}c.tbFrom=c.tbSets&&c.tbSets.length?from:"";if(!f||f.y!==String(y))c.first=false;c.qa=carryQa(c.qa,from);c.carriedFrom=from;return c;}
+    c.year=String(y);c.qtr=String(q||"");c.est={};if(c.ptx&&f&&f.y!==String(y)){var pr=c.ptx,bp=pn(pr.basisBOY)>0?(pr.sales||[]).filter(function(x){return x.fore!=="yes"&&x.conv!=="yes"&&x.seller!=="trs"}).reduce(function(t,x){return t+pn(x.basis)},0)/pn(pr.basisBOY)*100:"",fp=pn(pr.fmvBOY)>0?(pr.sales||[]).filter(function(x){return x.fore!=="yes"&&x.conv!=="yes"&&x.seller!=="trs"}).reduce(function(t,x){return t+(x.fmv!==""&&x.fmv!=null?pn(x.fmv):pn(x.price))},0)/pn(pr.fmvBOY)*100:"";c.ptx={basisBOY:"",fmvBOY:"",prior:[{basisPct:bp===""?"":bp.toFixed(2),fmvPct:fp===""?"":fp.toFixed(2)},(pr.prior||[{}])[0]||{}],sales:[]};}c.tbFrom="";c.tbCopied="";c.tbSets=[];c.tbPrev=from;if(!f||f.y!==String(y))c.first=false;c.qa=carryQa(c.qa,from);c.carriedFrom=from;return c;}
   function perLocal(){try{return JSON.parse(localStorage.getItem("reitPeriods")||"{}")||{}}catch(e){return {}}}
   function perLocalTB(pid){try{var t=localStorage.getItem("reitTB_"+pid);return t?JSON.parse(t)||[]:null}catch(e){return null}}
   async function perList(){if(FB&&FBS.eid)return (await listYears(FBS.eid)).slice().sort();
@@ -2291,9 +2300,10 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   // Open a period outside the private website (claude.ai page or self-hosted copy)
   async function openPeriod(y,q,opt){opt=opt||{};PER_BUSY=true;clearTimeout(saveTimer);
     try{PERIOD.y=String(y);PERIOD.q=String(q||"");ensureYearOption(PERIOD.y);var pid=curPid(),list=await perList(),note="",d=await perGet(pid),pd=null,pr="";
-      if(d&&d.profile){applyProfile(Object.assign({},d.profile,{year:PERIOD.y,qtr:PERIOD.q}));if(d.figures){applyFigures(d.figures);figuresAreExample=false;}TB=d.tb||[];}
+      if(d&&d.profile){applyProfile(Object.assign({},d.profile,{year:PERIOD.y,qtr:PERIOD.q}));if(d.figures){applyFigures(d.figures);figuresAreExample=false;}TB=d.tb||[];
+        if(PROFILE.tbFrom){PROFILE.tbPrev=PROFILE.tbFrom;PROFILE.tbFrom="";PROFILE.tbSets=[];TB=[];}}
       else{pr=perPrior(pid,list);pd=pr?await perGet(pr):null;
-        if(pd&&pd.profile){applyProfile(carryProfile(pd.profile,pr,PERIOD.y,PERIOD.q));if(!opt.startup)TB=(pd.tb||[]).slice();note="Started "+pidLabel(pid)+" from "+pidLabel(pr)+". The answers were carried forward: confirm them on the Questionnaire tab.";}
+        if(pd&&pd.profile){applyProfile(carryProfile(pd.profile,pr,PERIOD.y,PERIOD.q));note="Started "+pidLabel(pid)+" from "+pidLabel(pr)+". The answers were carried forward: confirm them on the Questionnaire tab.";}
         else{var c=JSON.parse(JSON.stringify(PROFILE));if(!opt.startup)c.qa={};c.year=PERIOD.y;c.qtr=PERIOD.q;c.est=opt.startup?c.est:{};c.tbSets=opt.startup?c.tbSets:[];applyProfile(c);if(!opt.startup)note="New quarter: "+pidLabel(pid)+".";}
         if(!opt.startup){applyFigures({});figuresAreExample=false;if(!(pd&&pd.profile))TB=[];}
         else{var lt=perLocalTB(pid);if(lt)TB=lt;}}
@@ -2328,12 +2338,25 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     $("p_year").disabled=true;$("year").disabled=true;
     $("roBanner").hidden=!ro;$("rptSave").hidden=ro;var sa=$("stApply");if(sa)sa.disabled=ro;}
   function scheduleYearSave(){if(!FB||FBS.loading||!FBS.eid||FBS.role==="viewer")return;$("fbSaveState").textContent="Unsaved changes…";clearTimeout(FBS.yearTimer);FBS.yearTimer=setTimeout(saveYear,1200);}
+  // The trial balance is stored in parts of 400 rows under the quarter (years/{quarter}/tbparts/p000…), so a large
+  // trial balance never runs into the 1 MB limit of a single record and every user of the entity sees the same one.
+  var TB_PART=400;
+  function tbSig(rows){var x=JSON.stringify(rows||[]),h=0;for(var i=0;i<x.length;i+=3)h=(h*31+x.charCodeAt(i))|0;return x.length+":"+h;}
+  async function fbLoadTB(eid,pid,v){if(v&&v.tbParts>0){var sn=await fbFs().collection("entities/"+eid+"/years/"+pid+"/tbparts").get();var docs=sn.docs.slice().sort(function(a,b){return a.id<b.id?-1:1}),rows=[];docs.forEach(function(d){rows=rows.concat(d.data().rows||[])});return rows;}return ((v&&v.tb)||[]).slice();}
+  function tbWrite(batch,yref){var rows=(TB||[]).slice(0,20000),sig=tbSig(rows),M=FBS.tbMeta||{};if(sig===FBS.tbSig)return {M:M,sig:sig,changed:false};
+    var n=Math.ceil(rows.length/TB_PART),pad=function(i){return "p"+("00"+i).slice(-3)};
+    for(var i=0;i<n;i++)batch.set(yref.collection("tbparts").doc(pad(i)),{rows:rows.slice(i*TB_PART,(i+1)*TB_PART)});
+    for(var j=n;j<Math.max(M.tbParts||0,n);j++)batch.delete(yref.collection("tbparts").doc(pad(j)));
+    return {M:{tbParts:n,tbCount:rows.length,tbAt:new Date(),tbBy:FBS.email},sig:sig,changed:true};}
   async function saveYear(){if(!FBS.eid||FBS.role==="viewer")return;
-    if(FBS.role==="client"&&!FBS.admin){try{await fbFs().doc("entities/"+FBS.eid+"/years/"+FBS.year).update({profile:JSON.parse(JSON.stringify(Object.assign({},PROFILE,{year:PERIOD.y,qtr:PERIOD.q}))),tb:(TB||[]).slice(0,6000),updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:FBS.email});$("fbSaveState").textContent="Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});}
+    var yref=fbFs().doc("entities/"+FBS.eid+"/years/"+FBS.year),batch=fbFs().batch(),w=tbWrite(batch,yref),tbf={tbParts:w.M.tbParts||0,tbCount:w.M.tbCount||0,tbAt:w.M.tbAt||null,tbBy:w.M.tbBy||""};
+    if(FBS.role==="client"&&!FBS.admin){
+      batch.update(yref,Object.assign({profile:JSON.parse(JSON.stringify(Object.assign({},PROFILE,{year:PERIOD.y,qtr:PERIOD.q}))),updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:FBS.email},tbf,w.changed?{tb:firebase.firestore.FieldValue.delete()}:{}));
+      try{await batch.commit();FBS.tbSig=w.sig;FBS.tbMeta=w.M;$("fbSaveState").textContent="Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});}
       catch(e){$("fbSaveState").textContent=(e&&e.code==="not-found")?"Your advisor needs to start "+pidLabel(FBS.year)+" before your changes can be saved.":"Not saved: "+fbErr(e);}return;}
-    PROFILE.year=PERIOD.y;PROFILE.qtr=PERIOD.q;var body={profile:JSON.parse(JSON.stringify(PROFILE)),figures:collectFigures(),tb:(TB||[]).slice(0,6000),updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:FBS.email};
-    body.profile.year=PERIOD.y;body.profile.qtr=PERIOD.q;
-    try{await fbFs().doc("entities/"+FBS.eid+"/years/"+FBS.year).set(body);$("fbSaveState").textContent="Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});}
+    PROFILE.year=PERIOD.y;PROFILE.qtr=PERIOD.q;var body=Object.assign({profile:JSON.parse(JSON.stringify(PROFILE)),figures:collectFigures(),updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:FBS.email},tbf);
+    body.profile.year=PERIOD.y;body.profile.qtr=PERIOD.q;batch.set(yref,body);
+    try{await batch.commit();FBS.tbSig=w.sig;FBS.tbMeta=w.M;$("fbSaveState").textContent="Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"})+(w.changed?" · trial balance ("+w.M.tbCount+" accounts) saved for everyone on this entity":"");}
     catch(e){$("fbSaveState").textContent="Not saved: "+fbErr(e);}}
   async function listYears(eid){var snap=await fbFs().collection("entities/"+eid+"/years").get();return snap.docs.map(function(d){return d.id}).sort().reverse();}
   async function openEntityYear(eid,pid,opts){FBS.loading=true;figuresAreExample=false;FBS.eid=eid;pid=String(pid);var pp=pidParts(pid)||{y:pid,q:""},isNew=false;
@@ -2341,9 +2364,13 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     var ent=FBS.entities[eid]||{};FBS.role=FBS.admin?"editor":(ent.role||"viewer");var canStart=FBS.admin||FBS.role==="editor";
     ensureYearOption(pp.y);
     try{var list=(await listYears(eid)).slice().sort();var d=await fbFs().doc("entities/"+eid+"/years/"+pid).get();var note="",known=null;
-      if(d.exists){var v=d.data();applyProfile(Object.assign(blankProfile(ent.name,pp.y),v.profile||{},{year:pp.y,qtr:pp.q}));applyFigures(v.figures);TB=v.tb||[];}
+      var fixCarry=false;FBS.tbMeta={};FBS.tbSig=tbSig([]);FBS.openedAt=0;
+      if(d.exists){var v=d.data();applyProfile(Object.assign(blankProfile(ent.name,pp.y),v.profile||{},{year:pp.y,qtr:pp.q}));applyFigures(v.figures);TB=await fbLoadTB(eid,pid,v);
+        FBS.tbMeta={tbParts:v.tbParts||0,tbCount:v.tbCount||0,tbAt:v.tbAt||null,tbBy:v.tbBy||""};FBS.tbSig=v.tbParts>0?tbSig(TB):(TB.length?"legacy":tbSig([]));FBS.openedAt=v.updatedAt&&v.updatedAt.toMillis?v.updatedAt.toMillis():0;
+        // A quarter that only holds a copy made automatically from the previous quarter starts empty again
+        if(PROFILE.tbFrom){PROFILE.tbPrev=PROFILE.tbFrom;PROFILE.tbFrom="";PROFILE.tbSets=[];TB=[];FBS.tbSig="carried";fixCarry=true;}}
       else{var pr=perPrior(pid,list),prior=pr?await fbFs().doc("entities/"+eid+"/years/"+pr).get():null;
-        TB=[];if(prior&&prior.exists){known={pid:pr,data:prior.data()};applyProfile(Object.assign(blankProfile(ent.name,pp.y),carryProfile(prior.data().profile||{},pr,pp.y,pp.q)));TB=(prior.data().tb||[]).slice();}
+        TB=[];if(prior&&prior.exists){known={pid:pr,data:prior.data()};applyProfile(Object.assign(blankProfile(ent.name,pp.y),carryProfile(prior.data().profile||{},pr,pp.y,pp.q)));}
         else applyProfile(Object.assign(blankProfile(ent.name,pp.y),{qtr:pp.q}));
         applyFigures({});isNew=true;
         note=!canStart?"Your advisor hasn't started "+pidLabel(pid)+" yet."+(known?" The answers from "+pidLabel(pr)+" are shown for reference; you can confirm them once the quarter is started.":"")
@@ -2356,7 +2383,14 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       if(FBS.role!=="client"||FBS.admin)await renderSavedReports();
     }catch(e){$("fbSaveState").textContent="Couldn't open: "+fbErr(e);}
     clearTimeout(saveTimer);FBS.loading=false;
-    if(isNew&&canStart){await saveYear();$("fbSaveState").textContent=note;}}
+    if((isNew||fixCarry)&&canStart){await saveYear();$("fbSaveState").textContent=note||"This quarter had a copy of an earlier trial balance; it now starts empty.";}
+    fbWatchYear(eid,pid);}
+  // Show changes another user saves to the open quarter (for example a trial balance the client imported)
+  function fbWatchYear(eid,pid){if(FBS.yearUnsub){try{FBS.yearUnsub()}catch(e){}}FBS.yearUnsub=null;
+    try{FBS.yearUnsub=fbFs().doc("entities/"+eid+"/years/"+pid).onSnapshot(function(d){if(!d||!d.exists||FBS.loading||FBS.eid!==eid||FBS.year!==pid)return;var v=d.data()||{};
+      var t=v.updatedAt&&v.updatedAt.toMillis?v.updatedAt.toMillis():0;if(!t||t<=FBS.openedAt||v.updatedBy===FBS.email)return;
+      if(FBS.yearTimer){$("fbSaveState").textContent=(v.updatedBy||"Someone")+" saved changes to this quarter; yours will be saved over them. Reload to see theirs first.";return;}
+      FBS.openedAt=t;openEntityYear(eid,pid).then(function(){$("fbSaveState").textContent="Updated with changes saved by "+(v.updatedBy||"another user")+".";});},function(){});}catch(e){}}
   async function startPid(eid){var list=(await listYears(eid)).slice().sort(),dp=defaultPeriod(),want=pidOf(dp.y,dp.q);
     if(list.indexOf(want)>=0||!list.length)return want;return list[list.length-1];}
   async function loadAccess(){

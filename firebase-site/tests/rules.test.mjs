@@ -96,6 +96,12 @@ await check("editor cannot resend invites", assertFails(updateDoc(doc(editor, "e
 console.log("Client access");
 await check("client saves a trial balance with the profile", assertSucceeds(updateDoc(doc(client, "entities/A/years/2026"), { profile: { name: "A" }, tb: [{ no: "4010", name: "Rent", dr: 0, cr: 100 }], updatedAt: serverTimestamp(), updatedBy: "cfo@alpha.com" })));
 await check("client cannot change the figures", assertFails(updateDoc(doc(client, "entities/A/years/2026"), { figures: { i_rent: 1 }, updatedBy: "cfo@alpha.com" })));
+await check("editor saves a trial balance part", assertSucceeds(setDoc(doc(editor, "entities/A/years/2026/tbparts/p000"), { rows: [{ no: "4010", name: "Rent", dr: 0, cr: 100 }] })));
+await check("client saves a trial balance part", assertSucceeds(setDoc(doc(client, "entities/A/years/2026/tbparts/p001"), { rows: [] })));
+await check("viewer cannot save a trial balance part", assertFails(setDoc(doc(viewer, "entities/A/years/2026/tbparts/p002"), { rows: [] })));
+await check("other entity cannot read the trial balance", assertFails(getDoc(doc(other, "entities/A/years/2026/tbparts/p000"))));
+await check("part names are p000 to p999", assertFails(setDoc(doc(editor, "entities/A/years/2026/tbparts/x"), { rows: [] })));
+await check("no trial balance for a quarter that doesn't exist", assertFails(setDoc(doc(client, "entities/A/years/2031-Q1/tbparts/p000"), { rows: [] })));
 await check("client reads its entity's year", assertSucceeds(getDoc(doc(client, "entities/A/years/2026"))));
 await check("client updates the profile", assertSucceeds(updateDoc(doc(client, "entities/A/years/2026"), { profile: { name: "Alpha REIT", qa: { "rentnp": { v: "no" } } }, updatedAt: serverTimestamp(), updatedBy: "cfo@alpha.com" })));
 await check("client cannot change figures", assertFails(updateDoc(doc(client, "entities/A/years/2026"), { figures: { i_rent: "1" }, updatedBy: "cfo@alpha.com" })));

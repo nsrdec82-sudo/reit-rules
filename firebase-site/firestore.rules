@@ -66,9 +66,18 @@ service cloud.firestore {
         allow create, update: if isEditor(eid) && year.matches('^[0-9]{4}(-Q[1-4])?$');
         // Clients can update the profile of a year their advisor has started, and nothing else
         allow update: if isClient(eid)
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['profile', 'tb', 'updatedAt', 'updatedBy'])
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['profile', 'tb', 'tbParts', 'tbCount', 'tbAt', 'tbBy', 'updatedAt', 'updatedBy'])
           && request.resource.data.updatedBy == myEmail();
         allow delete: if isAdmin();
+
+        // The quarter's trial balance, in parts of up to 400 rows (p000, p001, ...), so a large one fits.
+        // Everyone on the entity reads it; employees with full access and clients save it, once the quarter exists.
+        match /tbparts/{part} {
+          allow read: if isAdmin() || isMember(eid);
+          allow write: if part.matches('^p[0-9]{3}$')
+            && (isEditor(eid) || isClient(eid))
+            && existsAfter(/databases/$(database)/documents/entities/$(eid)/years/$(year));
+        }
 
         // Saved reports: a data snapshot plus the PDF stored in chunks.
         match /reports/{rid} {
