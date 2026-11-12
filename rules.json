@@ -2,8 +2,8 @@
  "meta": {
   "status": {
    "checkedBy": "Claude scheduled review",
-   "lastChecked": "2026-11-10",
-   "nextCheck": "2026-11-11"
+   "lastChecked": "2026-11-11",
+   "nextCheck": "2026-11-12"
   }
  },
  "federal": {
@@ -290,10 +290,18 @@
     {
      "form": "AR1100ESCT",
      "name": "Corporation Estimated Tax Vouchers"
+    },
+    {
+     "form": "AR1100CTV",
+     "name": "Corporation Income Tax Payment Voucher"
+    },
+    {
+     "form": "AR1155",
+     "name": "Extension of Time to File Request"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-11-04",
+   "formsVerified": true,
+   "lastVerified": "2026-11-11",
    "minTax": 0,
    "name": "Arkansas",
    "rate": 4.3,
@@ -555,15 +563,23 @@
    "code": "HI",
    "forms": [
     {
+     "due": "20th day of the 4th month after year end (April 20 for calendar-year filers); automatic six-month extension to file, not to pay",
      "form": "N-30",
-     "name": "Corporation Income Tax Return"
+     "name": "Corporation Income Tax Return",
+     "note": "REITs check the REIT box and attach federal Form 1120-REIT; REITs must also notify the Department of their presence in Hawaii and report assets and revenues annually"
+    },
+    {
+     "form": "N-201V",
+     "name": "Business Income Tax Payment Voucher",
+     "note": "Used for estimated tax installments (April 20, June 20, September 20, January 20 for calendar-year filers) and extension payments"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-11-04",
+   "formsVerified": true,
+   "lastVerified": "2026-11-11",
    "name": "Hawaii",
    "rate": 6.4,
-   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateNote": "4.4% up to $25,000, 5.4% on $25,001–$100,000 and 6.4% above $100,000, per the 2025 Form N-30 instructions; net capital gain has a 4% alternative computation (not modeled).",
+   "rateSource": "https://files.hawaii.gov/tax/forms/current/n30ins.pdf",
    "rateYear": 2026,
    "sourceName": "Hawaii Legislature, SB 2362 SD1 (2026)",
    "sourceUrl": "https://data.capitol.hawaii.gov/sessions/session2026/Bills/SB2362_SD1_.HTM",
@@ -909,24 +925,39 @@
      "rate": 5
     }
    ],
+   "captive": "Mississippi does not use a captive REIT test: the dividends-paid deduction is allowed only for dividends paid by a publicly traded REIT, so any non-publicly traded REIT loses it.",
+   "citation": "Miss. Code Ann. §27-7-17(1)(n)",
    "code": "MS",
    "forms": [
     {
      "form": "83-105",
-     "name": "Mississippi Corporate Income and Franchise Tax Return"
+     "name": "Corporate Income and Franchise Tax Return"
+    },
+    {
+     "form": "83-300",
+     "name": "Corporate Income Tax Voucher",
+     "note": "Estimated tax payments"
+    },
+    {
+     "form": "83-180",
+     "name": "Application for Automatic Extension"
+    },
+    {
+     "form": "83-100",
+     "name": "Corporate Income Instructions"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "formsVerified": true,
+   "lastVerified": "2026-11-11",
    "name": "Mississippi",
    "rate": 5,
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "MTC hearing officer report",
-   "sourceUrl": "https://www.mtc.gov/wp-content/uploads/2023/02/hearingreportmodified1229final.pdf",
-   "summary": "Listed by the Multistate Tax Commission as having a statute denying the dividends deduction for captive REITs. Current statute not yet confirmed.",
+   "sourceName": "Miss. Code Ann. §27-7-17 (FindLaw); Mississippi DOR corporate forms page",
+   "sourceUrl": "https://codes.findlaw.com/ms/title-27-taxation-and-finance/ms-code-sect-27-7-17/",
+   "summary": "Mississippi allows the REIT dividend distribution deduction only for publicly traded REITs. Income from real estate a shareholder or related party contributed or sold to the REIT does not support the deduction unless that party would have qualified for it, a holding corporation receiving REIT dividends cannot use the holding-company dividend deduction, and a REIT denied the deduction federally is denied it in Mississippi too.",
    "treatment": "strict",
-   "verified": false
+   "verified": true
   },
   "NC": {
    "captive": "Shares not regularly traded on an established securities market and owned or controlled, at any time in the last half of the year, by a person subject to NC corporate tax that is not a REIT or listed Australian property trust.",
@@ -1077,6 +1108,58 @@
    "treatment": "strict",
    "verified": true,
    "wholeIncome": true
+  },
+  "OR": {
+   "brackets": [
+    {
+     "over": 0,
+     "rate": 6.6
+    },
+    {
+     "over": 1000000,
+     "rate": 7.6
+    }
+   ],
+   "captive": "No separate captive REIT add-back; instead a REIT excluded from the federal consolidated return solely by IRC §1504(b)(4) (typically a corporate-owned REIT) is pulled into the Oregon consolidated return, where its current-year loss can offset other members' income but cannot be carried forward.",
+   "citation": "ORS 317.061, 317.090, 317.476(5), 317.710(5)(d); OAR 150-317-0040",
+   "code": "OR",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "15th day of the month after the federal return due date; Oregon extension runs to the 15th day of the month after the federal extended due date",
+     "form": "OR-20",
+     "name": "Oregon Corporation Excise Tax Return",
+     "note": "Check the REIT/RIC box; REIT modifications use addition code 168 and subtraction code 360 on Schedule OR-ASC-CORP"
+    },
+    {
+     "form": "OR-20-INC",
+     "name": "Oregon Corporation Income Tax Return",
+     "note": "Corporations with Oregon-source income that are not doing business in Oregon, including REMICs with Oregon-source prohibited transaction income"
+    },
+    {
+     "form": "OR-20-V",
+     "name": "Oregon Corporation Tax Payment Voucher",
+     "note": "Mailed estimated and other payments; estimates due the 15th day of the 4th, 6th, 9th and 12th months"
+    },
+    {
+     "form": "Schedule OR-ASC-CORP",
+     "name": "Oregon Adjustments for Corporation Returns"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-11",
+   "minTax": 150,
+   "name": "Oregon",
+   "rate": 7.6,
+   "rateNote": "6.6% on the first $1 million and 7.6% above (ORS 317.061). The minimum tax rises with Oregon sales from $150 (under $500,000) to $100,000 ($100 million or more) (ORS 317.090); $150 is shown. Oregon's separate Corporate Activity Tax is not modeled.",
+   "rateSource": "https://www.oregonlegislature.gov/bills_laws/ors/ors317.html",
+   "rateYear": 2026,
+   "sourceName": "Oregon Legislature, ORS chapter 317; Oregon DOR Form OR-20 instructions",
+   "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors317.html",
+   "summary": "A REIT's Oregon taxable income is its federal REIT taxable income under IRC §857(b)(2), so the dividends-paid deduction carries through, but the federal exclusions for net income from foreclosure property and prohibited transactions do not apply (OAR 150-317-0040). A REIT left out of the federal consolidated return only because of IRC §1504(b)(4) must be included in the affiliated group's Oregon consolidated return (ORS 317.710(5)(d)). REITs get no Oregon net operating loss carryforward (ORS 317.476(5)).",
+   "treatment": "mod",
+   "verified": true,
+   "wholeIncome": false
   },
   "PA": {
    "captive": "No captive REIT addback statute found; whether the related-party intangible expense addback reaches payments to captive REITs is not confirmed.",
@@ -1849,7 +1932,7 @@
    ],
    "order": 2,
    "ownership": "Admitted to trading on a recognised exchange, unless institutional investors hold at least 70% of ordinary shares. Non-close company condition.",
-   "recent": "Single-property exception for commercial property of £20m or more applies from April 2023.",
+   "recent": "Single-property exception for commercial property of £20m or more applies from April 2023. Proposed (Autumn Budget 2026, consultation to 20 Jan 2027): from 1 Jan 2029 sovereign investors become taxable on UK property but keep institutional-investor status for REITs, with an optional sovereign REIT holding company taxed at 15% on gross PIDs. Announced: from 6 Apr 2027 the basic property income rate, which also sets the PID withholding rate, rises to 24%.",
    "regime": "UK REIT",
    "sourceName": "IQ-EQ private REIT guide",
    "sourceUrl": "https://iqeq.com/insights/the-background-requirements-and-considerations-for-establishing-a-private-reit-in-the-uk/",
@@ -2113,6 +2196,26 @@
    "status": "proposed",
    "summary": "Congress approved a Ley de Ingresos 2027 provision that scales down a FIBRA's required 95% distribution when the new LISR art. 78-B deduction and loss controls increase its fiscal result, so FIBRAs are not forced to distribute cash they did not generate. Passed by both chambers; publication in the DOF not yet confirmed.",
    "title": "LIF 2027 adjusts the FIBRA 95% distribution minimum for new deduction controls"
+  },
+  "2026-10-28-uk-pid-rate": {
+   "date": "2026-10-28",
+   "effective": "Announced for 6 April 2027",
+   "jurisdiction": "United Kingdom",
+   "sourceName": "CMS, Autumn Budget 2026 – what it means for real estate",
+   "sourceUrl": "https://cms.law/en/gbr/legal-updates/autumn-budget-2026-what-it-means-for-real-estate",
+   "status": "proposed",
+   "summary": "The Autumn Budget 2026 announced that the separate property income rates rise to 24% basic, 44% higher and 49% additional from 6 April 2027 in England, Wales and Northern Ireland, and that the increase also applies to withholding on REIT property income distributions. Treaty investors entitled to 15% or lower are largely unaffected. Not yet enacted.",
+   "title": "Property income tax rates, and PID withholding, to rise by 2 points"
+  },
+  "2026-10-28-uk-sovereign-reit-proposed": {
+   "date": "2026-10-28",
+   "effective": "Proposed from 1 January 2029",
+   "jurisdiction": "United Kingdom",
+   "sourceName": "CMS, Autumn Budget 2026 – modernising the UK tax treatment of foreign sovereign investors",
+   "sourceUrl": "https://cms.law/en/gbr/legal-updates/autumn-budget-2026-modernising-the-uk-tax-treatment-of-foreign-sovereign-investors",
+   "status": "proposed",
+   "summary": "The Autumn Budget 2026 proposes ending sovereign immunity for UK real estate from 1 January 2029. Sovereigns would remain institutional investors for UK REIT purposes, the holder-of-excessive-rights rules would aggregate their connected vehicles, and an optional UK sovereign REIT holding company would pay 15% on gross PIDs. Consultation closes 20 January 2027; legislation expected in Finance Bill 2027-28.",
+   "title": "Sovereign investor tax status and sovereign REIT holding company (consultation)"
   }
  },
  "reviews": {
@@ -2269,6 +2372,28 @@
     "Louisiana: dividends-paid deduction limited to publicly traded and qualified REITs, confirmed against La. R.S. 47:287.736",
     "Rhode Island: captive REIT add-back, RI-1120C form, 7% rate and $400 minimum confirmed against the 2025 RI-1120C instructions; non-captive REITs file RI-1120F",
     "South Africa: ownership and recent-changes text updated from SARS notices R7838/R7839"
+   ]
+  },
+  "2026-11-11": {
+   "added": [
+    "Oregon state rules"
+   ],
+   "attention": [
+    "United Kingdom: REITs with sovereign wealth fund or non-treaty investors should review the Autumn Budget 2026 proposals before the 20 January 2027 consultation deadline; PID withholding at the basic rate is set to rise to 24% from 6 April 2027.",
+    "Oregon: corporate-owned REITs are included in the Oregon consolidated return; groups with Oregon nexus should check how the REIT's dividends-paid deduction interacts with consolidated income."
+   ],
+   "changed": [
+    "United Kingdom: proposed sovereign investor regime with a 15% sovereign REIT holding company (CMS, Autumn Budget 2026)",
+    "United Kingdom: PID withholding to follow 24% basic property income rate from 6 April 2027, announced not enacted (CMS, Autumn Budget 2026)"
+   ],
+   "changesFound": 2,
+   "date": "2026-11-11",
+   "summary": "Checked federal (IRS rulings and guidance), state and international REIT sources since Nov 10. No new federal or state changes found; recorded two UK Autumn Budget 2026 proposals (sovereign investors and REITs, and higher PID withholding from April 2027) that earlier runs had missed.",
+   "title": "Daily rule review",
+   "verified": [
+    "Mississippi: REIT dividend deduction limited to publicly traded REITs confirmed against Miss. Code §27-7-17(1)(n); forms 83-105, 83-300, 83-180 confirmed against the Mississippi DOR forms page",
+    "Hawaii: Form N-30 (REIT box, attach 1120-REIT), N-201V and 2025 rates confirmed against the Hawaii N-30 instructions; SB 592 carried over and not enacted",
+    "Arkansas: AR1100CT, AR1100ESCT, AR1100CTV and AR1155 confirmed against the Arkansas DFA forms page; captive REIT statute still awaiting an official-code check"
    ]
   }
  }
