@@ -2,8 +2,8 @@
  "meta": {
   "status": {
    "checkedBy": "Claude scheduled review",
-   "lastChecked": "2026-11-11",
-   "nextCheck": "2026-11-12"
+   "lastChecked": "2026-11-12",
+   "nextCheck": "2026-11-13"
   }
  },
  "federal": {
@@ -229,31 +229,31 @@
    "exemption": 0,
    "forms": [
     {
-     "due": "One month after the federal return due date (including federal extensions); tax is due by the original due date",
+     "due": "One month after the federal return due date (Act 2022-53), including federal extensions; tax is due by the original (unextended) due date",
      "form": "Form 20C",
      "name": "Alabama Corporation Income Tax Return",
-     "note": "Captive REITs report the dividends-paid deduction addback on Schedule A"
+     "note": "REITs check the box indicating federal Form 1120-REIT was filed; captive REITs report the dividends-paid deduction addback on Schedule A"
     },
     {
      "form": "Form BIT-V",
      "name": "Business Income Tax Payment Voucher",
-     "note": "Estimated payments required if liability exceeds $500, due on the 15th day of the 4th, 6th, 9th and 12th months; payments of $750 or more must be made electronically (My Alabama Taxes or ACH)"
+     "note": "For estimated and extension payments under $750; payments of $750 or more must be made electronically. Estimated payments are required when the liability is $500 or more, due on the 15th day of the 4th, 6th, 9th and 12th months"
     },
     {
      "form": "Form 2220AL",
-     "name": "Underpayment of Estimated Tax by Corporations"
+     "name": "Underpayment of Estimated Tax for Corporations"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-11-02",
+   "formsVerified": true,
+   "lastVerified": "2026-11-12",
    "minTax": 0,
    "name": "Alabama",
    "rate": 6.5,
    "rateNote": "Flat 6.5% of Alabama net income; Alabama allows a deduction for federal income tax paid or accrued (not modeled). Single sales factor apportionment from 2021. A separate Business Privilege Tax return also applies (not modeled).",
    "rateSource": "https://revenue.alabama.gov/corporate-income-tax/",
    "rateYear": 2026,
-   "sourceName": "Alabama DOR, 2024 Form 20C Instructions",
-   "sourceUrl": "https://revenue.alabama.gov/wp-content/uploads/2025/01/24f20cinstr.pdf",
+   "sourceName": "Alabama DOR, 2025 Form 20C-C and Form 2220AL instructions",
+   "sourceUrl": "https://www.revenue.alabama.gov/wp-content/uploads/2026/03/25f20ccinstr.pdf",
    "summary": "REITs start from federal Form 1120-REIT taxable income on Form 20C. A captive REIT must add back its federal dividends-paid deduction, and a corporate shareholder owning more than 20% may deduct captive REIT dividends only to the extent §243 would allow if the payer were not a REIT.",
    "treatment": "strict",
    "verified": true,
@@ -356,20 +356,30 @@
    "code": "CA",
    "forms": [
     {
+     "due": "15th day of the 4th month after year end; automatic extension to the 15th day of the 11th month (not to pay)",
      "form": "Form 100",
-     "name": "California Corporation Franchise or Income Tax Return"
+     "name": "California Corporation Franchise or Income Tax Return",
+     "note": "Answer REIT questions V1 and V2; attach a statement and Form 3586 for qualified REIT subsidiaries registered in California"
+    },
+    {
+     "form": "Form 100-ES",
+     "name": "Corporation Estimated Tax"
+    },
+    {
+     "form": "FTB 3539",
+     "name": "Payment for Automatic Extension for Corporations and Exempt Organizations"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "formsVerified": true,
+   "lastVerified": "2026-11-12",
    "minTax": 800,
    "name": "California",
    "rate": 8.84,
    "rateNote": "Minimum franchise tax applies.",
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "KPMG This Week in State Tax, Oct 12 2026",
-   "sourceUrl": "https://kpmg.com/us/en/articles/this-week-in-state-tax/twist-261012.html",
+   "sourceName": "California FTB, 2025 Form 100 booklet",
+   "sourceUrl": "https://www.ftb.ca.gov/forms/2025/2025-100-booklet.html",
    "summary": "Starts from federal taxable income after the dividends-paid deduction. In a 2026 pending precedential opinion, the Office of Tax Appeals held a REIT cannot both eliminate unitary intercompany dividends under R&TC §25106 and claim the dividends-paid deduction on them; the related deduction must be added back.",
    "treatment": "mod",
    "verified": true
@@ -732,7 +742,7 @@
    "minTax": 0,
    "name": "Kansas",
    "rate": 6.5,
-   "rateNote": "3.5% normal tax (cut from 4% by the APEX trigger, KDOR Notice 23-10) plus 3% surtax on income over $50,000. KDOR Notices 25-06 and 26-11 say no revenue-trigger cut for 2026 or 2027. Tax Foundation's 2026 table shows 4%/7%, which conflicts with KDOR; 2026 Form K-120 not yet published.",
+   "rateNote": "3.5% normal tax (cut from 4% by the APEX trigger, KDOR Notice 23-10) plus 3% surtax on income over $50,000; the 2025 Form K-120 (lines 29–30) confirms these rates. KDOR Notices 25-06 and 26-11 say no revenue-trigger cut for 2026 or 2027. Tax Foundation's 2026 table shows 4%/7%, which conflicts with KDOR; 2026 Form K-120 not yet published.",
    "rateSource": "https://ksrevenue.gov/taxnotices/notice25-06.pdf",
    "rateYear": 2026,
    "sourceName": "K.S.A. 79-32,138 (Kansas Revisor of Statutes)",
@@ -958,6 +968,47 @@
    "summary": "Mississippi allows the REIT dividend distribution deduction only for publicly traded REITs. Income from real estate a shareholder or related party contributed or sold to the REIT does not support the deduction unless that party would have qualified for it, a holding corporation receiving REIT dividends cannot use the holding-company dividend deduction, and a REIT denied the deduction federally is denied it in Mississippi too.",
    "treatment": "strict",
    "verified": true
+  },
+  "MT": {
+   "captive": "No captive REIT provision found in the 2025 Form CIT instructions; not otherwise confirmed.",
+   "citation": "MCA Title 15, ch. 31; MCA §15-31-502 (estimated tax); 2025 Form CIT Instructions",
+   "code": "MT",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "May 15 for calendar-year filers (15th day of the 5th month after year end); automatic six-month extension to file, not to pay",
+     "form": "Form CIT",
+     "name": "Montana Corporate Income Tax Return"
+    },
+    {
+     "form": "Payment voucher",
+     "name": "Montana Corporate Income Tax Payment Voucher",
+     "note": "Estimated payments required if tax is expected to be $5,000 or more; due the 15th day of the 4th, 6th, 9th and 12th months"
+    },
+    {
+     "form": "Form CIT-UT",
+     "name": "Underpayment of Estimated Tax by a Corporation"
+    },
+    {
+     "form": "Form WE-ELECT",
+     "name": "Water's Edge Election",
+     "note": "File within the first 90 days of the tax period; binds for three periods"
+    }
+   ],
+   "formsVerified": true,
+   "lastVerified": "2026-11-12",
+   "minTax": 50,
+   "name": "Montana",
+   "rate": 6.75,
+   "rateNote": "Flat 6.75% of Montana net income (7% with a water's-edge election); $50 minimum tax. A 0.5% alternative gross sales tax applies only to small sales-only corporations.",
+   "rateSource": "https://revenue.mt.gov/taxes/corporate-income-tax",
+   "rateYear": 2026,
+   "sourceName": "Montana Department of Revenue, 2025 Form CIT Instructions",
+   "sourceUrl": "https://revenuefiles.mt.gov/files/Forms/Montana-Form-CIT-Instructions/2025_Montana_Form_CIT_Instructions.pdf",
+   "summary": "Montana's corporate income tax (Form CIT) starts from federal taxable income. Neither the 2025 Form CIT instructions nor the Department of Revenue's corporate income tax page mentions REITs or a captive REIT addback, so the federal dividends-paid deduction appears to flow through; this has not been confirmed against the statute or explicit guidance.",
+   "treatment": "conf",
+   "verified": false,
+   "wholeIncome": true
   },
   "NC": {
    "captive": "Shares not regularly traded on an established securities market and owned or controlled, at any time in the last half of the year, by a person subject to NC corporate tax that is not a REIT or listed Australian property trust.",
@@ -1560,6 +1611,27 @@
    "sourceUrl": "https://taxpartner.ch/en/indirect-real-estate-investments-tax-advantages-of-real-estate-investment-fund-units-versus-shares/",
    "tests": "No REIT-style asset or income tests. Fund-level tax applies to income and gains from directly owned Swiss property; funds holding property indirectly (through real estate companies) are fiscally transparent and the companies are taxed normally. Investors in Swiss private wealth pay tax only on their share of non-real-estate income (mainly net interest); unit redemptions or sales give private investors a tax-free capital gain and do not trigger real estate transfer or gains tax.",
    "verified": true
+  },
+  "cn": {
+   "country": "China",
+   "distribution": "China has no REIT tax regime that removes entity-level tax. Public REITs are closed-end securities investment funds that hold property through an asset-backed securities plan and a project company; the project company pays enterprise income tax on its profits. CSRC rules require distribution of at least 90% of annual distributable profit (reported in 2020 adviser summaries).",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-12",
+   "leverage": "The 2020 draft capped borrowing at 20% of asset value; the final Guidelines relaxed borrowing and allow loans for acquisitions. The current limit was not confirmed in this run.",
+   "localFilings": [
+    {
+     "form": "Enterprise income tax return",
+     "name": "Annual enterprise income tax filing by the project company (the fund itself is not taxed as a REIT)"
+    }
+   ],
+   "order": 25,
+   "ownership": "The original owner must subscribe for a strategic tranche (reported as at least 20% of units, locked up for five years); most of the remainder is placed with professional institutional investors.",
+   "recent": "Nov 28, 2025: CSRC draft announcement launching a commercial real estate REIT pilot; Dec 1, 2025: NDRC 2025 project industry scope list. By mid-March 2026 the Shanghai and Shenzhen exchanges had received 15 commercial real estate REIT applications.",
+   "regime": "C-REITs (public infrastructure and commercial real estate REITs; no tax-transparent REIT regime)",
+   "sourceName": "CBRE brief (Dec 17, 2025); Chambers Real Estate 2026 – China; Orbitax on MOF/STA Announcement 2022 No. 3",
+   "sourceUrl": "https://www.cbre.com/insights/briefs/c-reit-expansion-unlocks-exit-channels-for-office-and-hotel-assets",
+   "tests": "Under the CSRC Guidelines for Publicly Offered Infrastructure Securities Investment Funds (CSRC Announcement [2020] No. 54), more than 80% of fund assets must be invested in infrastructure asset-backed securities that hold the project company. Eligible assets were infrastructure (later including affordable rental housing); a CSRC pilot announced in late 2025 extends public REITs to commercial real estate such as shopping centres, offices and hotels, with exchange fast-track review from 2026. MOF/STA Announcement [2022] No. 3 gives tax-deferral relief when infrastructure assets are contributed to the project company and transferred into a REIT (effective from 1 January 2021).",
+   "verified": false
   },
   "de": {
    "country": "Germany",
@@ -2187,6 +2259,16 @@
    "summary": "In a pending precedential opinion, the Office of Tax Appeals required a REIT to add back the dividends-paid deduction attributable to unitary intercompany dividends it had eliminated under R&TC §25106.",
    "title": "OTA denies double benefit on REIT intercompany dividends"
   },
+  "2026-10-23-us-plr-trs-election-extension": {
+   "date": "2026-10-23",
+   "effective": "Private letter ruling dated July 8, 2026, released Oct 23, 2026; binding only on the taxpayer",
+   "jurisdiction": "United States",
+   "sourceName": "IRS, PLR 202643013",
+   "sourceUrl": "https://www.irs.gov/pub/irs-wd/202643013.pdf",
+   "status": "ruling",
+   "summary": "The IRS treated a late Form 8875 as timely so a REIT's operating-partnership subsidiary is a TRS from the date the parties intended, after the preparer failed to file the entity-classification and TRS elections because of staffing changes. The ruling covers timeliness only and binds only the taxpayer.",
+   "title": "PLR 202643013: 9100 relief for a late TRS election"
+  },
   "2026-10-27-mx-fibra-distribution": {
    "date": "2026-10-27",
    "effective": "1 Jan 2027 if published as approved",
@@ -2394,6 +2476,30 @@
     "Mississippi: REIT dividend deduction limited to publicly traded REITs confirmed against Miss. Code §27-7-17(1)(n); forms 83-105, 83-300, 83-180 confirmed against the Mississippi DOR forms page",
     "Hawaii: Form N-30 (REIT box, attach 1120-REIT), N-201V and 2025 rates confirmed against the Hawaii N-30 instructions; SB 592 carried over and not enacted",
     "Arkansas: AR1100CT, AR1100ESCT, AR1100CTV and AR1155 confirmed against the Arkansas DFA forms page; captive REIT statute still awaiting an official-code check"
+   ]
+  },
+  "2026-11-12": {
+   "added": [
+    "Montana state rules",
+    "China regime (C-REITs)"
+   ],
+   "attention": [
+    "Montana: no REIT-specific or captive REIT rule was found in the 2025 Form CIT instructions; confirm the dividends-paid deduction treatment before relying on it.",
+    "Kansas: the KDOR form rate (3.5% + 3%) conflicts with Tax Foundation's 2026 table (4% + 3%); the page uses the KDOR rate."
+   ],
+   "changed": [
+    "United States: PLR 202643013, late TRS election relief (IRS written determination, released Oct 23, 2026)"
+   ],
+   "changesFound": 1,
+   "date": "2026-11-12",
+   "summary": "Checked federal (IRS rulings, forms, guidance), state and international REIT sources since Nov 11. No new enacted law changes found; recorded one previously missed IRS ruling granting relief for a late TRS election (PLR 202643013).",
+   "title": "Daily rule review",
+   "verified": [
+    "Alabama: Form 20C, BIT-V ($750 e-pay threshold, $500 estimate threshold) and Form 2220AL confirmed against the 2025 Form 20C-C and 2220AL instructions",
+    "California: Form 100, 100-ES and FTB 3539, REIT questions V1/V2, 8.84% rate and $800 minimum confirmed against the 2025 FTB Form 100 booklet",
+    "Kansas: 3.5% normal tax and 3% surtax over $50,000 confirmed on the 2025 Form K-120; REIT treatment still unconfirmed",
+    "Hawaii: SB 2362 SD1 is a study bill only (last action Mar 6, 2026) and SB 592 shows no enactment; flag left open pending official confirmation",
+    "Arkansas: 2025 AR1100ADJ instructions do not mention captive REITs; captive REIT statute still awaiting an official-code check"
    ]
   }
  }
