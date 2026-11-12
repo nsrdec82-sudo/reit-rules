@@ -93,7 +93,7 @@ export const emailNewMember = onDocumentWritten(
       let hasAccount = true;
       try { await getAuth().getUserByEmail(email); } catch (e) { if (e.code === "auth/user-not-found") hasAccount = false; else throw e; }
       const link = site() + "?email=" + encodeURIComponent(email) + "&invite=" + (hasAccount ? "existing" : "new");
-      const roleText = { editor: "work on and save reports for", viewer: "view", client: "update the client dashboard, REIT structure and questionnaire for" }[after.role] || "view";
+      const roleText = { editor: "work on and save reports for", viewer: "view", client: "update the client dashboard, REIT structure evaluation, trial balance and questionnaire for" }[after.role] || "view";
       const roleName = { editor: "employee (full access)", viewer: "employee (view only)", client: "client" }[after.role] || after.role;
       const steps = hasAccount
         ? ["Click the button below.", "Sign in with this email address and your password."]
