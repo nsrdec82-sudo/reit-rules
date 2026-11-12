@@ -113,3 +113,6 @@ export const emailNewMember = onDocumentWritten(
     }
   }
 );
+
+// 3. assistantChat: the REIT assistant (see assistant.js).
+export { assistantChat } from "./assistant.js";

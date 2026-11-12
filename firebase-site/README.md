@@ -137,3 +137,15 @@ With Java installed, run `npm run test:rules`. It starts a local copy of the dat
 The free Spark plan covers small teams: 50,000 document reads and 20,000 writes a day, and 1 GB of stored data. Saved PDFs are stored in the database in pieces, so you don't need Cloud Storage or a paid plan. Check current limits on the Firebase pricing page.
 
 The tool is a screening aid, not legal or tax advice.
+
+## REIT assistant (chat box)
+
+The **Ask the REIT assistant** button opens a chat box on every page. On this site it answers with Claude, searching only official, secure (https) sources: the IRS, the U.S. Code and Treasury regulations (Cornell LII, eCFR, GovInfo), the Federal Register, the SEC, state revenue departments, and a few authoritative international and industry sites. It also uses the rule library's excerpts and the open client's results, and it lists the source links under each answer. Only signed-in members can use it, with a limit of 60 questions per person per day.
+
+One-time setup:
+
+1. Create an API key at https://console.anthropic.com (usage is billed to that account).
+2. In this folder, run `npx firebase functions:secrets:set ANTHROPIC_API_KEY` and paste the key.
+3. Run `npx firebase deploy --only functions`.
+
+Until this is done, the chat box still works: it answers from the rule library and its official links, and says the online search isn't set up. The list of allowed sites is `OFFICIAL_DOMAINS` in `functions/assistant.js`.
