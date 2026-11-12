@@ -94,6 +94,8 @@ await check("admin sets resend on an invite", assertSucceeds(updateDoc(doc(admin
 await check("editor cannot resend invites", assertFails(updateDoc(doc(editor, "entities/A/members/viewer@client.com"), { resendAt: serverTimestamp() })));
 
 console.log("Client access");
+await check("client saves a trial balance with the profile", assertSucceeds(updateDoc(doc(client, "entities/A/years/2026"), { profile: { name: "A" }, tb: [{ no: "4010", name: "Rent", dr: 0, cr: 100 }], updatedAt: serverTimestamp(), updatedBy: "cfo@alpha.com" })));
+await check("client cannot change the figures", assertFails(updateDoc(doc(client, "entities/A/years/2026"), { figures: { i_rent: 1 }, updatedBy: "cfo@alpha.com" })));
 await check("client reads its entity's year", assertSucceeds(getDoc(doc(client, "entities/A/years/2026"))));
 await check("client updates the profile", assertSucceeds(updateDoc(doc(client, "entities/A/years/2026"), { profile: { name: "Alpha REIT", qa: { "rentnp": { v: "no" } } }, updatedAt: serverTimestamp(), updatedBy: "cfo@alpha.com" })));
 await check("client cannot change figures", assertFails(updateDoc(doc(client, "entities/A/years/2026"), { figures: { i_rent: "1" }, updatedBy: "cfo@alpha.com" })));

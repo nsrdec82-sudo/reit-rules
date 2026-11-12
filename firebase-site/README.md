@@ -25,7 +25,7 @@ A private, sign-in-only version of the REIT Rule Navigator.
 There are two kinds of user access, set per entity in the Admin tab: client and employee.
 
 - **Administrators** (listed in the `admins` collection) create entities, give users access, and can see and change everything.
-- **Clients** see only three tabs: Client dashboard, REIT structure and Questionnaire. They can update the dashboard, answer the structure questions, import their structure chart and answer the questionnaire. They can't see the federal checker, trial balance, filings, reports or rule pages, can't change figures or trial balances, can't start a new tax year and can't open saved reports. The database enforces this, not just the page.
+- **Clients** see only four tabs: Client dashboard, REIT structure evaluation, Trial balance and Questionnaire. They can update the dashboard, answer the structure questions, import their structure chart, import and map trial balances, and answer the questionnaire. They can't see the entity tax considerations, the proposed structure, the federal checker, prohibited transactions, filings, reports or rule pages, can't change the checker figures, can't start a new quarter and can't open saved reports. The database enforces this, not just the page.
 - **Employees, full access** can change an entity's profile and figures, import trial balances, start new quarters, and save reports.
 - **Employees, view only** can read everything for an entity and download its saved reports, but can't change anything.
 - The database itself refuses anything the rules don't allow. A user who edits the page still can't read another entity.
@@ -110,7 +110,7 @@ To keep the administrators' inboxes quiet, a person who changes their request mo
 
 1. An employee imports the year's trial balances on the Trial balance tab: one or several (for example one per property, entity or sector), each with its property sector and the REIT's share for properties held through a partnership. With more than one sector the REIT is tested as diversified, and each sector's line items and rules apply.
 2. The Questionnaire tab builds questions from it, account by account (for example how parking is run, whether a property sale was dealer property, how loans are secured, whether hedges were identified in time), plus general questions from the profile. Each answer choice shows how it counts under the REIT rules and the authority.
-3. Give the client Client access. They answer the questionnaire, update the dashboard and the REIT structure tab, and can import their current structure chart (entity list) for the compliance review.
+3. Give the client Client access. They answer the questionnaire, update the dashboard and the REIT structure evaluation tab, import their trial balances, and can import their current structure chart (entity list) for the compliance review.
 4. Their answers save to the entity's year. Fact-check answers flow into the federal checker, and "What is this account?" answers set the account's mapping on the Trial balance tab. Unanswered questions and answers that need action stay on the Open points list.
 5. The report can include the questionnaire and the structure compliance review as schedules.
 

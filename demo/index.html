@@ -149,6 +149,7 @@ button.link:hover{color:var(--fail)}
 .savenote{font-size:12px;color:var(--muted);margin:0}
 .dashout{display:grid;gap:16px;min-width:0}
 .dash.dashprofile{display:block}
+.client-view .staffonly{display:none!important}.clientonly{display:none}.client-view .clientonly{display:inline}
 .dash.stinputs{display:block}.stinputs>.panel{max-width:1100px}
 .dashprofile #profile{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
 .dashprofile #profile>fieldset:first-of-type,.dashprofile #profile>.sample,.dashprofile #profile>.dashnext{grid-column:1/-1}
@@ -479,11 +480,11 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
 
 <main class="wrap">
   <div class="sample" id="roBanner" hidden><span>View only: you can read this entity and download its reports, but you can't change it.</span></div>
-  <div class="sample" id="clientBanner" hidden><span>Client access: you can update the client dashboard, the REIT structure and the questionnaire. Your advisor sees your changes.</span></div>
+  <div class="sample" id="clientBanner" hidden><span>Client access: you can update the client dashboard, the REIT structure evaluation, the trial balance and the questionnaire. Your advisor sees your changes.</span></div>
   <!-- DASHBOARD -->
   <section class="view" id="v-dashboard" style="--sec:var(--c-dashboard)">
     <h2>Client dashboard</h2>
-    <p class="lead">Enter the entity's profile and where it operates. The Entity tax considerations tab adjusts to what you enter. Your entries are saved for you on this page.</p>
+    <p class="lead">Enter the entity's profile and where it operates. <span class="staffonly">The Entity tax considerations tab adjusts to what you enter.</span> Your entries are saved for you on this page.</p>
     <div class="dash dashprofile">
       <form id="profile" autocomplete="off">
         <fieldset>
@@ -527,7 +528,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
           <div id="countryRows" class="jrows"></div>
         </fieldset>
         <div class="sample" style="margin:0"><span class="savenote" id="saveNote">Showing an example entity. Replace it with your client&#39;s details.</span><span style="display:flex;gap:8px"><button type="button" id="btnExample">Load example</button><button type="button" id="btnNew">Start new profile</button></span></div>
-        <p class="dashnext"><a class="btnlink" href="#consider">See the entity tax considerations</a></p>
+        <p class="dashnext staffonly"><a class="btnlink" href="#consider">See the entity tax considerations</a></p>
       </form>
     </div>
   </section>
@@ -543,14 +544,14 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   <!-- REIT STRUCTURE -->
   <section class="view" id="v-structure" style="--sec:var(--c-structure)" hidden>
     <h2>REIT structure evaluation</h2>
-    <p class="lead">Enter the client's facts: the investors, strategy and exit, who owns the REIT, and (optionally) the current structure chart. The results and the recommended structure are on the <a href="#proposed">Proposed REIT structure</a> tab.</p>
+    <p class="lead">Enter the client's facts: the investors, strategy and exit, who owns the REIT, and (optionally) the current structure chart. <span class="staffonly">The results and the recommended structure are on the <a href="#proposed">Proposed REIT structure</a> tab.</span><span class="clientonly">Your advisor reviews these answers and prepares the recommended structure.</span></p>
     <div class="dash stinputs">
-      <div class="panel"><h3 class="sthead">Facts <button type="button" id="stUpdateTop">See the proposed structure</button></h3><p class="savenote" id="stStatus" aria-live="polite">Results on the Proposed REIT structure tab update as you change an answer.</p><div class="grid stgrid" id="stForm"></div>
+      <div class="panel"><h3 class="sthead">Facts <button type="button" class="staffonly" id="stUpdateTop">See the proposed structure</button></h3><p class="savenote" id="stStatus" aria-live="polite">Results on the Proposed REIT structure tab update as you change an answer.</p><div class="grid stgrid" id="stForm"></div>
         <div class="stholders" id="stHolders" hidden></div>
-        <div class="stfoot"><button type="button" class="primary" id="stUpdate">See the proposed structure</button></div></div>
+        <div class="stfoot staffonly"><button type="button" class="primary" id="stUpdate">See the proposed structure</button></div></div>
     </div>
     <h2 class="sub2" id="orgTitle" style="margin-top:32px">Existing structure chart (optional)</h2>
-    <p class="lead">Import the client's current structure chart as an entity list. The chart, the filings each entity needs, the problems found and a structure with fewer filings appear on the Proposed REIT structure tab.</p>
+    <p class="lead">Import the client's current structure chart as an entity list. <span class="staffonly">The chart, the filings each entity needs, the problems found and a structure with fewer filings appear on the Proposed REIT structure tab.</span></p>
     <div class="panel" style="margin-bottom:16px">
       <div class="orgbar">
         <label class="filebtn" for="orgFile">Import entity list<input type="file" id="orgFile" accept=".csv,.xlsx,.xls,text/csv"></label>
@@ -751,7 +752,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
         <label class="filebtn" for="tbFile">Import trial balances<input type="file" id="tbFile" multiple accept=".csv,.xlsx,.xls,text/csv"></label>
         <button type="button" id="tbSample">Load sample trial balance</button>
         <button type="button" id="tbSampleMulti">Load multi-property sample</button>
-        <button type="button" id="tbApply" class="primary">Apply to checker</button>
+        <button type="button" id="tbApply" class="primary staffonly">Apply to checker</button>
         <button type="button" id="tbClear" class="link">Clear all</button>
       </div>
       <p class="why" style="margin:10px 0 0">Expected columns: account number, account name, and either debit and credit or a single balance (debits positive). Asset tests use value, so adjust book balances to fair value where they differ. Book income and expenses give an estimate of REIT taxable income only.</p>
@@ -1355,9 +1356,9 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
 
   // ---------- Router ----------
   var views=["dashboard","consider","structure","proposed","questionnaire","rules","filings","checker","ptx","tb","estimates","states","global","updates","report","admin"];
-  var CLIENT_VIEWS=["dashboard","consider","structure","proposed","questionnaire"];
+  var CLIENT_VIEWS=["dashboard","structure","tb","questionnaire"];
   function isClientUser(){return typeof FB!=="undefined"&&FB&&typeof FBS!=="undefined"&&FBS.role==="client"&&!FBS.admin;}
-  function applyRoleUI(){var cl=isClientUser();Array.prototype.forEach.call(document.querySelectorAll(".tabs a[data-view]"),function(a){if(a.id==="navAdmin")return;a.hidden=cl&&CLIENT_VIEWS.indexOf(a.dataset.view)<0;});
+  function applyRoleUI(){var cl=isClientUser();document.body.classList.toggle("client-view",!!cl);Array.prototype.forEach.call(document.querySelectorAll(".tabs a[data-view]"),function(a){if(a.id==="navAdmin")return;a.hidden=cl&&CLIENT_VIEWS.indexOf(a.dataset.view)<0;});
     var br=$("btnReport");if(br)br.hidden=cl;var cb=$("clientBanner");if(cb)cb.hidden=!cl;route();}
   var ROUTE_LAST="";
   function route(){var h=(location.hash||"").slice(1); if(views.indexOf(h)<0)h="dashboard";if(isClientUser()&&CLIENT_VIEWS.indexOf(h)<0)h="dashboard";
@@ -2328,7 +2329,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     $("roBanner").hidden=!ro;$("rptSave").hidden=ro;var sa=$("stApply");if(sa)sa.disabled=ro;}
   function scheduleYearSave(){if(!FB||FBS.loading||!FBS.eid||FBS.role==="viewer")return;$("fbSaveState").textContent="Unsaved changes…";clearTimeout(FBS.yearTimer);FBS.yearTimer=setTimeout(saveYear,1200);}
   async function saveYear(){if(!FBS.eid||FBS.role==="viewer")return;
-    if(FBS.role==="client"&&!FBS.admin){try{await fbFs().doc("entities/"+FBS.eid+"/years/"+FBS.year).update({profile:JSON.parse(JSON.stringify(Object.assign({},PROFILE,{year:PERIOD.y,qtr:PERIOD.q}))),updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:FBS.email});$("fbSaveState").textContent="Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});}
+    if(FBS.role==="client"&&!FBS.admin){try{await fbFs().doc("entities/"+FBS.eid+"/years/"+FBS.year).update({profile:JSON.parse(JSON.stringify(Object.assign({},PROFILE,{year:PERIOD.y,qtr:PERIOD.q}))),tb:(TB||[]).slice(0,6000),updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:FBS.email});$("fbSaveState").textContent="Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});}
       catch(e){$("fbSaveState").textContent=(e&&e.code==="not-found")?"Your advisor needs to start "+pidLabel(FBS.year)+" before your changes can be saved.":"Not saved: "+fbErr(e);}return;}
     PROFILE.year=PERIOD.y;PROFILE.qtr=PERIOD.q;var body={profile:JSON.parse(JSON.stringify(PROFILE)),figures:collectFigures(),tb:(TB||[]).slice(0,6000),updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:FBS.email};
     body.profile.year=PERIOD.y;body.profile.qtr=PERIOD.q;
