@@ -15,7 +15,7 @@
   --bg:#F9FAFE; --surface:#FFFFFF; --sunk:#F2F5FA; --line:#E3E8F1;
   --fg:#1F2A3C; --muted:#667085; --accent:#5A5FD8; --accent-soft:#EEEFFD;
   --c-dashboard:#9CC3FB; --c-structure:#C9B8FA; --c-rules:#8EE3D3; --c-filings:#F9D57A; --c-checker:#F6B3D4; --c-tb:#8FE0F0;
-  --c-estimates:#C8E98B; --c-states:#EDB5F5; --c-global:#9FD5F7; --c-updates:#CED6E2; --c-report:#F8B4BE; --c-admin:#D4D8E0; --c-qn:#FBC79A; --c-consider:#A7E3B4; --c-proposed:#D8B4FE; --c-ptx:#FCA5A5;
+  --c-summary:#C8E98B; --c-states:#EDB5F5; --c-global:#9FD5F7; --c-updates:#CED6E2; --c-report:#F8B4BE; --c-admin:#D4D8E0; --c-qn:#FBC79A; --c-consider:#A7E3B4; --c-proposed:#D8B4FE; --c-ptx:#FCA5A5;
   --pass:#1E7B48; --pass-bg:#EAF7EF; --warn:#99640A; --warn-bg:#FEF6E2; --fgn:#EDF3FD; --fgnT:#3558A0; --fail:#B42318; --fail-bg:#FDEEEC;
   --tint:color-mix(in srgb, var(--sec, var(--accent-soft)) 22%, var(--surface));
   --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
@@ -26,13 +26,13 @@
   --bg:#12131A; --surface:#1A1C26; --sunk:#232633; --line:#333748;
   --fg:#E6E8F2; --muted:#A0A6BC; --accent:#A5B4FC; --accent-soft:#2A2C55;
   --c-dashboard:#60A5FA; --c-structure:#A78BFA; --c-rules:#2DD4BF; --c-filings:#FBBF24; --c-checker:#F472B6; --c-tb:#22D3EE;
-  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-proposed:#C084FC; --c-ptx:#F87171;
+  --c-summary:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-proposed:#C084FC; --c-ptx:#F87171;
   --pass:#6FD29A; --pass-bg:#173326; --warn:#E8B655; --warn-bg:#3A2D12; --fgn:#1D2840; --fgnT:#A9C0F0; --fail:#F2867D; --fail-bg:#3D1C1A; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#12131A; --surface:#1A1C26; --sunk:#232633; --line:#333748;
   --fg:#E6E8F2; --muted:#A0A6BC; --accent:#A5B4FC; --accent-soft:#2A2C55;
   --c-dashboard:#60A5FA; --c-structure:#A78BFA; --c-rules:#2DD4BF; --c-filings:#FBBF24; --c-checker:#F472B6; --c-tb:#22D3EE;
-  --c-estimates:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-proposed:#C084FC; --c-ptx:#F87171;
+  --c-summary:#A3E635; --c-states:#E879F9; --c-global:#38BDF8; --c-updates:#94A3B8; --c-report:#FB7185; --c-admin:#CBD5E1; --c-qn:#FB923C; --c-consider:#4ADE80; --c-proposed:#C084FC; --c-ptx:#F87171;
   --pass:#6FD29A; --pass-bg:#173326; --warn:#E8B655; --warn-bg:#3A2D12; --fgn:#1D2840; --fgnT:#A9C0F0; --fail:#F2867D; --fail-bg:#3D1C1A; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
@@ -378,6 +378,26 @@ input[type=date]{font:inherit;font-size:14px;padding:8px 10px;border:1px solid v
 .tbview{flex-direction:row;align-items:center;gap:8px;margin:0 0 10px}
 .tbview select{width:auto}
 .qres{border-radius:6px;padding:10px 12px;font-size:13.5px;margin:6px 0}
+.sumv{display:flex;flex-direction:column;gap:2px;align-items:flex-start}
+.sumexec p{margin:0 0 10px;font-size:14.5px;line-height:1.55}.sumexec p:last-child{margin-bottom:0}
+.sumexec ol{margin:6px 0 0;padding-left:20px}.sumexec ol li{margin:4px 0;font-size:14px}
+.sumgrid{display:grid;gap:16px;margin:16px 0}
+.sumtab{width:100%;border-collapse:collapse;font-size:13.5px}.sumtab th,.sumtab td{padding:7px 8px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.sumtab thead th{border-top:0;font-size:12px;color:var(--muted);font-weight:600}.sumtab td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sumtab tr.sumarea td{background:var(--sunk);font-weight:700;font-size:12.5px;letter-spacing:.02em}
+.sumtab .pill{white-space:nowrap}
+.sumissue{border-left:4px solid var(--warn);margin-top:12px}.sumissue[data-sev=fail]{border-left-color:var(--fail)}
+.sumissue h4{margin:0 0 6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:15px}
+.sumissue .gap{background:var(--sunk);border-radius:6px;padding:8px 10px;font-size:13.5px;margin:8px 0}
+.sumissue ol{margin:4px 0 8px;padding-left:20px}.sumissue ol li{margin:3px 0;font-size:13.5px}
+.sumissue .relief{font-size:13.5px;margin:6px 0}.sumissue .sumlinks{margin-top:6px;font-size:13px}
+.sumtw{overflow-x:auto}
+.qpicks{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));border:0;padding:0;margin:8px 0}
+.qpicks .qopt{flex-direction:row;align-items:flex-start;margin:0}.qpicks .qopt input{width:auto;height:auto}.qpicks .qopt span{font-weight:400}
+.sumissue details{margin:4px 0}.sumissue summary{cursor:pointer;font-size:13px;color:var(--muted)}
+.qpicks legend{font-weight:600;font-size:13.5px;margin-bottom:4px;padding:0}
+.qtxt{display:block;margin:8px 0;font-size:13.5px;font-weight:600}.qtxt input{display:block;width:100%;margin-top:4px;font-weight:400}
+.svcbase{font-size:12.5px;margin:0 0 6px;padding:6px 8px;border-radius:6px;background:var(--sunk)}
 .stholders{border-top:1px solid var(--line);margin-top:14px;padding-top:6px}
 .shlist{display:flex;flex-direction:column;gap:8px}
 .shrow{display:grid;grid-template-columns:22px 1fr 116px;grid-template-areas:"num name name" ". type type" ". cls pct" ". del del";gap:6px 8px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
@@ -428,7 +448,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
 .themebtn{font-size:12.5px;padding:5px 10px}
 .view h2{border-left:5px solid var(--sec,var(--accent));padding-left:10px}
 .view .panel,.view fieldset,.view .card{border-top:3px solid var(--sec,var(--accent))}
-.rainbow{height:4px;border-radius:2px;margin:10px 0 0;background:linear-gradient(90deg,var(--c-dashboard),var(--c-structure),var(--c-checker),var(--c-report),var(--c-filings),var(--c-estimates),var(--c-rules),var(--c-tb))}
+.rainbow{height:4px;border-radius:2px;margin:10px 0 0;background:linear-gradient(90deg,var(--c-dashboard),var(--c-structure),var(--c-checker),var(--c-report),var(--c-filings),var(--c-summary),var(--c-rules),var(--c-tb))}
 </style>
 
 <style>.demobanner{background:color-mix(in srgb,var(--accent) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));border-radius:8px;padding:10px 14px;margin:12px 0;font-size:14px;line-height:1.5}.demobanner a{color:var(--accent);font-weight:600}</style>
@@ -470,10 +490,10 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   <a href="#checker" data-view="checker" style="--sec:var(--c-checker)">Federal checker</a>
   <a href="#ptx" data-view="ptx" style="--sec:var(--c-ptx)">Prohibited transactions</a>
   <a href="#tb" data-view="tb" style="--sec:var(--c-tb)">Trial balance</a>
-  <a href="#estimates" data-view="estimates" style="--sec:var(--c-estimates)">State estimates</a>
   <a href="#states" data-view="states" style="--sec:var(--c-states)">State rules</a>
   <a href="#global" data-view="global" style="--sec:var(--c-global)">International regimes</a>
   <a href="#updates" data-view="updates" style="--sec:var(--c-updates)">Rule updates</a>
+  <a href="#summary" data-view="summary" style="--sec:var(--c-summary)">Results summary</a>
   <a href="#report" data-view="report" style="--sec:var(--c-report)">Reports</a>
   <a href="#admin" data-view="admin" style="--sec:var(--c-admin)" id="navAdmin" hidden>Admin<span class="navcount" id="navReqCount"></span></a>
 </div></div></nav>
@@ -608,7 +628,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   <!-- TAX FILINGS -->
   <section class="view" id="v-filings" style="--sec:var(--c-filings)" hidden>
     <h2>Tax filings</h2>
-    <p class="lead">Returns, information returns and payments for the entity on the client dashboard, with due dates from its tax year. The list changes as you update the dashboard, the federal checker or the state estimates.</p>
+    <p class="lead">Returns, information returns and payments for the entity on the client dashboard, with due dates from its tax year. The list changes as you update the dashboard or the federal checker.</p>
     <div class="panel" style="margin-bottom:16px" id="filSummary"></div>
     <div class="toolbar"><select id="filF" aria-label="Filter filings" style="width:auto"><option value="">All jurisdictions</option><option value="Federal">Federal</option><option value="State">States</option><option value="Intl">Other countries</option></select></div>
     <div id="filingsBody"></div>
@@ -775,13 +795,15 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     <div id="tbTable"></div>
   </section>
 
-  <!-- STATE ESTIMATES -->
-  <section class="view" id="v-estimates" style="--sec:var(--c-estimates)" hidden>
-    <h2>State estimated taxes</h2>
-    <p class="lead">Estimates for each state on the client dashboard, using the REIT's taxable income and distributions from the federal checker or the imported trial balance. Enter receipts sourced to each state to apportion income. Most states use a single receipts factor for REITs; check each state's rules.</p>
-    <div class="panel" style="margin-bottom:16px"><div id="estBase"></div><label for="est_total" style="margin-top:12px;max-width:420px">Total receipts, all states<small>Leave blank to use gross income from the checker</small><input type="number" id="est_total" min="0"></label></div>
-    <div id="estTable"></div>
-    <p class="why" id="estFoot"></p>
+  <!-- RESULTS SUMMARY -->
+  <section class="view" id="v-summary" style="--sec:var(--c-summary)" hidden>
+    <h2>Results summary</h2>
+    <p class="lead">An executive summary of every result for the entity and period: the federal tests, prohibited transactions, the questionnaire and the structure checks. Each test that fails or needs review shows how much it is off by, how to fix it, and the relief available if it can't be fixed in time.</p>
+    <div class="panel ptxrpt"><div><b>Executive summary memo</b><span class="why">The summary below as a client memo: results at a glance, issues and how to resolve them, with the authority.</span></div>
+      <div class="ptxrptbtns"><button type="button" id="sumRptPreview">Preview memo</button><button type="button" class="primary" id="sumRptPdf">Download PDF</button><button type="button" id="sumRptXlsx">Download Excel</button></div>
+      <p class="savenote" id="sumRptNote" aria-live="polite"></p></div>
+    <div class="ptxpreview"><button type="button" class="link" id="sumRptClose" hidden>Close the preview</button><div id="sumReport" class="dashout" hidden></div></div>
+    <div id="sumBody"></div>
   </section>
 
   <!-- STATES -->
@@ -1058,8 +1080,9 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       W["4% excise tax exposure"]=cal<reqEx?p("Calendar-year distributions of "+money(cal)+" are below "+FED.excise.threshold+"% of ordinary income ("+money(reqEx)+"). The 4% excise tax applies to the shortfall, plus any shortfall against 95% of capital gain net income, §4981. Estimated tax on the ordinary shortfall: "+money((reqEx-cal)*0.04)+". File Form 8612 by March 15. Dividends declared in October to December and paid by January 31 count as paid in December, §857(b)(9).")
         :p("Calendar-year distributions meet "+FED.excise.threshold+"% of ordinary income, so no 4% excise tax is expected on ordinary income, §4981.");}
     return W;}
-  function attachWhy(out,c){var W=explain(c);
-    out.forEach(function(r){var w=W[r.name];if(!w)return;r.whyText=w.replace(/<[^>]+>/g,"");
+  var LAST_CTX={};
+  function attachWhy(out,c){LAST_CTX=c;var W=explain(c);
+    out.forEach(function(r){var w=W[r.name];if(!w)return;r.whyText=w.replace(/<[^>]+>/g," ").replace(/\s+/g," ").replace(/ ([.,;:)])/g,"$1").trim();
       var label=r.status==="fail"?"Why it fails":r.status==="warn"?"Why to review":"How it's worked out";
       r.html=r.html.replace('</div><span class="tval">','<details class="tw"'+(r.status==="fail"||r.status==="warn"?" open":"")+'><summary>'+label+'</summary>'+w+'</details></div><span class="tval">');});}
 
@@ -1355,7 +1378,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   }
 
   // ---------- Router ----------
-  var views=["dashboard","consider","structure","proposed","questionnaire","rules","filings","checker","ptx","tb","estimates","states","global","updates","report","admin"];
+  var views=["dashboard","consider","structure","proposed","questionnaire","rules","filings","checker","ptx","tb","summary","states","global","updates","report","admin"];
   var CLIENT_VIEWS=["dashboard","structure","tb","questionnaire"];
   function isClientUser(){return typeof FB!=="undefined"&&FB&&typeof FBS!=="undefined"&&FBS.role==="client"&&!FBS.admin;}
   function applyRoleUI(){var cl=isClientUser();document.body.classList.toggle("client-view",!!cl);Array.prototype.forEach.call(document.querySelectorAll(".tabs a[data-view]"),function(a){if(a.id==="navAdmin")return;a.hidden=cl&&CLIENT_VIEWS.indexOf(a.dataset.view)<0;});
@@ -1531,7 +1554,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       Promise.all([PER_DB.doc(USERCOL+"/period_"+pid).set(rec),saveTarget.set({profile:body,period:pid,updated:day})]).then(function(){$("saveNote").textContent="Saved "+pidLabel(pid)+" to your account."},function(){saveTarget=null;$("saveNote").textContent="Saved in this browser only.";});}
     else $("saveNote").textContent="Saved "+pidLabel(pid)+" in this browser.";
   }
-  function applyProfile(p){if(!p)return;setTimeout(function(){if(typeof ptxRender==="function")ptxRender();if(typeof renderStructForm==="function"){renderStructForm();renderStructure();}},0);Object.keys(PROFILE).concat(Object.keys(p)).forEach(function(k){PROFILE[k]=p[k]!==undefined?p[k]:(k==="states"||k==="countries"?{}:"")});PROFILE.states=PROFILE.states||{};PROFILE.countries=PROFILE.countries||{};if(!PROFILE.model)PROFILE.model="equity";if(!PROFILE.sector)PROFILE.sector="diversified";if(!PROFILE.fye)PROFILE.fye="12";if(!PROFILE.structure||typeof PROFILE.structure!=="object")PROFILE.structure={};if(!PROFILE.est)PROFILE.est={};if(!PROFILE.tbMap)PROFILE.tbMap={};if(!PROFILE.qa||typeof PROFILE.qa!=="object")PROFILE.qa={};if(!Array.isArray(PROFILE.tbSets))PROFILE.tbSets=[];if(PROFILE.tbAutoSector==="")PROFILE.tbAutoSector=true;if(!PROFILE.orgChart||typeof PROFILE.orgChart!=="object")PROFILE.orgChart=null;writeProfileFields();renderEstimates();modelChanged();renderRows();buildDash();syncChecker();renderStates();renderRegimes();if(ORG_READY){orgRenderAll();qnSyncChecker();qnRender();}}
+  function applyProfile(p){if(!p)return;setTimeout(function(){if(typeof sumRender==="function"&&$("v-summary")&&!$("v-summary").hidden)sumRender();if(typeof ptxRender==="function")ptxRender();if(typeof renderStructForm==="function"){renderStructForm();renderStructure();}},0);Object.keys(PROFILE).concat(Object.keys(p)).forEach(function(k){PROFILE[k]=p[k]!==undefined?p[k]:(k==="states"||k==="countries"?{}:"")});PROFILE.states=PROFILE.states||{};PROFILE.countries=PROFILE.countries||{};if(!PROFILE.model)PROFILE.model="equity";if(!PROFILE.sector)PROFILE.sector="diversified";if(!PROFILE.fye)PROFILE.fye="12";if(!PROFILE.structure||typeof PROFILE.structure!=="object")PROFILE.structure={};if(!PROFILE.est)PROFILE.est={};if(!PROFILE.tbMap)PROFILE.tbMap={};if(!PROFILE.qa||typeof PROFILE.qa!=="object")PROFILE.qa={};if(!Array.isArray(PROFILE.tbSets))PROFILE.tbSets=[];if(PROFILE.tbAutoSector==="")PROFILE.tbAutoSector=true;if(!PROFILE.orgChart||typeof PROFILE.orgChart!=="object")PROFILE.orgChart=null;writeProfileFields();renderEstimates();modelChanged();renderRows();buildDash();syncChecker();renderStates();renderRegimes();if(ORG_READY){orgRenderAll();qnSyncChecker();qnRender();}}
 
   function syncChecker(){
     $("year").value=PROFILE.year; $("c_first").checked=!!PROFILE.first; $("c_model").value=PROFILE.model||"equity";
@@ -1611,7 +1634,6 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       if(NO_CIT[c]&&c!=="TX"){add(SNAME[c],"Gross receipts or franchise tax","Check state gross receipts or franchise tax filings",NO_CIT[c],"See state instructions");}
       else if(forms){forms.forEach(function(x){if(x.captiveOnly&&!cap)return;if(x.payorOnly)return;add(SNAME[c],x.form,x.name,x.note||why.join(", "),x.due||"See state instructions",{kind:x.captiveOnly?"stateReturn":"stateReturn"})});}
       else add(SNAME[c],"Corporate return","State corporate income or franchise tax return",why.join(", ")+" · form not yet in rule data","See state instructions",{kind:"stateReturn"});
-      var est=LAST_EST.filter(function(x){return x.code===c})[0];if(est&&est.tax>0&&c!=="TX")add(SNAME[c],"Estimated payments","State estimated tax installments","Estimated annual tax of "+money(est.tax)+" from the State estimates tab","See state instructions",{kind:"estimate"});
       if(f.office||PROFILE.org===c)add(SNAME[c],"Annual report","Annual report with the Secretary of State or equivalent",PROFILE.org===c?"State of organization":"Registered to do business","See state instructions");
       if(f.property&&!f.office&&PROFILE.org!==c)add(SNAME[c],"Foreign qualification","Registration to do business may be required","Owns property but no registered office entered","Before doing business");
       if(f.property)add(SNAME[c],"Property tax","Local real and personal property tax filings","Owns property","Set by county or locality");
@@ -1882,52 +1904,8 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     figuresAreExample=false;$("sampleNote").textContent="Figures applied from the imported trial balance"+(tbSets().length>1?"s ("+tbSets().length+", combined at the REIT's share)":"")+". REIT taxable income is a book-based estimate; replace it with the tax figure when available, and enter calendar-year distributions and E&P, which a trial balance does not show.";
     run();changed(true);$("tbNote").textContent="Applied. Open the federal checker to see the results.";});
 
-  // ---------- State estimates ----------
-  function bracketTax(base,r){if(base<=0)return 0;var br=r.brackets;if(!br||!br.length)return base*r.rate/100;
-    if(r.wholeIncome){var rate=0;br.forEach(function(b){if(base>b.over)rate=b.rate});return base*rate/100;}
-    var tax=0;for(var i=0;i<br.length;i++){var lo=br[i].over,hi=i+1<br.length?br[i+1].over:Infinity;if(base>lo)tax+=(Math.min(base,hi)-lo)*br[i].rate/100;}return tax;}
-  function estBaseFigures(){var ti=num("d_ti"),dp=num("d_paid");var gi=0;
-    ["q75","q95","nq","ex"].forEach(function(c){gi+=groupSum(INCOME_GROUPS,c)});
-    var tot=has("est_total")?num("est_total"):gi;return {ti:ti,dp:dp,after:Math.max(0,ti-dp),rev:tot,gi:gi};}
-  function renderEstimates(){if(!PROFILE)return;var sc=Object.keys(PROFILE.states||{}).sort();
-    if(!sc.length){$("estTable").innerHTML='<div class="empty">Add states on the client dashboard to estimate state taxes.</div>';computeEstimates();return;}
-    $("estTable").innerHTML='<div class="tbwrap"><table class="tbt est"><thead><tr><th>State</th><th>Receipts sourced to state</th><th style="text-align:right">Apportionment</th><th style="text-align:right">Tax base</th><th>Rate</th><th style="text-align:right">Estimated tax</th><th style="text-align:right">Quarterly</th></tr></thead><tbody>'+
-      sc.map(function(c){var e=(PROFILE.est||{})[c]||{};return '<tr><td><b>'+esc(SNAME[c])+'</b><div class="why" id="est_n_'+c+'"></div></td><td><input type="number" min="0" id="est_r_'+c+'" data-est="'+c+'" value="'+esc(e.receipts||"")+'" placeholder="0" aria-label="Receipts sourced to '+esc(SNAME[c])+'">'+(c==="TX"?'<label class="check" for="est_x_TX" style="margin-top:6px;font-size:12px"><input type="checkbox" id="est_x_TX" data-estx="TX"'+(e.excluded?" checked":"")+'>Not a taxable entity (no direct real estate)</label>':'')+'</td><td class="n" id="est_a_'+c+'"></td><td class="n" id="est_b_'+c+'"></td><td id="est_rt_'+c+'"></td><td class="n out" id="est_t_'+c+'"></td><td class="n" id="est_q_'+c+'"></td></tr>'}).join("")+
-      '</tbody><tfoot><tr><td colspan="5"><b>Total estimated state tax</b></td><td class="n out" id="est_total_tax"></td><td class="n" id="est_total_q"></td></tr></tfoot></table></div>';
-    computeEstimates();}
-  var LAST_EST=[];
-  function computeEstimates(){if(!PROFILE||!$("estBase"))return;var b=estBaseFigures(),cap=isCaptive(),rows=[],total=0;
-    $("estBase").innerHTML='<h3>Base figures</h3><table class="ftable" style="min-width:0"><tbody>'+
-      '<tr><td>REIT taxable income before the dividends-paid deduction</td><td class="f" style="text-align:right">'+money(b.ti)+'</td></tr>'+
-      '<tr><td>Dividends-paid deduction</td><td class="f" style="text-align:right">'+money(b.dp)+'</td></tr>'+
-      '<tr><td><b>Taxable income after the dividends-paid deduction</b></td><td class="f" style="text-align:right"><b>'+money(b.after)+'</b></td></tr>'+
-      '<tr><td>Total receipts used for apportionment</td><td class="f" style="text-align:right">'+money(b.rev)+'</td></tr></tbody></table>'+
-      '<p class="why" style="margin:8px 0 0">Figures come from the federal checker'+(TB.length?' and the imported trial balance':'')+'. '+(cap?'Captive REIT on the dashboard facts, so states that deny the deduction to captive REITs use income before the deduction.':'')+'</p>';
-    Object.keys(PROFILE.states||{}).sort().forEach(function(c){var e=(PROFILE.est||{})[c]||{},r=stateRule(c),rec=parseFloat(e.receipts)||0,ap=b.rev>0?Math.min(1,rec/b.rev):0;
-      var note="",base=0,tax=null,rateTxt="—";
-      if(c==="TX"){var tr=r&&r.rate!=null?r.rate:0.75,thr=r&&r.threshold!=null?r.threshold:2650000;
-        if(e.excluded){note="Not a taxable entity: no franchise tax.";tax=0;}
-        else if(b.rev<=thr){note="Total revenue at or below the $"+thr.toLocaleString()+" no-tax-due threshold.";tax=0;}
-        else{base=b.rev*0.7*ap;tax=base*tr/100;note="Margin estimated as 70% of total revenue; other margin methods may be lower.";}rateTxt=tr+"% of margin";}
-      else if(NO_CIT[c]){note=NO_CIT[c]+" Not estimated.";}
-      else if(!r||r.rate==null){note="Rate not yet in the rule data.";}
-      else{var useBefore=cap&&r.treatment==="strict";base=(useBefore?b.ti:b.after)*ap;var tb=base-(r.exemption||0);
-        tax=Math.max(bracketTax(Math.max(0,tb),r),r.minTax||0);rateTxt=r.brackets&&r.brackets.length?r.brackets.map(function(x){return x.rate+"%"}).join(" / "):r.rate+"%";
-        note=(useBefore?"Captive REIT addback applied. ":"")+(r.minTax?"Includes minimum tax of $"+r.minTax.toLocaleString()+". ":"")+(r.exemption?"After $"+r.exemption.toLocaleString()+" exemption. ":"")+(r.rateNote||"");}
-      if(tax!=null)total+=tax;
-      rows.push({code:c,name:SNAME[c],receipts:rec,ap:ap,base:base,rate:rateTxt,tax:tax,note:note});
-      var set=function(id,v){var el=$(id);if(el)el.textContent=v};
-      set("est_a_"+c,(ap*100).toFixed(2)+"%");set("est_b_"+c,money(base));set("est_rt_"+c,rateTxt);set("est_t_"+c,tax==null?"—":money(tax));set("est_q_"+c,tax==null?"—":money(tax/4));set("est_n_"+c,note);});
-    var et=$("est_total");et.placeholder=String(Math.round(b.gi));if(document.activeElement!==et)et.value=PROFILE.estTotal||"";
-    var tt=$("est_total_tax");if(tt){tt.textContent=money(total);$("est_total_q").textContent=money(total/4);}
-    LAST_EST=rows;
-    $("estFoot").textContent="Rates for "+PROFILE.year+" come from the shared rule data. Quarterly amounts split the annual estimate evenly; actual installment schedules, safe harbors and minimum taxes vary by state. These are estimates, not return calculations.";}
-  $("v-estimates").addEventListener("input",function(e){var t=e.target;
-    if(t.dataset.est){PROFILE.est[t.dataset.est]=PROFILE.est[t.dataset.est]||{};PROFILE.est[t.dataset.est].receipts=t.value;}
-    else if(t.id==="est_total"){PROFILE.estTotal=t.value;}
-    else return;
-    clearTimeout(saveTimer);saveTimer=setTimeout(saveProfile,700);computeEstimates();});
-  $("v-estimates").addEventListener("change",function(e){var t=e.target;if(!t.dataset.estx)return;PROFILE.est.TX=PROFILE.est.TX||{};PROFILE.est.TX.excluded=t.checked;computeEstimates();clearTimeout(saveTimer);saveTimer=setTimeout(saveProfile,700);});
+  // State estimates were removed; these stay as no-ops for older callers
+  var LAST_EST=[];function renderEstimates(){}function computeEstimates(){}
 
   // ---------- PDF report ----------
   function pdfText(t){return String(t==null?"":t).replace(/≤/g,"<=").replace(/≥/g,">=").replace(/−/g,"-").replace(/÷/g,"/").replace(/[^\x00-\xFF–—‘’“”•…€]/g,"");}
@@ -2129,7 +2107,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   // Treasury regulations, state revenue departments). claude.ai page: Claude answers from this page's rule library,
   // whose entries link to those official sources. Self-hosted copy and demo: rule-library search with official links.
   var AST={msgs:[],busy:false,ctl:null};
-  var AST_TABS={dashboard:"Client dashboard",consider:"Entity tax considerations",structure:"REIT structure evaluation",proposed:"Proposed REIT structure",questionnaire:"Questionnaire",rules:"Tax rules",filings:"Tax filings",checker:"Federal checker",ptx:"Prohibited transactions",tb:"Trial balance",estimates:"State estimates",staterules:"State rules",intl:"International regimes",log:"Rule updates",report:"Reports"};
+  var AST_TABS={dashboard:"Client dashboard",consider:"Entity tax considerations",structure:"REIT structure evaluation",proposed:"Proposed REIT structure",questionnaire:"Questionnaire",rules:"Tax rules",filings:"Tax filings",checker:"Federal checker",ptx:"Prohibited transactions",tb:"Trial balance",summary:"Results summary",staterules:"State rules",intl:"International regimes",log:"Rule updates",report:"Reports"};
   function astMode(){if(typeof FB!=="undefined"&&FB)return "server";if(!HOSTED)return "claude";return "library";}
   function astLinks(d){var L=lawLinks(d.cite||"");if(d.url&&/^https:\/\//.test(d.url))L.unshift({title:d.kind==="State rule"||d.kind==="International regime"?"Official source":"Source",url:d.url});return L.filter(function(l){return /^https:\/\//.test(l.url)}).slice(0,4);}
   function astLibrary(q,n){return rlSearch(q).slice(0,n||6).map(function(o){var d=o.d;return {kind:d.kind,title:d.title,text:String(d.text||"").slice(0,700),cite:d.cite||"",links:astLinks(d),mine:!!d.mine};});}
@@ -2334,7 +2312,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   function ensureYearOption(y){var sel=$("p_year");if(!Array.prototype.some.call(sel.options,function(o){return o.value===String(y)})){var o=document.createElement("option");o.value=o.textContent=String(y);sel.appendChild(o);}
     var cy=$("year");if(!Array.prototype.some.call(cy.options,function(o){return o.value===String(y)})){var o2=document.createElement("option");o2.value=o2.textContent=String(y);cy.appendChild(o2);}}
   function setReadOnly(ro){
-    Array.prototype.forEach.call(document.querySelectorAll("#profile input,#profile select,#profile button,#form input,#form select,#v-tb input,#v-tb button,#v-estimates input,#stForm select,#btnSample,#btnClear"),function(el){el.disabled=ro;});
+    Array.prototype.forEach.call(document.querySelectorAll("#profile input,#profile select,#profile button,#form input,#form select,#v-tb input,#v-tb button,#stForm select,#btnSample,#btnClear"),function(el){el.disabled=ro;});
     $("p_year").disabled=true;$("year").disabled=true;
     $("roBanner").hidden=!ro;$("rptSave").hidden=ro;var sa=$("stApply");if(sa)sa.disabled=ro;}
   function scheduleYearSave(){if(!FB||FBS.loading||!FBS.eid||FBS.role==="viewer")return;$("fbSaveState").textContent="Unsaved changes…";clearTimeout(FBS.yearTimer);FBS.yearTimer=setTimeout(saveYear,1200);}
@@ -3309,6 +3287,67 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       Q.push({id:"demand",grp:"gen",title:"Were shareholder demand letters sent within 30 days after the year end?",why:"A REIT must ask holders of a set percentage of its shares for statements of who actually owns them, and keep the replies.",cite:"Treas. Reg. §1.857-8; §857(f)",
         opts:[["yes","Yes","ok","The record-keeping requirement is met.","Treas. Reg. §1.857-8"],["no","No","review","Send them now. The penalty is $25,000 ($50,000 if intentional); it doesn't end REIT status, but the replies also support the 5/50 test.","§857(f); Treas. Reg. §1.857-8(d)"]]});
     return Q;}
+  // ---------- Customary tenant services: is each service customary for this class of property in this market? ----------
+  // base: named = listed as customary in many markets by Treas. Reg. §1.856-4(b)(1); ruled = treated as customary in IRS rulings where
+  // the market supports it; conv = usually rendered mainly for the occupant's convenience; notrent = not a charge for the use of space
+  var SVC_LIST=[
+    ["util","Utilities: water, heat, light, air-conditioning, submetered electricity","named","Named in the regulation. Submetering utilities is customary where furnishing them is customary for that class of building in the market."],
+    ["clean","Cleaning and maintenance of common areas, lobbies and windows; janitorial","named","Named in the regulation: cleaning windows, public entrances, exits and lobbies, general maintenance and janitorial services."],
+    ["trash","Trash collection (including valet trash for apartments)","named","Trash collection is named in the regulation. Door-to-door valet trash has been treated as customary for apartments where comparable communities offer it."],
+    ["sec","Security: guards, watchmen, access control","named","Watchman or guard services are named in the regulation."],
+    ["elev","Elevators, telephone answering, incidental storage space","named","Named in the regulation."],
+    ["park","Parking for tenants and their guests","named","Parking facilities are named in the regulation. Also answer the parking fact check in the federal checker; Rev. Rul. 2004-24 covers who may run it."],
+    ["amen","Pool, fitness center, clubhouse, business center or other shared amenities","named","Swimming facilities are named in the regulation; IRS rulings have accepted fitness centers, clubhouses and business centers where comparable properties offer them. Separately charged memberships need more care."],
+    ["laundry","Laundry equipment (coin or card operated)","named","Laundry equipment is named in the regulation."],
+    ["telecom","Internet, cable TV, Wi-Fi or smart-home technology","ruled","IRS private rulings have treated telecommunications and internet services in apartment communities as customary where comparable properties provide them (for example, PLR 200103033). Often provided through a TRS."],
+    ["concierge","Concierge, package lockers or package handling","ruled","Rulings have accepted concierge-type services for luxury residential and class A office where customary in the market. Personal errands for particular tenants go further."],
+    ["ev","Electric vehicle charging","ruled","Recent private rulings have treated EV charging as customary where comparable properties offer it, including with a reasonable markup. Private rulings bind only the taxpayer that asked."],
+    ["power","Data center power, cooling and interconnection (cross-connects)","ruled","Private rulings have treated power, cooling and interconnection as customary for data centers. Managed IT and other services beyond the space are not."],
+    ["ti","Repairs or alterations inside a tenant's own space","conv","Normal repairs and maintenance are customary. Work done for a particular tenant beyond that, such as custom alterations or furniture installation, can be a non-customary service."],
+    ["maid","Housekeeping or maid service inside units or suites","conv","Services rendered mainly for the occupant's convenience, like hotel maid service, are generally not customary for space rented for occupancy only."],
+    ["food","Meals, catering, food and beverage","conv","Food service is generally not customary for space rented for occupancy only. It is usually provided by a TRS or a third-party operator."],
+    ["care","Health care, nursing, assisted living or resident care","notrent","Operating a health care facility isn't a landlord service. Lease the property to a TRS that hires an eligible independent contractor, or to an unrelated operator."],
+    ["store","Self-storage extras: truck rental, boxes and supplies, tenant insurance","notrent","Sales of goods, truck rental and insurance aren't charges for the use of space. They are usually run through a TRS."],
+    ["other","Other service (describe it in the note)","ruled",""]];
+  function svcName(k){var s=SVC_LIST.filter(function(x){return x[0]===k})[0];return s?s[1]:k;}
+  function svcMulti(sv){var base=sv[2];
+    return {id:"cs_"+sv[0],base:base,qs:[
+      ["who","Who uses it?",[["tenants","Tenants, and their guests, customers or subtenants"],["public","Also sold to people who aren't tenants"]]],
+      ["prov","Who provides it, and who receives the charge?",[["reit","The REIT's own employees or its property manager, and the REIT receives any charge"],["ik","An independent contractor that is adequately paid, from whom the REIT gets no income, and that keeps the charge"],["trs","A taxable REIT subsidiary (TRS), which keeps the charge"]]],
+      ["mkt","Geographic market: do landlords of the same class of property in the same market (metro area or submarket) generally provide this service?",[["most","Yes: most comparable properties in the market provide it"],["some","Some do, but it isn't the norm"],["no","No: it's unusual for this class of property in this market"]],{prov:["reit"]}],
+      ["where","Market and class of property compared (for example: Class A apartments, Austin metro)","text",{prov:["reit"]}],
+      ["occ","Is it furnished with the rental of the space, to tenants generally, or mainly for the convenience of particular tenants?",[["occ","To tenants generally, as part of occupying the space"],["part","On request to particular tenants, such as in-unit or personal services"]],{prov:["reit"]}],
+      ["chg","How is it charged?",[["rent","Included in the rent"],["sep","A separately stated charge"]],{prov:["reit"]}],
+      ["evid","What shows it is customary?",[["survey","A market survey, broker or appraiser letter, or comparable-property listings"],["ruling","An IRS ruling or guidance for this service"],["exp","Management's experience only"],["none","Nothing documented yet"]],{prov:["reit"]}],
+      ["pct","If it turns out not to be customary: would the income from it (at least 150% of its direct cost) be more than 1% of all amounts received from the property?",[["le1","No: 1% or less"],["gt1","Yes: more than 1%"]],{prov:["reit"]}],
+      ["iktest","Does the contractor meet the independent contractor tests: it owns no more than 35% of the REIT, no 35% owner of the REIT owns more than 35% of it, and the REIT receives no income from it?",[["yes","Yes"],["no","No, or not checked"]],{prov:["ik"]}],
+      ["trsap","Are the TRS's charges at arm's length, for example at least 150% of its direct cost?",[["yes","Yes, and documented"],["no","No, or not documented"]],{prov:["trs"]}]],
+     decide:function(a){var cite="§856(d)(1)(B), §856(d)(2)(C); Treas. Reg. §1.856-4(b)(1)";
+       if(!a.who||!a.prov)return null;
+       var pub=a.who==="public"?" Charges to people who aren't tenants (or their guests, customers or subtenants) aren't rents from real property: treat that part as non-qualifying.":"";
+       if(a.prov==="ik"){if(!a.iktest)return null;if(a.iktest==="no")return {tone:"risk",text:"If the contractor isn't independent, the services count as the REIT's own. Non-customary services would then be impermissible tenant service income. Confirm the 35% ownership limits and that the REIT gets no income from the contractor, or use a TRS."+pub,cite:"§856(d)(3), §856(d)(7)(C)(i)"};
+         return {tone:pub?"review":"ok",text:"Services an independent contractor provides and is paid for aren't the REIT's income, so they don't affect the rent, whether or not they are customary. The contractor must be adequately compensated and the REIT must receive nothing from it."+pub,cite:"§856(d)(3), §856(d)(7)(C)(i); Treas. Reg. §1.856-4(b)(5)"};}
+       if(a.prov==="trs"){if(!a.trsap)return null;if(a.trsap==="no")return {tone:"review",text:"Services a TRS provides to the REIT's tenants aren't impermissible tenant service income, but amounts that aren't at arm's length can be reallocated with a 100% excise tax. Document the TRS's pricing; charging at least 150% of its direct cost is a safe harbor for redetermined rents."+pub,cite:"§856(d)(7)(C)(i); §857(b)(7)"};
+         return {tone:pub?"review":"ok",text:"Services a TRS provides aren't impermissible tenant service income; the TRS pays corporate tax on its profit, and the rent stays qualifying."+pub,cite:"§856(d)(7)(C)(i); §857(b)(7)"};}
+       // REIT provides it
+       if(base==="notrent")return {tone:"risk",its:true,text:"This isn't a charge for the use of real property, so whatever the market does, income from it isn't rent. Provided by the REIT it is non-qualifying, and as a tenant service it counts toward the property's 1% limit. Move it to a TRS or an unrelated operator."+pub,cite:"§856(d)(1), §856(d)(7); §856(d)(8)(B)"};
+       if(!a.mkt||!a.occ)return null;
+       var nonc=a.mkt==="no"||a.occ==="part";
+       if(nonc){if(!a.pct)return null;
+         return {tone:"risk",its:true,text:(a.occ==="part"?"Services rendered mainly for the convenience of particular tenants":"Services that comparable landlords in the market don't provide")+" are non-customary. Provided by the REIT they are impermissible tenant service income, valued at no less than 150% of the REIT's direct cost. "+(a.pct==="gt1"?"Because it is more than 1% of the property's income, none of the amounts received from that property qualify as rent. Move the service to a TRS or an independent contractor now.":"At 1% or less of the property's income, only the service income itself is non-qualifying; the rest of the rent still qualifies. Moving it to a TRS or independent contractor removes the exposure.")+pub,cite:"§856(d)(2)(C), §856(d)(7)(A)-(D); Treas. Reg. §1.512(b)-1(c)(5)"};}
+       if(a.mkt==="some")return {tone:"review",text:"Not clearly customary: some comparable properties in the market provide it and others don't. Gather a market survey of the same class of property in the same market, have a TRS or independent contractor provide it, or ask the IRS for a private letter ruling.",cite:cite};
+       if(base==="conv")return {tone:"review",text:"Comparable landlords provide it, but this kind of service is usually treated as being for the occupant's convenience rather than customary for occupancy only. Get advice or a private ruling before treating the charges as rent, or provide it through a TRS."+pub,cite:cite+"; Treas. Reg. §1.512(b)-1(c)(5)"};
+       var sep=a.chg==="sep"?" A separately stated charge for a customary service is still rent.":"";
+       if(!a.evid||a.evid==="none"||a.evid==="exp")return {tone:"review",text:"Customary on the facts given: comparable properties in the market provide it, to tenants generally."+sep+" Document it: keep a market survey, broker letter or comparable listings for the same class of property in the same market with the workpapers, and update it as the market changes."+pub,cite:cite};
+       return {tone:pub?"review":"ok",text:"Customary: comparable properties of the same class in the market provide it, it is furnished to tenants generally, and it is documented. Charges for it are rents from real property."+sep+pub,cite:cite}; }};}
+  function svcPicked(){var v=PROFILE.qa&&PROFILE.qa.csvc&&PROFILE.qa.csvc.v;return v?String(v).split(",").filter(Boolean):[];}
+  function qnMultiAns(M){var a={};M.qs.forEach(function(q){var k=M.id+"__"+q[0],v=PROFILE.qa[k]?PROFILE.qa[k].v:"";a[q[0]]=v==="unsure"?"":v;});M.qs.forEach(function(q){if(!qShown(M,q,a))a[q[0]]="";});return a;}
+  function qnSvcQuestions(){var Q=[];if(curProfile().model==="mortgage")return Q;
+    Q.push({id:"csvc",grp:"svc",pick:true,title:"Which services do the REIT's properties provide to tenants?",why:"Each service is checked below for whether it's customary. A service is customary when landlords of the same class of property in the same geographic market usually provide it, with the rental of space for occupancy only. Charges for customary services are rent; non-customary services provided by the REIT are impermissible tenant service income.",cite:"§856(d)(1)(B), §856(d)(7); Treas. Reg. §1.856-4(b)(1)",
+      opts:SVC_LIST.map(function(s){return [s[0],s[1]]}).concat([["none","No services beyond the space itself"]])});
+    svcPicked().forEach(function(k){if(k==="none")return;var sv=SVC_LIST.filter(function(x){return x[0]===k})[0];if(!sv)return;var M=svcMulti(sv);
+      Q.push({id:M.id,grp:"svc",multi:M,svc:sv,title:"Customary services check: "+sv[1],why:sv[3],cite:"§856(d)(1)(B), §856(d)(7)"});});
+    return Q;}
   function qnBuild(){var acc=[],Q=[];
     // The same account in several trial balances is asked about once, at the REIT's combined share
     var gk={},sets=typeof tbSets==="function"?tbSets():[];
@@ -3326,24 +3365,30 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     acc.forEach(function(x){var hits=QN_ACCT.filter(function(d){return d.id!=="map"&&(d.when(x.r,x.m,x.n)||PROFILE.qa[d.id+"|"+tbKey(x.r)])});
       var mapD=QN_ACCT[0];if(!hits.length&&(mapD.when(x.r,x.m,x.n)||PROFILE.qa["map|"+tbKey(x.r)]))hits=[mapD];
       hits.forEach(function(d){var k=d.id+"|"+tbKey(x.r);Q.push({id:k,grp:d.grp,def:d,accts:[x],title:d.title,why:d.why,cite:d.cite,opts:typeof d.opts==="function"?d.opts(x.r):d.opts});});});
-    return Q.concat(qnGlobal(acc));}
+    return Q.concat(qnGlobal(acc)).concat(qnSvcQuestions());}
   function qnAns(k){var a=PROFILE.qa&&PROFILE.qa[k];return a&&a.v!=null?a.v:"";}
   function qnCondAns(c){var a={};c.qs.forEach(function(q){var k=c.id+"__"+q[0],v=PROFILE.qa[k]?PROFILE.qa[k].v:($(k)?$(k).value:"");a[q[0]]=v==="unsure"?"":v;});c.qs.forEach(function(q){if(!qShown(c,q,a))a[q[0]]="";});return a;}
-  function qnKeys(q){return q.cond?q.cond.qs.map(function(x){return q.cond.id+"__"+x[0]}):[q.id];}
+  function qnKeys(q){return q.cond?q.cond.qs.map(function(x){return q.cond.id+"__"+x[0]}):q.multi?q.multi.qs.map(function(x){return q.multi.id+"__"+x[0]}):[q.id];}
   function qnNoteKey(q){return (q.cond?q.cond.id:q.id)+"#note";}
   function qnCarried(q){var qa=PROFILE.qa||{};return qnKeys(q).concat([qnNoteKey(q)]).filter(function(k){return qa[k]&&qa[k].carried});}
   function qnAnsText(q,src){src=src||{};var g=function(k){var a=src[k];return a&&a.v!=null&&a.v!==""?String(a.v):""};
     if(q.cond)return q.cond.qs.map(function(x){var v=g(q.cond.id+"__"+x[0]);if(!v)return "";var o=(x[2]||[]).concat([["unsure","Not sure: needs follow-up"]]).filter(function(y){return y[0]===v})[0];return x[1]+" "+(o?o[1]:v);}).filter(Boolean).join(" · ");
+    if(q.multi)return q.multi.qs.map(function(x){var v=g(q.multi.id+"__"+x[0]);if(!v)return "";if(x[2]==="text")return x[1]+": "+v;var o=x[2].concat([["unsure","Not sure: needs follow-up"]]).filter(function(y){return y[0]===v})[0];return x[1]+" "+(o?o[1]:v);}).filter(Boolean).join(" · ");
+    if(q.pick){var pv=g(q.id);return pv?pv.split(",").map(function(k){var o=(q.opts||[]).filter(function(y){return y[0]===k})[0];return o?o[1]:k}).join("; "):"";}
     var v=g(q.id);if(!v)return "";var o=(q.opts||[]).concat([QN_U]).filter(function(y){return y[0]===v})[0];return o?o[1]:v;}
   function qnStatus(q){var s=qnStatus0(q);if(q.point)return s;var c=qnCarried(q).filter(function(k){return k.indexOf("#note")<0});
     if(c.length){s=Object.assign({},s);s.rt=s.tone;s.tone="carry";s.open=true;s.carry=c;}return s;}
   function qnStatus0(q){if(q.point)return {tone:q.tone||"risk",open:true};
+    if(q.multi){var ma=qnMultiAns(q.multi),mr=q.multi.decide(ma),mu=q.multi.qs.some(function(x){return qnAns(q.multi.id+"__"+x[0])==="unsure"});
+      if(!mr||mu)return {tone:"open",open:true,res:null,unsure:mu};return {tone:mr.tone,open:mr.tone==="risk"||mr.tone==="review",res:mr};}
+    if(q.pick){var pv=qnAns(q.id);if(!pv)return {tone:"open",open:true};var n=pv.split(",").filter(function(x){return x&&x!=="none"}).length;
+      return {tone:"ok",open:false,opt:[pv,"",pv==="none"?"ok":"info",n?n+" service"+(n>1?"s":"")+" selected: each has its own check below.":"No tenant services beyond the space: nothing to check.",q.cite]};}
     if(q.cond){var a=qnCondAns(q.cond),r=q.cond.decide(a,q.amt);var any=q.cond.qs.some(function(x){return qnAns(q.cond.id+"__"+x[0])==="unsure"});
       if(!r)return {tone:"open",open:true,res:null,unsure:any};return {tone:r.cat==="q75"?"ok":r.cat==="nq"?"risk":r.cat==="ex"?"info":"review",open:r.cat==="nq"||r.level==="unclear",res:r};}
     var v=qnAns(q.id);if(!v)return {tone:"open",open:true};if(v==="unsure")return {tone:"open",open:true,opt:QN_U};
     var o=(q.opts||[]).filter(function(x){return x[0]===v})[0];if(!o)return {tone:"open",open:true};return {tone:o[2],open:o[2]==="risk"||o[2]==="review",opt:o};}
   var QN_TONE={ok:["t-conf","Answered"],info:["t-pend","Answered"],review:["t-mod","Review"],risk:["t-strict","Action needed"],open:["t-acc","Open"],carry:["t-pend","To confirm"]};
-  var QN_GRP=[["gen","General"],["cond","Income that depends on the facts"],["rent","Rent"],["inc","Other income accounts"],["ast","Asset accounts"],["dist","Distributions and expenses"],["map","Accounts to identify"]];
+  var QN_GRP=[["gen","General"],["cond","Income that depends on the facts"],["rent","Rent"],["svc","Tenant services: customary or not"],["inc","Other income accounts"],["ast","Asset accounts"],["dist","Distributions and expenses"],["map","Accounts to identify"]];
   var QN_FILTER="all";
   function qnSyncChecker(){var qa=PROFILE.qa||{};Object.keys(qa).forEach(function(k){if(k.indexOf("cq_")!==0||k.indexOf("__")<0)return;var el=$(k);if(!el)return;var v=qa[k].v==="unsure"?"":qa[k].v;
     if(el.tagName==="SELECT"){if(Array.prototype.some.call(el.options,function(o){return o.value===v}))el.value=v;}else el.value=v;});}
@@ -3376,6 +3421,17 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       if(s.res)h+='<div class="qres q-'+rt+'"><b>'+esc(condTreatment({cat:s.res.cat,parts:s.res.parts||{},pending:false}))+'.</b> '+esc(s.res.text)+(s.res.cite?'<div class="cite">'+esc(s.res.cite)+'</div>':'')+'</div>';
       else h+='<div class="qres q-open">Answer the questions above to see how this income counts. Until then it is treated as non-qualifying.</div>';
       h+=qnNote(c.id,i,ro)+'</div>';return h;}
+    if(q.pick){var pk=qnAns(q.id).split(",");
+      h+='<fieldset class="qpicks"><legend class="sr">Services</legend>'+q.opts.map(function(o,j){var id="qp_"+i+"_"+j;return '<label class="qopt" for="'+id+'"><input type="checkbox" id="'+id+'" data-qpick="'+esc(q.id)+'" value="'+esc(o[0])+'"'+(pk.indexOf(o[0])>=0?" checked":"")+(ro?" disabled":"")+'><span>'+esc(o[1])+'</span></label>'}).join("")+'</fieldset>';
+      if(s.opt)h+='<div class="qres q-'+rt+'">'+esc(s.opt[3])+'</div>';return h+qnNote(q.id,i,ro)+'</div>';}
+    if(q.multi){var M=q.multi,ma=qnMultiAns(M),BL={named:"Listed in the regulation as customary in many markets",ruled:"Treated as customary in IRS rulings where the market supports it",conv:"Usually treated as for the occupant's convenience: often not customary",notrent:"Not a charge for the use of space: not rent"};
+      h+='<p class="svcbase"><b>Starting point:</b> '+esc(BL[M.base]||"")+'</p>';
+      h+=M.qs.map(function(x){if(!qShown(M,x,ma))return "";var k=M.id+"__"+x[0],v=qnAns(k);
+        if(x[2]==="text")return '<label class="qtxt" for="qi_'+esc(k)+'">'+esc(x[1])+'<input type="text" id="qi_'+esc(k)+'" data-qk="'+esc(k)+'" value="'+esc(v)+'" maxlength="200"'+(ro?" disabled":"")+'></label>';
+        return '<fieldset class="qopts"><legend>'+esc(x[1])+'</legend>'+x[2].concat([["unsure","Not sure: needs follow-up"]]).map(function(o,j){var id="qo_"+i+"_"+x[0]+"_"+j;return '<label class="qopt" for="'+id+'"><input type="radio" id="'+id+'" name="qr_'+i+'_'+x[0]+'" data-qk="'+esc(k)+'" value="'+esc(o[0])+'"'+(v===o[0]?" checked":"")+(ro?" disabled":"")+'><span>'+esc(o[1])+'</span></label>'}).join("")+'</fieldset>';}).join("");
+      if(s.res)h+='<div class="qres q-'+rt+'"><b>'+({ok:"Customary or outside the REIT: charges are rent",review:"Needs review",risk:"Non-customary or not rent",info:"Noted"}[s.res.tone]||"")+'.</b> '+esc(s.res.text)+(s.res.cite?'<div class="cite">'+esc(s.res.cite)+'</div>':'')+'</div>';
+      else h+='<div class="qres q-open">Answer the questions above to see whether this service is customary. Until then, treat its charges as needing review.</div>';
+      return h+qnNote(q.id,i,ro)+'</div>';}
     var v=qnAns(q.id);
     h+='<fieldset class="qopts"><legend class="sr">Answer</legend>'+(q.opts||[]).concat([QN_U]).map(function(o,j){var id="qo_"+i+"_"+j;return '<label class="qopt" for="'+id+'"><input type="radio" id="'+id+'" name="qr_'+i+'" data-qk="'+esc(q.id)+'" value="'+esc(o[0])+'"'+(v===o[0]?" checked":"")+(ro?" disabled":"")+'><span>'+esc(o[1])+'</span></label>'}).join("")+'</fieldset>';
     if(s.opt)h+='<div class="qres q-'+rt+'">'+esc(s.opt[3])+(s.opt[4]?'<div class="cite">'+esc(s.opt[4])+'</div>':(q.cite&&s.opt!==QN_U?'<div class="cite">'+esc(q.cite)+'</div>':''))+'</div>';
@@ -3402,6 +3458,8 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   function qnRows(){var Q=qnBuild();return Q.map(function(q){var s=qnStatus(q),acct=q.accts&&q.accts.length?q.accts.map(function(x){return (x.r.no?x.r.no+" ":"")+x.r.name+" ("+money(x.amt)+(x.srcs&&x.srcs.length>1?", "+x.srcs.join(", "):"")+")"}).join("; "):"";
       var ans,res,cite;if(q.point){ans="";res=q.why;cite="";}
       else if(q.cond){var a=qnCondAns(q.cond);ans=q.cond.qs.filter(function(x){return a[x[0]]}).map(function(x){var o=(x[2]||[]).filter(function(y){return y[0]===a[x[0]]})[0];return x[1]+" "+(o?o[1]:a[x[0]])}).join(" | ");res=s.res?condTreatment({cat:s.res.cat,parts:s.res.parts||{},pending:false})+". "+s.res.text:"Facts needed";cite=s.res&&s.res.cite||"";}
+      else if(q.multi){ans=qnAnsText(q,PROFILE.qa)||"";res=s.res?s.res.text:"Facts needed";cite=s.res&&s.res.cite||q.cite||"";}
+      else if(q.pick){ans=qnAnsText(q,PROFILE.qa)||"";res=s.opt?s.opt[3]:"";cite=q.cite||"";}
       else{ans=s.opt?s.opt[1]:"";res=s.opt?s.opt[3]:"";cite=s.opt&&s.opt[4]||q.cite||"";}
       var note=PROFILE.qa[(q.cond?q.cond.id:q.id)+"#note"],prev=q.point?"":qnAnsText(q,PREV.qa);
       return {status:QN_TONE[s.tone][1],q:q.title,acct:acct,ans:ans||"Not answered",prev:prev?(pidLabel(PREV.pid)+": "+prev):"",res:res,cite:cite,note:note&&note.v||"",open:s.open};});}
@@ -3417,7 +3475,9 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     var dl=await getDownloads(note);if(!dl)return;try{await dl.save({filename:name,data:blob});note.textContent="Saved "+name+".";}catch(e){note.textContent=saveMsg(e,"Questionnaire");}}
   function qnInit(){if(!$("qnBody"))return;if(!PROFILE.qa||typeof PROFILE.qa!=="object")PROFILE.qa={};
     $("qnBody").addEventListener("change",function(e){var t=e.target;
-      if(t.dataset.qk){var k=t.dataset.qk,id=t.id;qnSet(k,t.value);qnRender();var f=$(id);if(f)f.focus();}
+      if(t.dataset.qk){var k=t.dataset.qk,id=t.id;qnSet(k,t.type==="text"?t.value.slice(0,200):t.value);qnRender();var f=$(id);if(f&&t.type!=="text")f.focus();}
+      else if(t.dataset.qpick){var pid=t.dataset.qpick,box=t.closest("fieldset"),vals=Array.prototype.filter.call(box.querySelectorAll("input[data-qpick]"),function(x){return x.checked}).map(function(x){return x.value});
+        if(t.value==="none"&&t.checked)vals=["none"];else vals=vals.filter(function(x){return x!=="none"});qnSet(pid,vals.join(","));var tid=t.id;qnRender();var f2=$(tid);if(f2)f2.focus();}
       else if(t.dataset.qnote!=null){PROFILE.qa[t.dataset.qnote+"#note"]={v:t.value.slice(0,2000)};PER_DIRTY=true;clearTimeout(saveTimer);saveTimer=setTimeout(saveProfile,500);}});
     $("qnBody").addEventListener("click",function(e){var cf=e.target.dataset&&e.target.dataset.qconfirm;if(cf!=null){var card=e.target.closest(".qn");qnConfirm(cf.split(",").filter(Boolean).map(decodeURIComponent));
         if(card&&$(card.id))$(card.id).scrollIntoView({block:"nearest"});return;}
@@ -3575,11 +3635,11 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
 
   // ---------- Report: customizable schedules, preview, PDF and Excel ----------
   var REPORT_SECTIONS=[
-    ["cover","Entity profile",true],["structure","REIT structure evaluation",true],["orgReview","Existing structure: compliance review",true],["tests","Federal test results",true],["reasons","Why tests fail or need review",true],["questionnaire","Client questionnaire and open points",true],
+    ["cover","Entity profile",true],["summary","Executive summary and how to resolve issues",true],["structure","REIT structure evaluation",true],["orgReview","Existing structure: compliance review",true],["tests","Federal test results",true],["reasons","Why tests fail or need review",true],["questionnaire","Client questionnaire and open points",true],
     ["income","Gross income schedule",true],["incomeCalc","Gross income test calculation",true],
     ["assets","Asset schedule",true],["assetCalc","Asset test calculation",true],["dist","Distributions and E&P",true],["ptx","Prohibited transactions",true],
     ["taxRules","Tax rules for this client",true],["typeRules","Rules for this REIT type",false],
-    ["estimates","State estimated taxes",true],["stateRules","State rules",true],["intl","Other countries",true],
+    ["stateRules","State rules",true],["intl","Other countries",true],
     ["filings","Filing calendar",true],["tb","Trial balance mapping",false],["changes","Recent rule developments",false]];
   function reportOpts(){var P=PROFILE;if(!P.report)P.report={};var r=P.report;if(!r.on){r.on={};}REPORT_SECTIONS.forEach(function(s){if(r.on[s[0]]===undefined)r.on[s[0]]=s[2]});
     if(r.basis===undefined)r.basis=true;if(!r.orient)r.orient="portrait";if(!r.paper)r.paper="letter";if(r.preparer===undefined)r.preparer="";if(r.notes===undefined)r.notes="";if(r.to===undefined)r.to="";if(r.firm===undefined)r.firm="";return r;}
@@ -3597,6 +3657,7 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
       ["Tax year","Begins in "+P.year+", ends "+fmtDate(ye.date)],["State of organization",SNAME[P.org]||"—"],["Taxable REIT subsidiaries",P.trs||"0"],
       ["States",sc.map(function(c){return SNAME[c]}).join(", ")||"None entered"],["Other countries",cc.map(function(c){return CNAME[c]}).join(", ")||"None entered"],
       ["Captive REIT",isCaptive()?"Likely, on the facts entered":"No"]].concat(P.final?[["Final REIT year",{liq:"Complete liquidation",merge:"Merger or acquisition",revoke:"Ending the REIT election"}[P.finalWhy||"liq"]+(finalEndDate()?", ending "+fmtDate(finalEndDate()):"")+(P.planDate&&(P.finalWhy||"liq")==="liq"?"; plan adopted "+P.planDate:"")]]:[]).concat([["Foreign shareholders",P.foreign?"Yes"+(P.foreign25?" (25% or more foreign-owned)":""):"No"]]).concat(o.preparer?[["Prepared by",o.preparer]]:[])}].concat(o.notes?[{t:"p",text:o.notes}]:[]));
+    if(RPT_ONLY?RPT_ONLY.indexOf("summary")>=0:o.on.summary)sec("summary","Executive summary and how to resolve issues",sumReportBlocks());
     var SR=evaluateStructure();var srow=function(t,arr){return arr.map(function(r){return {t:"p",head:t+": "+r.title,text:r.text+(r.cite?" ("+r.cite+")":"")}})};
     sec("structure","REIT structure evaluation",[{t:"svg",svg:structureSVG(SR),pdfSvg:structureSVG(SR,PDF_PAL)},{t:"kv",rows:[["Above the REIT",SR.nodes.above.map(function(n){return n.t}).join(", ")||"Not answered"],["The REIT",SR.nodes.reit],["Below the REIT",SR.nodes.below.map(function(n){return n.t}).join(", ")]]}].concat(SR.holders&&SR.holders.length?[{t:"table",head:["Shareholder","Type","Class","Ownership %"],right:[3],rows:SR.holders.map(function(h){return [h.name||"(no name)",shTypeName(h.type),h.cls==="pref"?"Preferred":"Common",shPct(h.pct).toFixed(2)+"%"]}).concat([["Total","","",shTotal(SR.holders).toFixed(2)+"%"]])}]:[],[
       {t:"table",head:["Largest owner check","Result","Detail","Authority"],rows:SR.owner.map(function(o){return [o.title,{ok:"OK",watch:"Watch",problem:"Problem"}[o.level],o.text,o.cite]}),wide:true},
@@ -3626,8 +3687,6 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
     sec("taxRules","Tax rules for this client",[{t:"list",items:facts.map(function(f){return f.t+". "+f.txt+(f.cite?" ("+f.cite+")":"")})},
       {t:"table",head:["Requirement","Client result"],rows:Object.keys(REQ_TEST).map(function(k){var rs=LAST_TESTS.filter(function(r){return REQ_TEST[k].indexOf(r.name)>=0});var w=rs.filter(function(r){return r.status==="fail"})[0]||rs.filter(function(r){return r.status==="warn"})[0]||rs[0];return [k,w?w.label+" · "+strip(w.val):"—"]})}]);
     sec("typeRules","Rules for this REIT type",rulesFor(P).map(function(r){return {t:"p",head:r.title+(r.verified===false?" (needs verification)":""),text:r.text+(r.citation?" ("+r.citation+")":"")}}));
-    sec("estimates","State estimated taxes",LAST_EST.length?[{t:"table",head:["State","Receipts","Apportionment","Tax base","Rate","Estimated tax","Quarterly"],right:[1,2,3,5,6],rows:LAST_EST.map(function(r){return [r.name,money(r.receipts),(r.ap*100).toFixed(2)+"%",money(r.base),r.rate,r.tax==null?"—":money(r.tax),r.tax==null?"—":money(r.tax/4)]})},
-      {t:"list",items:LAST_EST.filter(function(r){return r.note}).map(function(r){return r.name+": "+r.note})}]:[]);
     sec("stateRules","State rules",sc.length?[{t:"table",head:["State","Treatment","Summary","2026 rate","Return"],rows:sc.map(function(c){var r=stateRule(c);return [SNAME[c],r?((TAG[r.treatment]||TAG.pend)[1]+(r.verified===false?" (needs verification)":"")):"No rule data yet",r?r.summary:"No specific entry yet.",r&&r.rate!=null?(r.brackets&&r.brackets.length?r.brackets.map(function(b){return b.rate+"%"}).join(" / "):r.rate+"%"):"—",r?(r.forms||[]).filter(function(x){return !x.payorOnly}).map(function(x){return x.form}).join(", "):"—"]}),wide:true}]:[]);
     sec("intl","Other countries",cc.length?[{t:"table",head:["Country","Regime","Activities","Distribution rule","Local filings"],rows:cc.map(function(c){var r=regimeFor(c),f=P.countries[c],w=[];if(f.presence)w.push("operations");if(f.property)w.push("property");if(f.payroll)w.push("payroll");if(f.office)w.push("registered office");
       return [CNAME[c],r?r.regime:"No regime data yet",w.join(", ")||"—",r?r.distribution:"—",r?(r.localFilings||[]).map(function(x){return x.form}).join(", "):"—"]}),wide:true}]:[]);
@@ -3778,6 +3837,114 @@ body{background:linear-gradient(180deg,#F3F6FD 0,var(--bg) 320px) no-repeat,var(
   $("stRptClose").addEventListener("click",function(){$("stReport").hidden=true;this.hidden=true;});
   $("stRptPdf").addEventListener("click",function(){withScope(ST_SCOPE[0],ST_SCOPE[1],ST_SCOPE[2],function(){return rptDownloadPdf($("stRptNote"));});});
   $("stRptXlsx").addEventListener("click",function(){withScope(ST_SCOPE[0],ST_SCOPE[1],ST_SCOPE[2],function(){return rptDownloadXlsx($("stRptNote"));});});
+
+  // ---------- Results summary: executive summary, and how to resolve each failure ----------
+  var SUM_AREAS=[["org","Organization and ownership",["Organizational requirements","100-shareholder test","5/50 closely held test"]],
+    ["inc","Gross income tests",["75% gross income test","95% gross income test","1% impermissible services rule"]],
+    ["ast","Asset tests (each quarter end)",["75% asset test","25% securities limit","TRS securities limit","Publicly offered REIT debt limit","5% single-issuer test","10% vote and value tests"]],
+    ["dist","Distributions",["90% distribution requirement","90% test using dividend portion only","Distributions in excess of E&P","4% excise tax exposure"]]];
+  var INC_RELIEF={t:"If the test can't be met for the year, REIT status is kept when the failure is due to reasonable cause and not willful neglect and the REIT files a schedule describing each item of its gross income for the year. The REIT then pays a 100% tax on the larger of the 75% or 95% shortfall, scaled by its profitability.",c:"§856(c)(6); §857(b)(5)"};
+  var AST_RELIEF_DM={t:"De minimis relief: a 5% or 10% failure no larger than the lesser of 1% of total assets at the quarter end or $10,000,000 is excused if the assets are disposed of, or the test is otherwise met, within 6 months after the last day of the quarter in which the failure is identified. No tax and no schedule.",c:"§856(c)(7)(B)"};
+  var AST_RELIEF={t:"Other asset failures: REIT status is kept if the failure is due to reasonable cause and not willful neglect, the REIT files a schedule describing each non-qualifying asset, disposes of them (or otherwise meets the test) within 6 months after the last day of the quarter in which the failure is identified, and pays a tax of the greater of $50,000 or the highest corporate rate on the net income from those assets for the failure period.",c:"§856(c)(7)(A), (C)"};
+  var OTHER_RELIEF={t:"For a failure of a requirement other than the income and asset tests, REIT status is kept if the failure is due to reasonable cause and not willful neglect and the REIT pays a $50,000 penalty for each failure.",c:"§856(g)(5)"};
+  function sumCure(){var P=PROFILE;if(!P||!P.qtr)return null;var q=qtrEnd(P.year,+P.qtr);return {qe:q,cure:new Date(q.getFullYear(),q.getMonth(),q.getDate()+30),six:new Date(q.getFullYear(),q.getMonth()+7,0)};}
+  // How far off a ratio test is: amount of qualifying items to add, or non-qualifying items to remove or convert
+  function sumNeedAdd(n,d,t){t=t/100;return Math.max(0,(t*d-n)/(1-t));}
+  function sumNeedRemove(n,d,t){t=t/100;return Math.max(0,d-n/t);}
+  function sumFix(r){var c=LAST_CTX||{},P=PROFILE||{},fail=r.status==="fail",cu=sumCure(),F=null;
+    var asCure=function(){return cu?" Asset tests apply at each quarter end. If this quarter's failure comes from an acquisition during the quarter, the REIT keeps its status if it cures the failure within 30 days after the quarter end, by "+fmtDate(cu.cure)+". A failure caused only by changes in value, with no acquisition, doesn't end REIT status if the REIT met the tests at the end of the prior quarter.":" Asset tests apply at each quarter end, with a 30-day cure period after the quarter end for a failure that comes from an acquisition during the quarter.";};
+    switch(r.name){
+      case "Organizational requirements":F={gap:"Not all of the entity conditions in §856(a) are confirmed.",steps:["Confirm each condition in the federal checker: managed by directors or trustees, transferable shares, taxable as a domestic corporation, not a bank or insurance company, and the REIT election made on Form 1120-REIT.","Amend the charter, bylaws or declaration of trust where a condition isn't met (for example, add transfer provisions or board authority).","Keep the amended documents with the year's REIT qualification file."],relief:OTHER_RELIEF,cite:"§856(a); §856(c)(1)"};break;
+      case "100-shareholder test":var need=Math.max(0,FED.holders.threshold-num("holders"));F={gap:need?"Needs "+need.toLocaleString()+" more shareholders, for at least 335 days of the year.":"Confirm the shareholder count over the year.",steps:["Issue a small class of non-voting preferred shares to 100 or more holders (commonly about 125 holders, through a service provider) before the 335-day period would be missed.","Count holders of record and beneficial owners on each day; the test is days held, not a year-end count.","Add a charter provision voiding transfers that would reduce the holders below 100."],relief:OTHER_RELIEF,cite:"§856(a)(5); §856(b)"};break;
+      case "5/50 closely held test":var t5=num("top5");F={gap:fail?"Five or fewer individuals own "+fmt(t5)+" of the value, "+fmt(t5-FED.fiveFifty.threshold).replace("%"," points")+" over the 50% limit in the last half of the year.":"Five or fewer individuals own "+fmt(t5)+", close to the 50% limit.",steps:["Adopt or enforce charter ownership limits (commonly 9.8% of value or shares), with excess shares transferred to a charitable trust.","Trace ownership through entities using the attribution rules; shares a qualified pension trust holds are treated as held by its beneficiaries.","Send shareholder demand letters within 30 days after year end and keep the replies.","Bring in additional investors, or have large holders sell down, before the last half of the year."],relief:{t:"If the REIT complied with the demand letter rules and didn't know, and wouldn't have known with reasonable diligence, that it was closely held, it is treated as meeting the test. Otherwise the reasonable cause relief applies: "+OTHER_RELIEF.t,c:"§856(k); §856(g)(5); §856(h)(3)"},cite:"§856(a)(6); §856(h)"};break;
+      case "75% gross income test":case "95% gross income test":var is75=r.name.indexOf("75")===0,Q=is75?c.q75:(c.q75+c.q95),th=is75?FED.inc75.threshold:FED.inc95.threshold,gi=c.gi||0;
+        var add=sumNeedAdd(Q,gi,th),rem=sumNeedRemove(Q,gi,th),tax=0;if(gi>0){var s75=Math.max(0,FED.inc75.threshold/100*gi-c.q75),s95=Math.max(0,FED.inc95.threshold/100*gi-(c.q75+c.q95));tax=Math.max(s75,s95)*(c.ti>0?Math.min(1,c.ti/gi):1);}
+        F={gap:fail?"Short by "+money(add)+" of "+(is75?"75%":"95%")+"-qualifying income, or remove "+money(rem)+" of non-qualifying income."+(tax>0?" If relief is needed, the 100% tax on the shortfall would be about "+money(tax)+".":""):"Close to the "+th+"% limit.",
+          steps:["Move fee income, operating businesses and non-customary tenant services into a TRS. The REIT then receives TRS dividends, which count for the 95% test only, or rent from the TRS.","Rework leases so rent doesn't depend on a tenant's net income or profits, and isn't paid by a tenant the REIT owns 10% or more of.","Have an independent contractor or a TRS provide non-customary services and keep the fees.","Identify every hedge on the day it is entered into, so its income is left out of both tests."+(is75?" Invest new equity or long-term debt proceeds in qualifying temporary investments; their income counts for the 75% test for one year.":""),"Review the fact checks in the questionnaire: income left as non-qualifying until answered may in fact qualify.",(PROFILE&&PROFILE.qtr&&+PROFILE.qtr<4)?"The income tests apply to the full year: the remaining quarters can still close the gap, for example by adding qualifying rent or interest and deferring non-qualifying income.":"Time sales and other non-qualifying receipts so the year's ratio is met."],relief:INC_RELIEF,cite:is75?"§856(c)(3)":"§856(c)(2)"};break;
+      case "1% impermissible services rule":F={gap:money(impsTotal())+" of impermissible tenant service income. If it is more than 1% of all amounts received from a property, none of that property's rent qualifies.",steps:["Check each property: impermissible service income (valued at no less than 150% of the REIT's direct cost) against 1% of everything received from that property.","Move the services to a TRS or an independent contractor that bills and keeps the fees.","Use the customary services checks in the questionnaire to confirm which services are customary for the property's class in its market."],relief:INC_RELIEF,cite:"§856(d)(2)(C); §856(d)(7)"};break;
+      case "75% asset test":var conv=Math.max(0,FED.ast75.threshold/100*(c.ta||0)-(c.qa||0));F={gap:fail?"Convert "+money(conv)+" of non-qualifying assets into real estate, cash or government securities, or add "+money(sumNeedAdd(c.qa,c.ta,FED.ast75.threshold))+" of qualifying assets.":"Close to the 75% limit.",steps:["Sell non-qualifying securities or other assets and hold the proceeds in cash or government securities, which count as qualifying.","Acquire real estate, interests in real property, mortgage loans or other REIT shares before the quarter end.","Check the asset values: the tests use value, so book balances may understate real estate.",asCure().trim()],relief:AST_RELIEF,cite:"§856(c)(4)(A)"};break;
+      case "25% securities limit":var ex=Math.max(0,(c.trsA+c.secA)-FED.sec25.threshold/100*(c.ta||0));F={gap:fail?"Securities are "+money(ex)+" over the limit.":"Close to the limit.",steps:["Reduce non-qualifying securities: sell them, or move the investments into real estate.","Reduce the TRS's value: have the TRS pay dividends, and don't lend to the TRS.",asCure().trim()],relief:AST_RELIEF,cite:"§856(c)(4)(B)(i)"};break;
+      case "TRS securities limit":var lim=c.trsLim||trsLimitFor(P.year),exT=Math.max(0,(c.trsA||0)-lim/100*(c.ta||0));F={gap:fail?"TRS securities are "+money(exT)+" over the "+lim+"% limit.":"Within "+fmt(lim-c.trsP).replace("%"," points")+" of the "+lim+"% limit.",steps:["Have the TRS pay dividends to the REIT out of its earnings to reduce its value.","Have the TRS repay loans from the REIT, or replace them with third-party financing.","Move assets that could be held directly by the REIT out of the TRS at fair value.","Monitor the TRS's value at each quarter end; the limit is 20%, or 25% for years beginning after 2025.",asCure().trim()],relief:AST_RELIEF,cite:"§856(c)(4)(B)(ii)"};break;
+      case "Publicly offered REIT debt limit":F={gap:"Nonqualified publicly offered REIT debt is over 25% of total assets.",steps:["Sell part of the unsecured publicly offered REIT debt before the quarter end, or replace it with secured debt.",asCure().trim()],relief:AST_RELIEF,cite:"§856(c)(4)(B)(iii)"};break;
+      case "5% single-issuer test":case "10% vote and value tests":var is5=r.name.indexOf("5%")===0,ta=c.ta||0,ex5=is5&&c.iss!=null?Math.max(0,(c.iss-FED.iss5.threshold)/100*ta):null;
+        F={gap:fail?(is5?"One issuer's securities are "+fmt(c.iss)+" of total assets"+(ex5?", about "+money(ex5)+" over the limit":"")+".":"The REIT holds "+fmt(c.m10)+" of one issuer's vote or value."):"Close to the limit.",
+          steps:["Make a joint TRS election with the issuer on Form 8875, if it is a corporation: TRS securities fall outside the 5% and 10% tests.","For the 10% value test, check whether the debt is straight debt or another excluded security.","Sell enough of the issuer's securities to come within the limit.",asCure().trim()],relief:{t:AST_RELIEF_DM.t+" "+AST_RELIEF.t,c:"§856(c)(7)(A)-(C)"},cite:is5?"§856(c)(4)(B)(iii)(I)":"§856(c)(4)(B)(iii)(II)-(III); §856(m)"};break;
+      case "90% distribution requirement":case "90% test using dividend portion only":var due=Math.max(0,FED.dist.threshold/100*(c.ti||0)-(r.name.indexOf("dividend portion")>=0&&c.nd?c.nd.dividend:num("d_paid")));
+        F={gap:"Distributions are short by "+money(due)+" of the "+FED.dist.threshold+"% requirement.",steps:["Declare a dividend in October, November or December, payable to holders of record in that month and paid by January 31: it counts as paid on December 31.","Declare a spillover dividend before the return's due date (with extensions) and pay it within 12 months after year end, with the first regular dividend; elect it on the return.","A private REIT can use consent dividends, where shareholders agree to be taxed as if the amount had been paid.","Undistributed income is taxed at corporate rates even when the 90% test is met; distribute 100% to avoid tax."],relief:{t:"If the IRS later adjusts income, a deficiency dividend paid within 90 days after the determination counts for that year (interest and a penalty apply).",c:"§860"},cite:"§857(a)(1); §857(b)(9); §858; §565"};break;
+      case "Distributions in excess of E&P":F={gap:money(c.nd?c.nd.amount:0)+" of distributions is a return of capital, not a dividend.",steps:["Report the return of capital on Form 1099-DIV, box 3, and on Form 8937.","Only the dividend portion counts toward the 90% requirement; check that it is enough.","Confirm the E&P figures; a REIT's current E&P isn't reduced below its taxable income, which limits how much can be a return of capital."],relief:null,cite:"§301(c); §857(d); §6045B"};break;
+      case "4% excise tax exposure":var shortX=Math.max(0,FED.excise.threshold/100*(c.ti||0)-num("d_cal"));F={gap:shortX?"Calendar-year distributions are "+money(shortX)+" short of 85% of ordinary income; the excise tax would be about "+money(shortX*0.04)+".":"Enter calendar-year distributions to check the excise tax.",steps:["Distribute at least 85% of ordinary income and 95% of capital gain net income within the calendar year.","Dividends declared in October to December and paid by January 31 count as paid in December.","If a shortfall remains, file Form 8612 and pay the 4% tax by March 15."],relief:null,cite:"§4981; §857(b)(9)"};break;}
+    return F;}
+  function sumIssues(){var I=[];(LAST_TESTS||[]).forEach(function(r){if(r.status!=="fail"&&r.status!=="warn")return;var f=sumFix(r);if(!f)return;
+      I.push({sev:r.status==="fail"?"fail":"warn",area:"Federal test",title:r.name,found:r.whyText||strip(r.desc),gap:f.gap,steps:f.steps.filter(Boolean),relief:f.relief,cite:f.cite,link:"#"+testId(r.name),linkText:"Open in the federal checker"});});
+    var PR=typeof ptxCalc==="function"?ptxCalc():null;
+    if(PR&&PR.rows.length&&(PR.atRisk||!PR.annualOk)){var risky=PR.rows.filter(function(x){return x.status==="risk"||x.status==="open"});
+      I.push({sev:PR.exposure>0?"fail":"warn",area:"Prohibited transactions",title:"Property sales outside the safe harbor",found:risky.map(function(x){return (x.x.name||"Unnamed property")+": "+(x.reasons||[]).join("; ")}).join(". "),
+        gap:PR.exposure>0?money(PR.exposure)+" of gain is exposed to the 100% tax.":"Sales need more facts to test the safe harbor.",
+        steps:["Hold properties at least 2 years, keep improvements in the 2 years before sale within 30% of the net selling price, and stay within 7 sales or the 10% or 20% basis or value limits.","With more than 7 sales, have an independent contractor or a TRS do substantially all marketing and development.","Hold property bought or built for sale in a TRS before development or marketing starts: the TRS pays corporate tax instead of the 100% tax.","Outside the safe harbor, document investment intent: the reason for buying, the rental history, and why the property is being sold."],
+        relief:null,cite:"§857(b)(6)(A)-(D)",link:"#ptx",linkText:"Open prohibited transactions"});}
+    if(typeof qnRows==="function"){var qr=qnRows().filter(function(x){return x.status==="Action needed"});
+      qr.forEach(function(x){I.push({sev:"fail",area:"Questionnaire",title:x.q,found:(x.acct?x.acct+". ":"")+"Answer: "+x.ans+".",gap:"",steps:[x.res],relief:null,cite:x.cite,link:"#questionnaire",linkText:"Open the questionnaire"});});}
+    if(typeof evaluateStructure==="function"){try{var SR=evaluateStructure();(SR.owner||[]).filter(function(o){return o.level==="problem"}).forEach(function(o){I.push({sev:"fail",area:"Structure",title:o.title,found:o.text,gap:"",steps:[],relief:null,cite:o.cite,link:"#proposed",linkText:"Open the proposed structure"});});}catch(e){}}
+    I.sort(function(a,b){return (a.sev==="fail"?0:1)-(b.sev==="fail"?0:1)});return I;}
+  function sumModel(){run();var P=PROFILE||{},T=LAST_TESTS||[],cnt={pass:0,fail:0,warn:0,na:0};T.forEach(function(r){cnt[r.status]=(cnt[r.status]||0)+1});
+    var I=sumIssues(),PR=typeof ptxCalc==="function"?ptxCalc():null,QR=typeof qnRows==="function"?qnRows():[],qOpen=QR.filter(function(x){return x.open}).length,qAct=QR.filter(function(x){return x.status==="Action needed"}).length;
+    var fails=I.filter(function(x){return x.sev==="fail"}),warns=I.filter(function(x){return x.sev==="warn"});
+    var tested=cnt.pass+cnt.fail+cnt.warn,ent=P.name||"The REIT",per=P.qtr?"Q"+P.qtr+" "+P.year+" (quarter ending "+fmtDate(qtrEnd(P.year,+P.qtr))+")":"the tax year beginning "+P.year;
+    var verdict=cnt.fail?{cls:"v-fail",big:"REIT status at risk",sub:cnt.fail+" federal test"+(cnt.fail>1?"s fail":" fails")+": action needed"}:fails.length?{cls:"v-fail",big:"Action needed",sub:fails.length+" issue"+(fails.length>1?"s":"")+" outside the federal tests"}:(cnt.warn||warns.length)?{cls:"v-warn",big:"Qualifies, with points to review",sub:(cnt.warn+warns.length)+" item"+((cnt.warn+warns.length)>1?"s":"")+" near a limit or needing facts"}:tested?{cls:"v-pass",big:"Meets all tests",sub:"On the figures entered"}:{cls:"v-warn",big:"Not enough figures yet",sub:"Enter figures in the federal checker or import a trial balance"};
+    var failNames=T.filter(function(r){return r.status==="fail"}).map(function(r){return r.name+" ("+strip(r.val)+")"}),warnNames=T.filter(function(r){return r.status==="warn"}).map(function(r){return r.name});
+    var join=function(a){return a.length>1?a.slice(0,-1).join(", ")+" and "+a[a.length-1]:a[0]||""};
+    var paras=[];
+    paras.push("For "+per+", on the figures entered"+(TB&&TB.length?" and the imported trial balance":"")+", "+ent+" meets "+cnt.pass+" of the "+tested+" federal REIT tests that could be run"+(cnt.na?" ("+cnt.na+" not applicable or not yet entered)":"")+".");
+    if(failNames.length)paras.push(failNames.length+" test"+(failNames.length>1?"s fail":" fails")+": "+join(failNames)+". Unless "+(failNames.length>1?"they are":"it is")+" cured or relief applies, "+ent+" could lose REIT status for the year. The steps to fix each one are below.");
+    if(warnNames.length)paras.push(warnNames.length+" need"+(warnNames.length>1?"":"s")+" review: "+join(warnNames)+".");
+    if(PR&&PR.rows.length)paras.push("Prohibited transactions: "+PR.rows.length+" sale"+(PR.rows.length>1?"s":"")+" tested; "+(PR.safe+PR.notCounted)+" within the safe harbor or an exception"+(PR.exposure>0?", and "+money(PR.exposure)+" of gain exposed to the 100% tax.":"."));
+    if(QR.length)paras.push("Questionnaire: "+QR.length+" question"+(QR.length>1?"s":"")+", "+qOpen+" open point"+(qOpen===1?"":"s")+(qAct?", of which "+qAct+" need"+(qAct===1?"s":"")+" action":"")+".");
+    if(P.qtr&&+P.qtr<4)paras.push("The asset tests apply at each quarter end. The income and distribution tests apply to the full year, so this quarter's year-to-date results show where the year is heading rather than a final result.");
+    var cu=sumCure(),prio=fails.concat(warns).slice(0,6).map(function(x){var first=(x.steps||[])[0]||"";return x.title+": "+(x.gap?x.gap+" ":"")+first;});
+    if(cu&&T.some(function(r){return r.status==="fail"&&/asset|securities|issuer|vote and value|TRS/.test(r.name)}))prio.unshift("Asset test cure deadline: "+fmtDate(cu.cure)+" (30 days after the quarter end), for a failure caused by an acquisition during the quarter.");
+    var rows=[];SUM_AREAS.forEach(function(a){var rs=T.filter(function(r){return a[2].indexOf(r.name)>=0});if(!rs.length)return;rows.push({area:a[1]});rs.forEach(function(r){rows.push({r:r,name:r.name,val:strip(r.val),req:strip(r.desc).split(" · ")[0],status:r.status,label:r.label,cite:(strip(r.desc).split(" · ")[1]||"")})});});
+    var other=[];if(PR&&PR.rows.length)other.push({name:"Prohibited transactions: gain exposed to the 100% tax",val:money(PR.exposure),req:"Safe harbor or an exception for each sale",status:PR.exposure>0?"fail":PR.atRisk?"warn":"pass"});
+    if(QR.length)other.push({name:"Questionnaire: open points",val:qOpen+" open"+(qAct?", "+qAct+" need action":""),req:"All answered and confirmed",status:qAct?"fail":qOpen?"warn":"pass"});
+    var SRo=null;try{SRo=typeof evaluateStructure==="function"?evaluateStructure():null;}catch(e){}if(SRo&&SRo.owner&&SRo.owner.length){var pr=SRo.owner.filter(function(o){return o.level==="problem"}).length,wa=SRo.owner.filter(function(o){return o.level==="watch"}).length;other.push({name:"Structure: largest owner checks",val:pr?pr+" problem"+(pr>1?"s":""):wa?wa+" to watch":"No issues",req:"No ownership problems",status:pr?"fail":wa?"warn":"pass"});}
+    if(other.length){rows.push({area:"Other results"});other.forEach(function(o){o.label={pass:"Pass",warn:"Review",fail:"Fail",na:"N/A"}[o.status];rows.push(o);});}
+    return {verdict:verdict,cnt:cnt,tested:tested,issues:I,paras:paras,prio:prio,rows:rows,PR:PR,qOpen:qOpen,qAct:qAct,per:per};}
+  function sumRender(){var el=$("sumBody");if(!el||!PROFILE)return;var M=sumModel(),pc={pass:"p-pass",warn:"p-warn",fail:"p-fail",na:"p-na"};
+    var h='<div class="verdict '+M.verdict.cls+'"><div class="sumv"><span class="big">'+esc(M.verdict.big)+'</span><span>'+esc(M.verdict.sub)+'</span></div></div>'+
+      '<div class="panel"><div class="chips"><div class="chip"><b class="good">'+M.cnt.pass+'</b><span>Tests passed</span></div><div class="chip"><b class="'+(M.cnt.fail?"bad":"")+'">'+M.cnt.fail+'</b><span>Tests failed</span></div><div class="chip"><b>'+M.cnt.warn+'</b><span>To review</span></div>'+
+      (M.PR&&M.PR.rows.length?'<div class="chip"><b class="'+(M.PR.exposure>0?"bad":"good")+'">'+money(M.PR.exposure)+'</b><span>Gain exposed to the 100% tax</span></div>':'')+
+      '<div class="chip"><b class="'+(M.qAct?"bad":"")+'">'+M.qOpen+'</b><span>Questionnaire open points</span></div><div class="chip"><b>'+esc(pidLabel(curPid()))+'</b><span>Period</span></div></div></div>'+
+      '<div class="sumgrid"><div class="panel sumexec"><h3>Executive summary</h3>'+M.paras.map(function(p){return '<p>'+esc(p)+'</p>'}).join("")+
+      (M.prio.length?'<p><b>Priority actions</b></p><ol>'+M.prio.map(function(p){return '<li>'+esc(p)+'</li>'}).join("")+'</ol>':'')+'</div>'+
+      '<div class="panel"><h3>Results at a glance</h3><div class="sumtw"><table class="sumtab"><thead><tr><th>Test</th><th>Result</th><th class="n">Value</th><th>Requirement</th></tr></thead><tbody>'+
+      M.rows.map(function(x){if(x.area)return '<tr class="sumarea"><td colspan="4">'+esc(x.area)+'</td></tr>';return '<tr><td>'+(x.r?'<a href="#'+testId(x.name)+'" data-sumjump="'+testId(x.name)+'">'+esc(x.name)+'</a>':esc(x.name))+'</td><td><span class="pill '+pc[x.status]+'">'+esc(x.label)+'</span></td><td class="n">'+esc(x.val||"—")+'</td><td>'+esc(x.req)+(x.cite?' <span class="cite">'+esc(x.cite)+'</span>':'')+'</td></tr>';}).join("")+
+      '</tbody></table></div></div></div>'+
+      '<h3 style="margin-top:8px">Issues and how to resolve them</h3>'+(M.issues.length?M.issues.map(function(x){
+        return '<div class="panel sumissue" data-sev="'+x.sev+'"><h4><span class="pill '+(x.sev==="fail"?"p-fail":"p-warn")+'">'+(x.sev==="fail"?"Fail":"Review")+'</span>'+esc(x.title)+' <span class="cite">'+esc(x.area)+'</span></h4>'+
+          (x.found?(x.found.length>260?'<details><summary>What we found</summary><p class="why" style="margin:4px 0 0">'+esc(x.found)+'</p></details>':'<p class="why" style="margin:0">'+esc(x.found)+'</p>'):'')+(x.gap?'<div class="gap"><b>Gap:</b> '+esc(x.gap)+'</div>':'')+
+          (x.steps&&x.steps.length?'<b style="font-size:13.5px">How to resolve it</b><ol>'+x.steps.map(function(s){return '<li>'+esc(s)+'</li>'}).join("")+'</ol>':'')+
+          (x.relief?'<p class="relief"><b>If it can\'t be fixed in time:</b> '+esc(x.relief.t)+' <span class="cite">'+esc(x.relief.c)+'</span></p>':'')+
+          (x.cite?'<p class="cite" style="margin:4px 0 0">Authority: '+esc(x.cite)+'</p>':'')+(x.link?'<div class="sumlinks"><a href="'+esc(x.link)+'">'+esc(x.linkText)+'</a></div>':'')+'</div>';}).join(""):'<div class="panel"><p style="margin:0">No issues: every test that could be run passes, and nothing in the questionnaire, prohibited transactions or structure needs action.</p></div>')+
+      '<p class="why" style="margin-top:14px">A screening analysis based on the information entered, not a formal tax opinion. Confirm every position with a qualified tax advisor.</p>';
+    el.innerHTML=h;}
+  function sumReportBlocks(){var M=sumModel(),B=[];
+    B.push({t:"kv",rows:[["Overall",M.verdict.big],["Detail",M.verdict.sub],["Period",M.per]]});
+    M.paras.forEach(function(p){B.push({t:"p",text:p})});
+    if(M.prio.length)B.push({t:"p",head:"Priority actions",text:""},{t:"list",items:M.prio});
+    B.push({t:"table",head:["Test","Result","Value","Requirement"],rows:M.rows.filter(function(x){return !x.area}).map(function(x){return [x.name,x.label,x.val||"—",x.req+(x.cite?" ("+x.cite+")":"")]}),wide:true});
+    if(M.issues.length)M.issues.forEach(function(x){B.push({t:"p",head:(x.sev==="fail"?"Fail":"Review")+": "+x.title,text:(x.found?x.found+" ":"")+(x.gap?"Gap: "+x.gap:"")});
+      if(x.steps&&x.steps.length)B.push({t:"list",items:x.steps.map(function(s,i){return "Step "+(i+1)+": "+s})});
+      if(x.relief)B.push({t:"p",head:"If it can't be fixed in time",text:x.relief.t+" ("+x.relief.c+")"});if(x.cite)B.push({t:"p",text:"Authority: "+x.cite});});
+    else B.push({t:"p",text:"No issues: every test that could be run passes."});
+    return B;}
+  var SUM_SCOPE=[["cover","summary"],"Executive summary of REIT test results","executive-summary"];
+  (function(){if(!$("sumBody"))return;
+    window.addEventListener("hashchange",function(){if(location.hash==="#summary")sumRender();});
+    $("sumBody").addEventListener("click",function(e){var j=e.target.dataset&&e.target.dataset.sumjump;if(!j)return;e.preventDefault();location.hash="checker";setTimeout(function(){var t=$(j);if(t){t.scrollIntoView({behavior:"smooth",block:"center"});t.classList.remove("flash");void t.offsetWidth;t.classList.add("flash");}},60);});
+    $("sumRptPreview").addEventListener("click",function(){var v=$("sumReport");withScope(SUM_SCOPE[0],SUM_SCOPE[1],SUM_SCOPE[2],function(){v.innerHTML=memoHtml(reportModel());v.hidden=false;$("sumRptClose").hidden=false;v.scrollIntoView({block:"start"});window.scrollBy(0,-130);});});
+    $("sumRptClose").addEventListener("click",function(){$("sumReport").hidden=true;this.hidden=true;});
+    $("sumRptPdf").addEventListener("click",function(){withScope(SUM_SCOPE[0],SUM_SCOPE[1],SUM_SCOPE[2],function(){return rptDownloadPdf($("sumRptNote"));});});
+    $("sumRptXlsx").addEventListener("click",function(){withScope(SUM_SCOPE[0],SUM_SCOPE[1],SUM_SCOPE[2],function(){return rptDownloadXlsx($("sumRptNote"));});});
+    if(location.hash==="#summary")setTimeout(sumRender,0);})();
 
   // ---------- Jump from the Tax rules tab to the calculation ----------
   function testId(n){return "t_"+String(n).toLowerCase().replace(/[^a-z0-9]+/g,"-");}
