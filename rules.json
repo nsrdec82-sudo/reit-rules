@@ -2,8 +2,8 @@
  "meta": {
   "status": {
    "checkedBy": "Claude scheduled review",
-   "lastChecked": "2026-11-12",
-   "nextCheck": "2026-11-13"
+   "lastChecked": "2026-11-13",
+   "nextCheck": "2026-11-14"
   }
  },
  "federal": {
@@ -533,23 +533,33 @@
    "code": "GA",
    "forms": [
     {
+     "due": "15th day of the 4th month after year end (April 15 for calendar-year filers); a federal extension gives 7 months, with no separate Georgia request needed",
      "form": "Form 600",
-     "name": "Corporation Tax Return"
+     "name": "Corporation Tax Return (income and net worth tax)"
+    },
+    {
+     "form": "Form 602ES",
+     "name": "Corporation Estimated Tax",
+     "note": "Required when Georgia net income is expected to exceed $25,000"
+    },
+    {
+     "form": "Form 600 UET",
+     "name": "Underpayment of Estimated Tax by Corporations"
     },
     {
      "form": "IT-REIT",
-     "name": "Captive REIT addback schedule, filed by the payor",
+     "name": "Captive REIT addback exception schedule, filed by the payor",
      "payorOnly": true
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "formsVerified": true,
+   "lastVerified": "2026-11-13",
    "name": "Georgia",
    "rate": 5.19,
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "Georgia DOR Form IT-REIT",
-   "sourceUrl": "https://dor.georgia.gov/document/form/tsdcaptiverealestateinvestmenttrustit-reitpdf/download",
+   "sourceName": "Georgia DOR, 2025 IT-611 Corporate Income Tax Instruction Booklet",
+   "sourceUrl": "https://dor.georgia.gov/document/document/2025-it611-corporate-income-tax-instruction-booklet/download",
    "summary": "A taxpayer that pays rent, interest or other costs to a related captive REIT must add those captive REIT costs back to income before claiming any exception (Form IT-REIT).",
    "treatment": "strict",
    "verified": true
@@ -642,6 +652,42 @@
    "treatment": "conf",
    "verified": true,
    "wholeIncome": false
+  },
+  "ID": {
+   "captive": "No captive REIT provision found in the 2025 Form 41 or Form 41EST; not otherwise confirmed.",
+   "citation": "Idaho Code §§63-3022, 63-3025 (rate), 63-3082 (permanent building fund); H.B. 40 (2025)",
+   "code": "ID",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "15th day of the 4th month after year end (April 15 for calendar-year filers)",
+     "form": "Form 41",
+     "name": "Idaho Corporation Income Tax Return"
+    },
+    {
+     "form": "Form 41ES / 41EST",
+     "name": "Corporate Estimated Tax payment vouchers and summary",
+     "note": "Required if the corporation must make federal estimates and expects Idaho tax of $500 or more; due the 15th day of the 4th, 6th, 9th and 12th months"
+    },
+    {
+     "form": "Form 41ESR",
+     "name": "Estimated Tax Payments / Underpayment calculation for corporations"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-13",
+   "minTax": 20,
+   "name": "Idaho",
+   "rate": 5.3,
+   "rateNote": "Flat 5.3% of Idaho taxable income (cut from 5.695% by H.B. 40, retroactive to Jan 1, 2025; no further change found for 2026). $20 minimum tax per corporation plus a $10 permanent building fund tax.",
+   "rateSource": "https://tax.idaho.gov/document-mngr/forms_ein00035",
+   "rateYear": 2026,
+   "sourceName": "Idaho State Tax Commission, 2025 Form 41",
+   "sourceUrl": "https://tax.idaho.gov/document-mngr/forms_efo00025",
+   "summary": "Idaho's corporate income tax (Form 41) starts from federal taxable income, so a REIT's federal dividends-paid deduction appears to carry through to Idaho. Neither the 2025 Form 41 nor the estimated tax summary mentions REITs or a captive REIT addback; this has not been confirmed against the statute or explicit guidance.",
+   "treatment": "conf",
+   "verified": false,
+   "wholeIncome": true
   },
   "IL": {
    "captive": "More than 50% of value or voting power owned directly or indirectly by a single corporation, unless that owner is a non-captive REIT, a §501 exempt organization, a listed Australian property trust, or a qualifying foreign REIT-type entity.",
@@ -1011,23 +1057,38 @@
    "wholeIncome": true
   },
   "NC": {
-   "captive": "Shares not regularly traded on an established securities market and owned or controlled, at any time in the last half of the year, by a person subject to NC corporate tax that is not a REIT or listed Australian property trust.",
+   "captive": "REIT whose shares are not regularly traded on an established securities market and that is more than 50% owned or controlled, directly or indirectly, by a person subject to NC corporate income tax; REITs owned by another REIT or a listed Australian property trust are excluded. The addback is made on Schedule H, and dividends received from a captive REIT are deducted there.",
    "citation": "N.C.G.S. §105-130.12",
    "code": "NC",
    "forms": [
     {
+     "due": "15th day of the 4th month after year end (April 15 for calendar-year filers)",
      "form": "CD-405",
-     "name": "C-Corporation Tax Return"
+     "name": "C-Corporation Tax Return (franchise and income tax)"
+    },
+    {
+     "form": "CD-419",
+     "name": "Application for Extension, Corporate Franchise and Income Tax",
+     "note": "7-month extension; a federal extension also extends the state return if the Federal Extension circle is filled in"
+    },
+    {
+     "form": "CD-429",
+     "name": "Corporate Estimated Income Tax",
+     "note": "Required when expected North Carolina income tax is $500 or more"
+    },
+    {
+     "form": "CD-429B",
+     "name": "Underpayment of Estimated Tax by C Corporations"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "formsVerified": true,
+   "lastVerified": "2026-11-13",
    "name": "North Carolina",
    "rate": 2,
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "NC General Statutes",
-   "sourceUrl": "https://www.ncleg.gov/enactedlegislation/statutes/html/bysection/chapter_105/gs_105-130.12.html",
+   "sourceName": "NCDOR, 2025 CD-405 C-Corporation Tax Return Instructions",
+   "sourceUrl": "https://www.ncdor.gov/tax-forms/2025-cd-405-c-corporation-tax-return-instructions/open",
    "summary": "REIT income is taxed in accordance with the Code unless the REIT is captive. A captive REIT adds its dividends-paid deduction back to federal taxable income.",
    "treatment": "strict",
    "verified": true
@@ -1101,24 +1162,40 @@
    "code": "NY",
    "forms": [
     {
+     "due": "3½ months after year end (April 15 for calendar-year filers)",
      "form": "CT-3",
      "name": "General Business Corporation Franchise Tax Return"
     },
     {
      "captiveOnly": true,
      "form": "CT-3-A",
-     "name": "Combined franchise tax return including the captive REIT"
+     "name": "General Business Corporation Combined Franchise Tax Return, including the captive REIT",
+     "note": "Dividends paid by a captive REIT to a >50% affiliated owner are not deductible and are reported on Part 3, line 1d"
+    },
+    {
+     "form": "CT-5.3",
+     "name": "Request for Six-Month Extension to File (combined filers)",
+     "note": "Extends time to file, not to pay"
+    },
+    {
+     "form": "CT-400",
+     "name": "Estimated Tax for Corporations"
+    },
+    {
+     "form": "CT-3-M",
+     "name": "MTA Surcharge Return",
+     "note": "Required when the group does business in the Metropolitan Commuter Transportation District"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "formsVerified": true,
+   "lastVerified": "2026-11-13",
    "name": "New York",
    "rate": 6.5,
    "rateNote": "Business income base only; fixed dollar minimum and MTA surcharge not included.",
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "NY Office of Tax Policy Analysis",
-   "sourceUrl": "https://www.tax.ny.gov/pdf/stats/policy_special/reported_effects_of_the_captive_reit_and_ric_legislative_amendments.pdf",
+   "sourceName": "NY Department of Taxation and Finance, 2025 Form CT-3-A Instructions",
+   "sourceUrl": "https://www.tax.ny.gov/pdf/2025/corp/ct3ai_2025.pdf",
    "summary": "Captive REITs must be included in a combined report with their corporate parent group, and the federal dividends-paid deduction is not allowed in computing combined income.",
    "treatment": "strict",
    "verified": true,
@@ -1423,18 +1500,24 @@
    "code": "WV",
    "forms": [
     {
-     "form": "CNF-120",
-     "name": "Corporation Net Income Tax Return"
+     "due": "April 15 for calendar-year filers; a federal extension is accepted (extended due date October 15), but it does not extend time to pay",
+     "form": "CIT-120",
+     "name": "West Virginia Corporation Net Income Tax Return (formerly CNF-120, renumbered from tax year 2020)"
+    },
+    {
+     "form": "Estimated payments",
+     "name": "Quarterly corporation net income tax estimates",
+     "note": "Required when West Virginia taxable income is expected to exceed $10,000 (tax over $650); due the 15th day of the 4th, 6th, 9th and 12th months; underpayment penalty reported on CIT-120"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-10-28",
+   "formsVerified": true,
+   "lastVerified": "2026-11-13",
    "name": "West Virginia",
    "rate": 6.5,
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "WV Code",
-   "sourceUrl": "https://code.wvlegislature.gov/email/11-24-4b/",
+   "sourceName": "West Virginia Tax Division, 2025 CIT-120 Instructions",
+   "sourceUrl": "https://tax.wv.gov/Documents/CIT/2025/cit120.instructions.2025.pdf",
    "summary": "The dividends-paid deduction is added back in determining net income for captive REITs and captive RICs. Related intangible expenses and interest are also added back.",
    "treatment": "strict",
    "verified": true
@@ -1819,6 +1902,28 @@
    "sourceName": "PwC Worldwide REIT Regimes",
    "sourceUrl": "https://www.pwc.com/gx/en/industries/financial-services/asset-management/publications/worldwide-real-estate-investment-trust-regimes.html",
    "tests": "Majority of assets in specified real estate assets.",
+   "verified": false
+  },
+  "kr": {
+   "country": "South Korea",
+   "distribution": "REITs must distribute at least 90% of the Commercial Act dividend limit each year (asset valuation losses excluded since Feb 2024); self-managed REITs may distribute as little as 50% with a special shareholder resolution. Entrusted-management REITs and corporate restructuring (CR) REITs that distribute at least 90% can deduct the dividends under Corporate Tax Act Art. 51-2; self-managed REITs are taxed as ordinary corporations.",
+   "filingsVerified": false,
+   "lastVerified": "2026-11-13",
+   "leverage": "Borrowings and bonds are capped at twice equity capital, or up to 10 times with an extraordinary shareholder resolution (Art. 29).",
+   "localFilings": [
+    {
+     "form": "Corporate tax return",
+     "name": "Annual corporate tax return, with the application for the Art. 51-2 dividend deduction",
+     "note": "Deduction applies to entrusted-management and CR-REITs only"
+    }
+   ],
+   "order": 25,
+   "ownership": "A shareholder and related persons may not hold more than 50% of the shares (Art. 15); at least 30% must be offered to the public within two years of authorization or registration (Art. 14-8), with exemptions for some REITs; a REIT meeting listing requirements must list without delay (Art. 20).",
+   "recent": "Feb 2024 amendments excluded asset valuation losses from the dividend limit and eased the real estate test for development-company stakes (over 20% instead of over 50%).",
+   "regime": "K-REIT (real estate investment company under the Real Estate Investment Company Act)",
+   "sourceName": "Korea Legislation Research Institute, Real Estate Investment Company Act (Act No. 20338, Feb 20, 2024) and Corporate Tax Act Art. 51-2",
+   "sourceUrl": "https://elaw.klri.re.kr/eng_mobile/viewer.do?hseq=65854&type=part&key=35",
+   "tests": "After the minimum-capital preparation period, at least 80% of total assets must be real estate, real estate-related securities and cash, and at least 70% must be real estate (including buildings under construction), tested quarterly (REIT Act Art. 25). Minimum capital is KRW 7 billion for self-managed and KRW 5 billion for entrusted and CR-REITs (Art. 10).",
    "verified": false
   },
   "lu": {
@@ -2500,6 +2605,30 @@
     "Kansas: 3.5% normal tax and 3% surtax over $50,000 confirmed on the 2025 Form K-120; REIT treatment still unconfirmed",
     "Hawaii: SB 2362 SD1 is a study bill only (last action Mar 6, 2026) and SB 592 shows no enactment; flag left open pending official confirmation",
     "Arkansas: 2025 AR1100ADJ instructions do not mention captive REITs; captive REIT statute still awaiting an official-code check"
+   ]
+  },
+  "2026-11-13": {
+   "added": [
+    "Idaho state rules",
+    "South Korea regime (K-REITs)"
+   ],
+   "attention": [
+    "Idaho: no REIT-specific or captive REIT rule found in the 2025 Form 41 materials; confirm the dividends-paid deduction treatment before relying on it.",
+    "South Korea: only entrusted-management and CR-REITs get the corporate tax dividend deduction; self-managed REITs are taxed as ordinary corporations.",
+    "Maryland: Comptroller forms site could not be reached, so the Form 500 list stays unverified.",
+    "GitHub: rules.json could not be pushed to snimmagadda-cpa/reit-navigator (repository not authorized for this session), so the user's own websites were not updated today."
+   ],
+   "changed": [],
+   "changesFound": 0,
+   "date": "2026-11-13",
+   "summary": "Checked federal (IRS rulings, forms, guidance), state and international REIT sources since Nov 12; no new enacted REIT rule changes found. Iowa confirmed that its 2027 corporate rates stay at the 2026 levels.",
+   "title": "Daily rule review",
+   "verified": [
+    "Georgia: Form 600, 602ES, 600 UET and IT-REIT captive REIT addback confirmed against the 2025 IT-611 booklet",
+    "North Carolina: CD-405, CD-419, CD-429 and CD-429B confirmed against the 2025 CD-405 instructions; captive REIT definition corrected to the more-than-50% ownership test",
+    "New York: CT-3, CT-3-A captive REIT combination, CT-5.3, CT-400 and CT-3-M confirmed against the 2025 CT-3-A instructions",
+    "West Virginia: return form corrected from CNF-120 to CIT-120 (renumbered in 2020) and estimate rules confirmed against the 2025 CIT-120 instructions",
+    "Iowa: IDR Director Order 2026-01 keeps the 5.5%/7.1% rates for 2027 (no change to 2026 figures)"
    ]
   }
  }
