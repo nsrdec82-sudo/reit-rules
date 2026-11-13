@@ -77,6 +77,8 @@ jobs:
       - name: Publish the website
         run: $FT deploy --only hosting:portal --project "$PID" --non-interactive --force
       - name: Publish the file-storage rules
+        id: storage
+        continue-on-error: true
         run: |
           $FT deploy --only storage --project "$PID" --non-interactive --force || {
             echo "::warning::Storage rules weren't published. In the Firebase console open Build > Storage > Get started once, then re-run this workflow."; exit 1; }
@@ -95,3 +97,7 @@ jobs:
         run: |
           rm -f "$RUNNER_TEMP/sa.json"
           echo "Client Portal: https://${SITE}.web.app" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.storage.outcome }}" = "failure" ]; then
+            echo "Attachments need Firebase Storage: Firebase console > Build > Storage > Get started, then re-run this workflow." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
