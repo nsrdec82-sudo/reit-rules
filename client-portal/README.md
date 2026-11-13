@@ -1,7 +1,7 @@
 # Client Portal
 
 Client ↔ service-provider portal that runs on the same Firebase project as the REIT Rule Navigator, on its own address:
-**https://&lt;your-project-id&gt;-portal.web.app**
+**https://snimmagadda-portal.web.app** (set by the deploy; override with the `PORTAL_SITE_ID` repository variable)
 
 - Outlook-style conversations per client, with Word, Excel, PDF, image and text attachments
 - Action items with status (Open, In progress, Follow up, Completed), who's working on it, and the action taken to close
@@ -13,7 +13,7 @@ Client ↔ service-provider portal that runs on the same Firebase project as the
 
 | | REIT Rule Navigator | Client Portal |
 |---|---|---|
-| Address | your-project-id.web.app | your-project-id-portal.web.app |
+| Address | reit-navigator---snimmagadda.web.app | snimmagadda-portal.web.app |
 | Data | admins, access, entities, accessRequests | portal_users, portal_clients only |
 | Database rules | `firebase-site/firestore.rules` (one file for both; the portal's part is the block marked "Client Portal") | same file |
 | Server functions | codebase `default` | codebase `portal` (functions named `portal…`) |

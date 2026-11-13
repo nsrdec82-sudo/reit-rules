@@ -53,8 +53,19 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/sa.json" >> "$GITHUB_ENV"
           echo "PORTAL_NAME=${PORTAL_NAME:-Client Portal}" >> "$GITHUB_ENV"
       - name: Create the portal's Hosting site (first run only)
+        env:
+          PORTAL_SITE_ID: ${{ vars.PORTAL_SITE_ID }}
         run: |
-          SITE="${PID}-portal"
+          # Site name: the PORTAL_SITE_ID repository variable if set, otherwise derived from the project ID
+          # (no double hyphens, at most 30 characters), e.g. reit-navigator---snimmagadda -> snimmagadda-portal.
+          SITE="${PORTAL_SITE_ID}"
+          if [ -z "$SITE" ]; then
+            BASE=$(echo "$PID" | sed -E 's/-+/-/g')
+            if [ $(( ${#BASE} + 7 )) -gt 30 ]; then BASE=$(echo "$PID" | sed -E 's/.*-{2,}//; s/-+/-/g'); fi
+            BASE=$(echo "$BASE" | cut -c1-23 | sed -E 's/-+$//')
+            SITE="${BASE}-portal"
+          fi
+          echo "Hosting site: $SITE"
           if $FT hosting:sites:get "$SITE" --project "$PID" >/dev/null 2>&1; then
             echo "Site $SITE exists."
           else
