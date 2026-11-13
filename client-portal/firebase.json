@@ -1,0 +1,22 @@
+{
+  "hosting": [
+    {
+      "target": "portal",
+      "public": "public",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "headers": [
+        { "source": "**", "headers": [
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "X-Frame-Options", "value": "DENY" },
+          { "key": "Referrer-Policy", "value": "same-origin" },
+          { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        ] },
+        { "source": "**/*.@(html|json|js)", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
+      ]
+    }
+  ],
+  "storage": { "rules": "storage.rules" },
+  "functions": [
+    { "source": "functions", "codebase": "portal", "runtime": "nodejs20", "ignore": ["node_modules", ".git", "*.local"] }
+  ]
+}

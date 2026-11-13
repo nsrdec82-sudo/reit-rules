@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client Portal</title>
+<style>
+  :root{
+    --bg:#f3f2f1; --panel:#ffffff; --ink:#242424; --muted:#616161; --line:#e1dfdd; --soft:#f5f5f5; --hover:#f0f6fc;
+    --blue:#0f6cbd; --blue-ink:#ffffff; --sel:#cfe4fa;
+    --client:#2f5d8a; --client-bg:#e3eef9;
+    --prov:#2f7a5b; --prov-bg:#e2f2e9;
+    --warn:#c4314b; --warn-bg:#fdf3f4; --warn-line:#eeacb2;
+    --amber:#8a5a00; --amber-bg:#fff4ce;
+    --radius:8px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#1b1a19; --panel:#252423; --ink:#f3f2f1; --muted:#a19f9d; --line:#3b3a39; --soft:#2d2c2b; --hover:#2b3440;
+      --blue:#479ef5; --blue-ink:#0b1a2a; --sel:#1f3b57;
+      --client:#8db6de; --client-bg:#1f2a35; --prov:#86c9a8; --prov-bg:#1c2b24;
+      --warn:#f1707b; --warn-bg:#3a1f23; --warn-line:#6b2d35; --amber:#f6c445; --amber-bg:#3a3017; }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font-family:"Segoe UI","Segoe UI Web (West European)",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
+  button{font:inherit;cursor:pointer;color:inherit}
+  a{color:var(--blue)}
+  [hidden]{display:none!important}
+  .app{max-width:1360px;margin:0 auto;padding:14px 14px 30px}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:var(--blue);color:var(--blue-ink);padding:9px 14px;border-radius:var(--radius) var(--radius) 0 0}
+  .topbar h1{font-size:15px;margin:0;font-weight:600}
+  .role{display:flex;background:rgba(255,255,255,.18);border-radius:6px;padding:2px}
+  .role button{border:0;background:transparent;color:inherit;padding:4px 12px;border-radius:4px;font-size:12.5px;font-weight:600;opacity:.85}
+  .role button[aria-pressed=true]{background:var(--panel);color:var(--ink);opacity:1}
+  .tabs{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-top:0;padding:0 8px;margin-bottom:12px;border-radius:0 0 var(--radius) var(--radius)}
+  .tab{border:0;background:none;padding:10px 14px;color:var(--muted);font-weight:600;border-bottom:2px solid transparent;display:flex;align-items:center;gap:8px}
+  .tab[aria-selected=true]{color:var(--blue);border-color:var(--blue)}
+  .badge{font-size:11px;font-weight:700;padding:0 7px;border-radius:999px;background:var(--line);color:var(--ink);line-height:18px}
+  .badge.warn{background:var(--warn);color:#fff}
+
+  .reminder{display:none;background:var(--warn-bg);border:1px solid var(--warn-line);border-left:4px solid var(--warn);border-radius:var(--radius);padding:10px 14px;margin-bottom:12px}
+  .reminder.show{display:block}
+  .reminder strong{color:var(--warn)}
+  .reminder ul{margin:6px 0 4px;padding-left:18px}
+  .reminder .link{background:none;border:0;color:var(--warn);text-decoration:underline;padding:0;font-weight:600}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .btn{border:1px solid var(--blue);background:var(--blue);color:var(--blue-ink);padding:6px 14px;border-radius:4px;font-weight:600;font-size:13.5px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+  .btn.ghost{background:var(--panel);color:var(--ink);border-color:var(--line)}
+  .btn.ghost:hover{background:var(--soft)}
+  .btn.sm{padding:3px 9px;font-size:12.5px}
+  .btn:disabled{opacity:.45;cursor:default}
+  input[type=text],input[type=email],input[type=date],select,textarea{border:1px solid var(--line);border-radius:4px;padding:6px 9px;font:inherit;background:var(--panel);color:var(--ink)}
+  input[type=text]:focus,input[type=email]:focus,input[type=date]:focus,select:focus,textarea:focus{outline:2px solid var(--blue);outline-offset:-1px}
+  .empty{color:var(--muted);text-align:center;margin:auto;padding:26px;font-size:13.5px}
+  .muted{color:var(--muted)}
+  .small{font-size:12px}
+
+  /* ---------- Outlook 3-pane ---------- */
+  .ol{display:grid;grid-template-columns:210px 340px 1fr;height:min(76vh,760px);overflow:hidden}
+  .pane{border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;min-width:0}
+  .pane:last-child{border-right:0}
+  .fold{padding:8px 6px;overflow:auto;background:var(--soft)}
+  .fold h2{font-size:12px;font-weight:600;color:var(--muted);margin:6px 10px;display:flex;align-items:center;gap:6px}
+  .ent{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;border:0;background:none;text-align:left;padding:7px 10px;border-radius:4px;font-size:13.5px;position:relative}
+  .ent:hover{background:var(--hover)}
+  .ent[aria-current=true]{background:var(--sel);font-weight:600}
+  .ent[aria-current=true]::before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:3px;border-radius:2px;background:var(--blue)}
+  .ent .n{font-size:12px;color:var(--blue);font-weight:700;display:flex;gap:5px;align-items:center}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--warn);display:inline-block}
+  .newent{display:flex;gap:4px;margin:6px 4px}
+  .newent input{flex:1;min-width:0;padding:5px 7px;font-size:13px}
+  .addent{border:0;background:none;color:var(--blue);padding:7px 10px;font-size:13px;font-weight:600;text-align:left}
+
+  .listbar{padding:8px 10px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center}
+  .listbar input{flex:1;min-width:0;background:var(--soft);border-color:transparent}
+  .listhead{padding:8px 12px 6px;font-size:16px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+  .threads{overflow:auto;flex:1}
+  .th{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;position:relative;border-left:3px solid transparent}
+  .th:hover{background:var(--hover)}
+  .th[aria-selected=true]{background:var(--sel);border-left-color:var(--blue)}
+  .th .r1{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .th .from{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .th .dt{font-size:12px;color:var(--muted);white-space:nowrap}
+  .th .subj{color:var(--blue);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;gap:6px;align-items:center}
+  .th .subj span:first-child{overflow:hidden;text-overflow:ellipsis}
+  .th .prev{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .th .cnt{font-size:11px;color:var(--muted);font-weight:600;flex-shrink:0}
+  .av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+  .av.client{background:var(--client-bg);color:var(--client)} .av.provider{background:var(--prov-bg);color:var(--prov)}
+  .av.lg{width:40px;height:40px;font-size:14px}
+
+  .read{overflow:auto;background:var(--panel)}
+  .rhead{padding:16px 22px 8px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:1}
+  .rhead h2{margin:0;font-size:19px;font-weight:600}
+  .rhead .ent-tag{font-size:12px;color:var(--muted);margin-top:2px}
+  .mail{margin:12px 18px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+  .mail .mh{display:grid;grid-template-columns:40px 1fr auto;gap:12px;padding:12px 14px;align-items:start}
+  .mail .who{font-weight:600}
+  .mail .who .rl{font-weight:400;color:var(--muted);font-size:12.5px}
+  .mail .to{font-size:12.5px;color:var(--muted)}
+  .mail .when{font-size:12px;color:var(--muted);text-align:right;white-space:nowrap}
+  .mail .acts{display:flex;gap:4px;justify-content:flex-end;margin-top:4px}
+  .iconbtn{border:1px solid transparent;background:none;border-radius:4px;padding:3px 7px;font-size:12.5px;color:var(--ink)}
+  .iconbtn:hover{background:var(--soft);border-color:var(--line)}
+  .mail .mb{padding:0 14px 14px 66px;white-space:pre-wrap;word-wrap:break-word}
+  .mail .msubj{padding:0 14px 6px 66px;font-size:12.5px;color:var(--muted)}
+  .atts{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 14px 66px}
+  .att{display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:6px 10px;font-size:13px;text-decoration:none;max-width:280px;color:var(--ink);text-align:left}
+  .att:hover{background:var(--soft)}
+  .att .fi{width:26px;height:30px;border-radius:3px;display:flex;align-items:flex-end;justify-content:center;font-size:9px;font-weight:800;color:#fff;padding-bottom:3px;flex-shrink:0}
+  .fi.DOC{background:#185abd}.fi.XLS{background:#107c41}.fi.PDF{background:#c4314b}.fi.IMG{background:#8764b8}.fi.CSV{background:#107c41}.fi.TXT,.fi.JSON,.fi.MD{background:#616161}
+  .att .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;font-weight:600}
+  .att .sz{font-size:11.5px;color:var(--muted)}
+  .thumb{display:block;border-radius:4px;border:1px solid var(--line);max-width:200px;max-height:140px;object-fit:cover;cursor:zoom-in;background:var(--soft);min-width:60px;min-height:40px}
+  .replybar{margin:6px 18px 18px;display:flex;gap:8px}
+
+  .compose{padding:14px 18px}
+  .compose .crow{display:grid;grid-template-columns:70px 1fr;align-items:center;border-bottom:1px solid var(--line);padding:6px 0}
+  .compose .crow label{color:var(--muted);font-size:13px}
+  .compose .crow input,.compose .crow .fixed{border:0;background:transparent;padding:5px 2px;outline:none}
+  .compose .crow input:focus{outline:none}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border-radius:999px;padding:2px 10px 2px 3px;font-size:13px}
+  .pill .av{width:20px;height:20px;font-size:9px}
+  .compose textarea{width:100%;min-height:200px;border:0;resize:vertical;margin-top:10px;padding:4px 2px;background:transparent}
+  .compose textarea:focus{outline:none}
+  .ctools{display:flex;gap:8px;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .pend{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .pend .x{border:0;background:none;color:var(--muted);font-size:16px;line-height:1;padding:0 0 0 4px}
+  .drop{position:absolute;inset:0;background:color-mix(in srgb,var(--panel) 85%,transparent);border:2px dashed var(--blue);display:none;align-items:center;justify-content:center;font-weight:700;color:var(--blue);z-index:3}
+  .read.dragging .drop{display:flex}
+  .read{position:relative}
+
+  @media (max-width:980px){ .ol{grid-template-columns:180px 1fr;height:auto} .read{grid-column:1/-1;border-top:1px solid var(--line);min-height:420px} .pane.list{border-right:0} .threads{max-height:320px} }
+  @media (max-width:640px){ .ol{grid-template-columns:1fr} .fold{max-height:none} }
+
+  /* ---------- Action items table ---------- */
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .tl{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .filters{display:flex;gap:4px;flex-wrap:wrap}
+  .filters button{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:5px 12px;border-radius:999px;font-size:13px;font-weight:600}
+  .filters button[aria-pressed=true]{color:var(--blue);border-color:var(--blue);background:var(--sel)}
+  .add{display:grid;grid-template-columns:1fr 170px 170px auto;gap:8px;padding:10px;margin-bottom:14px}
+  @media (max-width:760px){.add{grid-template-columns:1fr}}
+  .group{margin-bottom:18px}
+  .ghead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 2px 6px;flex-wrap:wrap}
+  .ghead h3{margin:0;font-size:16px;font-weight:600}
+  .ghead .c{font-size:12.5px;color:var(--muted);display:flex;gap:12px}
+  .ghead .c .late{color:var(--warn);font-weight:700}
+  .tw{overflow-x:auto}
+  table.ai{width:100%;border-collapse:collapse;min-width:960px}
+  table.ai th{text-align:left;font-size:12px;font-weight:600;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);background:var(--soft);white-space:nowrap}
+  table.ai td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.ai tr:last-child td{border-bottom:0}
+  table.ai tr.overdue td{background:var(--warn-bg)}
+  table.ai tr.completed .t{color:var(--muted);text-decoration:line-through}
+  td.num{color:var(--muted);font-size:12px;width:34px}
+  td.small{white-space:nowrap}
+  .t{font-weight:600}
+  .src{font-size:12px;color:var(--muted);margin-top:3px}
+  td select{width:100%;font-size:13px;padding:4px 6px}
+  select.st{font-weight:600;border-radius:999px}
+  select.st.open{background:var(--soft)}
+  select.st.in_progress{background:var(--sel);color:var(--blue);border-color:transparent}
+  select.st.follow_up{background:var(--amber-bg);color:var(--amber);border-color:transparent}
+  select.st.completed{background:var(--prov-bg);color:var(--prov);border-color:transparent}
+  td .res{width:100%;font-size:13px;min-height:34px;resize:vertical;padding:5px 8px}
+  td .res.need{border-color:var(--warn);background:var(--warn-bg)}
+  .need-hint{font-size:11.5px;color:var(--warn);margin-top:3px}
+  .tag{font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+  .tag.late{background:var(--warn);color:#fff;border-color:var(--warn)}
+  .del{border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:2px 6px;border-radius:4px}
+  .del:hover{background:var(--soft)}
+  .noitems{padding:12px 14px;color:var(--muted);font-size:13.5px}
+
+  .sec{font-size:12px;font-weight:600;color:var(--muted);padding:10px 14px 4px;border-top:1px solid var(--line)}
+  .file{border-top:1px solid var(--line);padding:10px 14px}
+  .file:first-of-type{border-top:0}
+  .file .top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+  .file .top .l{display:flex;gap:10px;align-items:center;min-width:0}
+  .summary{margin-top:10px;background:var(--soft);border-radius:6px;padding:10px 12px;font-size:13.5px}
+  .summary p{margin:0 0 6px}
+  .summary ul{margin:4px 0 6px;padding-left:18px}
+  .summary .lbl{font-size:12px;color:var(--muted);font-weight:600;margin-top:8px}
+  .sugrow{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:5px 0;border-top:1px dashed var(--line)}
+  .sugrow:first-of-type{border-top:0}
+  .sugrow .added{font-size:12px;color:var(--muted)}
+  .suggest{padding:12px 14px;margin-bottom:14px}
+  .suggest h3{margin:0 0 8px;font-size:13px;font-weight:600}
+
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:10;padding:20px}
+  .modal .box{background:var(--panel);border-radius:var(--radius);width:min(960px,100%);max-height:88vh;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+  .modal .mhd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line)}
+  .modal .mhd b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .modal .mbd{overflow:auto;padding:14px}
+  .modal pre{white-space:pre-wrap;word-wrap:break-word;font-family:inherit;margin:0}
+  .modal img{max-width:100%;display:block;margin:auto}
+  .sheet h4{margin:14px 0 6px;font-size:13px}
+  .sheet table{border-collapse:collapse;font-size:12.5px}
+  .sheet td{border:1px solid var(--line);padding:3px 7px;white-space:nowrap}
+  .sheet tr:first-child td{background:var(--soft);font-weight:600}
+
+  .rolebadge{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);border-radius:6px;padding:4px 10px;font-size:12.5px;font-weight:600}
+  .rolebadge .lock{opacity:.85}
+  .topright{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .accessbtn{border:1px solid rgba(255,255,255,.5);background:transparent;color:inherit;border-radius:6px;padding:4px 10px;font-size:12.5px;font-weight:600}
+  .accessbtn:hover{background:rgba(255,255,255,.15)}
+  .noticebar{display:none;background:var(--amber-bg);color:var(--amber);border:1px solid var(--line);border-radius:var(--radius);padding:9px 14px;margin-bottom:12px;font-weight:600}
+  .noticebar.show{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  body.readonly .nr, body.readonly [data-needs-role]{display:none!important}
+  .acc h3{margin:16px 0 6px;font-size:13px;font-weight:600}
+  .acc .row{display:grid;grid-template-columns:1fr 180px auto;gap:8px;align-items:center;padding:7px 0;border-top:1px solid var(--line)}
+  .acc .who{display:flex;gap:8px;align-items:center;min-width:0}
+  .acc .who img{width:26px;height:26px;border-radius:50%}
+  .acc .who{justify-content:flex-start;text-align:left}
+  .acc .who img{flex:0 0 26px}
+  .acc .who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+  .acc .hits{border:1px solid var(--line);border-radius:6px;margin-top:6px;max-height:260px;overflow:auto}
+  .acc .hit{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 10px;border-top:1px solid var(--line)}
+  .acc .hit:first-child{border-top:0}
+  .acc .hit .b{display:flex;gap:6px}
+  body.gated .tabs, body.gated #notice, body.gated #reminder, body.gated #view-chat, body.gated #view-actions, body.gated #status{display:none!important}
+  .gate{display:none;margin-top:12px;padding:56px 24px;text-align:center}
+  body.gated .gate{display:block}
+  .gate .big{font-size:40px}
+  .gate h2{margin:10px 0 6px;font-size:20px;font-weight:600}
+  .gate p{color:var(--muted);max-width:520px;margin:0 auto 16px}
+  /* login */
+  body.loginmode .tabs, body.loginmode #notice, body.loginmode #reminder, body.loginmode #view-chat, body.loginmode #view-actions, body.loginmode #view-dash, body.loginmode #status, body.loginmode #gate, body.loginmode .topbar{display:none!important}
+  .login{display:none;min-height:calc(100vh - 40px);align-items:center;justify-content:center;padding:20px}
+  body.loginmode .login{display:flex}
+  .lcard{width:min(420px,100%);background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+  .lhead{background:var(--blue);color:var(--blue-ink);padding:26px 28px}
+  .lhead .logo{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+  .lhead h1{margin:0;font-size:21px;font-weight:600}
+  .lhead p{margin:4px 0 0;opacity:.85;font-size:13.5px}
+  .lbody{padding:24px 28px 26px}
+  .ident{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:12px;margin:6px 0 16px}
+  .ident img{width:40px;height:40px;border-radius:50%}
+  .ident .nm{font-weight:600}
+  .lbody .btn{width:100%;justify-content:center;padding:10px;font-size:14.5px}
+  .lbody .alt{display:grid;gap:8px}
+  .lfoot{font-size:12px;color:var(--muted);margin-top:16px;line-height:1.5}
+  .lerr{background:var(--warn-bg);color:var(--warn);border-radius:6px;padding:9px 12px;font-size:13px;margin-bottom:12px}
+  .signout{border:1px solid rgba(255,255,255,.5);background:transparent;color:inherit;border-radius:6px;padding:4px 10px;font-size:12.5px;font-weight:600}
+  .signout:hover{background:rgba(255,255,255,.15)}
+
+  /* dashboard */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+  .kpi{padding:14px 16px}
+  .kpi .k{font-size:12px;color:var(--muted);font-weight:600}
+  .kpi .v{font-size:28px;font-weight:600;line-height:1.15;margin-top:4px;font-variant-numeric:tabular-nums}
+  .kpi .s{font-size:12px;color:var(--muted);margin-top:2px}
+  .kpi.alert .v{color:var(--warn)}
+  .kpi.alert .s::before{content:"⚠ ";color:var(--warn)}
+  .dtool{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .dtool .l{display:flex;gap:8px;flex-wrap:wrap}
+  .dtool input{min-width:240px}
+  table.cl{width:100%;border-collapse:collapse;min-width:980px}
+  table.cl th{text-align:left;font-size:12px;font-weight:600;color:var(--muted);padding:9px 12px;border-bottom:1px solid var(--line);background:var(--soft);white-space:nowrap}
+  table.cl td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.cl tr:last-child td{border-bottom:0}
+  table.cl tbody tr{cursor:pointer}
+  table.cl tbody tr:hover td{background:var(--hover)}
+  table.cl .nm{font-weight:600;color:var(--blue)}
+  table.cl .num{font-variant-numeric:tabular-nums;text-align:right}
+  table.cl th.num{text-align:right}
+  .spill{font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;display:inline-flex;gap:5px;align-items:center}
+  .spill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+  .spill.active{background:var(--prov-bg);color:var(--prov)}
+  .spill.onboarding{background:var(--sel);color:var(--blue)}
+  .spill.on_hold{background:var(--amber-bg);color:var(--amber)}
+  .spill.closed{background:var(--soft);color:var(--muted)}
+  .renew-soon{color:var(--amber);font-weight:600}
+  .cform{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+  .cform label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--muted);font-weight:600}
+  .cform label.full{grid-column:1/-1}
+  .cform input,.cform select,.cform textarea{color:var(--ink);font-weight:400;font-size:14px}
+  .cform textarea{min-height:70px;resize:vertical}
+  @media (max-width:600px){.cform{grid-template-columns:1fr}}
+  .cstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:16px}
+  .cstats div{background:var(--soft);border-radius:6px;padding:8px 10px;font-size:12px;color:var(--muted)}
+  .cstats b{display:block;font-size:18px;color:var(--ink);font-weight:600}
+  .mft{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:12px 14px;border-top:1px solid var(--line)}
+  .mft .g{display:flex;gap:8px;flex-wrap:wrap}
+  .lform{display:grid;gap:12px}
+  .lf{display:flex;flex-direction:column;gap:4px;font-size:12.5px;font-weight:600;color:var(--muted)}
+  .lf input{font-size:14.5px;padding:9px 11px;color:var(--ink);font-weight:400;border:1px solid var(--line);border-radius:4px;background:var(--panel)}
+  .lf input:focus{outline:2px solid var(--blue);outline-offset:-1px}
+  .lf input[readonly]{background:var(--soft)}
+  .linfo{background:var(--sel);color:var(--ink);border-radius:6px;padding:9px 12px;font-size:13px;margin-bottom:12px}
+  .llinks{display:flex;justify-content:flex-end;margin-top:8px}
+  .linkbtn{border:0;background:none;color:var(--blue);font-size:13px;padding:4px 0;text-decoration:underline}
+  .adminrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--soft);border-radius:6px;padding:10px 12px}
+  .adduser{display:grid;grid-template-columns:1fr 1fr 1.4fr 140px 160px auto;gap:8px}
+  .adduser input,.adduser select{min-width:0}
+  @media (max-width:820px){.adduser{grid-template-columns:1fr 1fr}}
+  table.ut{width:100%;border-collapse:collapse;min-width:720px}
+  table.ut th{text-align:left;font-size:12px;font-weight:600;color:var(--muted);padding:7px 8px;border-bottom:1px solid var(--line);background:var(--soft)}
+  table.ut td{padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
+  .emeta{font-size:13px;border:1px solid var(--line);border-bottom:0;border-radius:6px 6px 0 0;padding:8px 12px;background:var(--soft)}
+  .ebody{white-space:pre-wrap;font-family:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:0 0 6px 6px;padding:12px;margin:0;max-height:340px;overflow:auto;user-select:text}
+  a.btn{text-decoration:none}
+  .tobox{display:flex;flex-direction:column;gap:6px;padding:4px 0}
+  .tobox select{max-width:320px}
+  .rcpts{display:flex;flex-wrap:wrap;gap:5px}
+  .rc{font-size:12px;background:var(--soft);border-radius:999px;padding:2px 9px}
+  .notify{display:flex;gap:8px;align-items:center;font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);color:var(--muted)}
+  .accbtn{border:1px dashed var(--line);background:none;border-radius:4px;padding:3px 8px;font-size:12.5px;text-align:left;max-width:240px}
+  .accbtn:hover{background:var(--soft)}
+  .chk{display:flex;gap:8px;align-items:center;padding:7px 2px;border-top:1px solid var(--line)}
+  .chk:first-child{border-top:0}
+  .status{font-size:12px;color:var(--muted);margin-top:12px;text-align:center}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:6px;font-size:13.5px;transition:.25s;pointer-events:none;max-width:90vw;z-index:20}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<section class="login" id="login" aria-label="Sign in"></section>
+<div class="app">
+  <div class="topbar">
+    <h1>Client Portal</h1>
+    <div class="topright">
+      <div class="role" id="roleToggle" role="group" aria-label="I am the" title="Preview only: in the shared page, roles are assigned by the owner">
+        <button data-role="client" aria-pressed="false">I'm the Client</button>
+        <button data-role="provider" aria-pressed="false">I'm the Service Provider</button>
+      </div>
+      <div class="rolebadge" id="roleBadge" hidden><span class="lock">🔒</span><span id="roleBadgeText"></span></div>
+      <button class="accessbtn" id="accessBtn" type="button" hidden>👥 Manage users</button>
+      <button class="signout" id="signOutBtn" type="button">Sign out</button>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="false" data-view="dash" id="dashTab" hidden>▦ Dashboard</button>
+    <button class="tab" role="tab" aria-selected="true" data-view="chat">✉ Conversation</button>
+    <button class="tab" role="tab" aria-selected="false" data-view="actions">☑ Action Items <span class="badge" id="openCount">0</span></button>
+  </div>
+
+  <div class="panel gate" id="gate" role="status"></div>
+  <div class="noticebar" id="notice"></div>
+  <div class="reminder" id="reminder" role="alert"></div>
+
+  <!-- Dashboard -->
+  <section id="view-dash" hidden>
+    <div class="kpis" id="kpis"></div>
+    <div class="dtool">
+      <div class="l">
+        <input type="text" id="cSearch" placeholder="Search clients, contacts, industry…" aria-label="Search clients">
+        <select id="cStatus" aria-label="Client status">
+          <option value="all">All statuses</option><option value="active">Active</option><option value="onboarding">Onboarding</option><option value="on_hold">On hold</option><option value="closed">Closed</option>
+        </select>
+      </div>
+      <button class="btn" type="button" id="addClientBtn">+ Add client</button>
+    </div>
+    <div class="panel tw"><table class="cl" id="clTable"></table></div>
+  </section>
+
+  <!-- Conversation (Outlook style) -->
+  <section id="view-chat" class="panel ol">
+    <nav class="pane fold" id="ents" aria-label="Entities"></nav>
+    <div class="pane list">
+      <div class="listbar">
+        <button class="btn" id="newBtn" type="button" data-needs-role>✉ New message</button>
+        <input type="text" id="search" placeholder="Search" aria-label="Search messages">
+      </div>
+      <div class="listhead"><span id="listTitle">General</span><span class="small muted" id="listCount"></span></div>
+      <div class="threads" id="threads" role="listbox" aria-label="Messages"></div>
+    </div>
+    <div class="pane read" id="read">
+      <div id="threadView"><div class="empty" style="margin-top:80px">Select a message to read it, or start a new one.</div></div>
+      <form id="composeView" class="compose" hidden>
+        <div class="ctools">
+          <button class="btn" type="submit" id="sendBtn">➤ Send</button>
+          <button class="btn ghost" type="button" id="attachBtn">📎 Attach file</button>
+          <button class="btn ghost" type="button" id="discardBtn">Discard</button>
+          <input type="file" id="fileIn" multiple hidden accept="image/*,application/pdf,text/plain,text/csv,text/markdown,application/json,.md,.csv,.txt,.json,.doc,.docx,.xls,.xlsx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        </div>
+        <div class="crow"><label>From</label><div class="fixed" id="cFrom"></div></div>
+        <div class="crow"><label for="cToSel">To</label><div class="tobox"><select id="cToSel" aria-label="Send to"><option value="provider">Service Provider team</option><option value="client">Client team</option></select><div class="rcpts" id="cRcpts"></div></div></div>
+        <label class="notify"><input type="checkbox" id="cNotify" checked> Email everyone in the selected team about this message</label>
+        <div class="crow"><label for="cSubj">Subject</label><input type="text" id="cSubj" placeholder="Add a subject" autocomplete="off"></div>
+        <div class="pend" id="pend"></div>
+        <textarea id="cBody" placeholder="Type your message here…"></textarea>
+        <div class="muted small" id="cHint"></div>
+      </form>
+      <div class="drop">Drop files to attach</div>
+    </div>
+  </section>
+
+  <!-- Action items -->
+  <section id="view-actions" hidden>
+    <div class="toolbar">
+      <div class="tl">
+        <select id="entFilter" aria-label="Entity"></select>
+        <div class="filters" role="group" aria-label="Status">
+          <button data-f="active" aria-pressed="true">Not completed</button>
+          <button data-f="overdue" aria-pressed="false">Pending &gt; 1 week</button>
+          <button data-f="follow_up" aria-pressed="false">Follow up</button>
+          <button data-f="completed" aria-pressed="false">Completed</button>
+          <button data-f="all" aria-pressed="false">All</button>
+        </div>
+      </div>
+      <button class="btn ghost" id="extractBtn" hidden data-needs-role>✦ Suggest items from conversation</button>
+    </div>
+    <div class="panel suggest" id="suggest" hidden></div>
+    <form class="panel add" id="addForm" data-needs-role>
+      <input type="text" id="addTitle" placeholder="New action item…" autocomplete="off">
+      <select id="addEntity" aria-label="Entity"></select>
+      <select id="addOwner" aria-label="Who is working on it">
+        <option value="provider">Service Provider</option>
+        <option value="client">Client</option>
+      </select>
+      <button class="btn" type="submit">Add item</button>
+    </form>
+    <div id="groups"></div>
+  </section>
+
+  <div class="status" id="status"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { firebaseConfig, PORTAL_NAME as CFG_NAME } from "./firebase-config.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updatePassword, sendPasswordResetEmail, connectAuthEmulator } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, onSnapshot, connectFirestoreEmulator } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref as sref, uploadBytes, getDownloadURL, connectStorageEmulator } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { getFunctions, httpsCallable, connectFunctionsEmulator } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
+
+const CONFIG_OK = !!(firebaseConfig && firebaseConfig.apiKey && !/PASTE/i.test(firebaseConfig.apiKey));
+const PORTAL_NAME = CFG_NAME || "Client Portal";
+const FB = { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, onSnapshot, signOut, updatePassword, sendPasswordResetEmail, signInWithEmailAndPassword, onAuthStateChanged };
+const FN = {};
+let fbAuth = null, fdb = null, fstore = null;
+if (CONFIG_OK) {
+  const app = initializeApp(firebaseConfig);
+  fbAuth = getAuth(app); fdb = getFirestore(app); fstore = getStorage(app);
+  const ffn = getFunctions(app, firebaseConfig.functionsRegion || "us-central1");
+  if (firebaseConfig.useEmulators && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    connectAuthEmulator(fbAuth, "http://127.0.0.1:9099", { disableWarnings: true });
+    connectFirestoreEmulator(fdb, "127.0.0.1", 8080);
+    connectStorageEmulator(fstore, "127.0.0.1", 9199);
+    connectFunctionsEmulator(ffn, "127.0.0.1", 5001);
+  }
+  for (const n of ["bootstrapAdmin", "createUser", "resendInvite", "deleteUser", "aiSummarize", "aiSuggestActions"]) {
+    const c = httpsCallable(ffn, "portal" + n[0].toUpperCase() + n.slice(1)); FN[n] = async (d) => (await c(d)).data;
+  }
+}
+let fbUser = null, me = undefined, users = [];
+(() => {
+  const WEEK = 7 * 864e5, DAY = 864e5;
+  const MAX_ASSET = 20 * 1048576, MAX_CHUNKED = 10 * 1048576, CHUNK = 300 * 1024, MAX_TEXT = 30000;
+  const $ = (id) => document.getElementById(id);
+  const ROLE = { client: "Client", provider: "Service Provider" };
+  const OTHER = { client: "provider", provider: "client" };
+  const INIT = { client: "C", provider: "SP" };
+  const STATUS = [["open", "Open"], ["in_progress", "In progress"], ["follow_up", "Follow up"], ["completed", "Completed"]];
+  const GENERAL = { id: "general", name: "No client selected" };
+  const ls = { get(k, d) { try { return localStorage.getItem(k) || d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+  // ---------- state ----------
+  let role = ls.get("ws-role", "client");
+  const viewFromHash = () => location.hash === "#action-items" ? "actions" : location.hash === "#dashboard" ? "dash" : "chat";
+  let view = viewFromHash();
+  let curEnt = ls.get("ws-ent", "general");
+  let selThread = null;
+  let compose = null; // {mode:'new'} | {mode:'reply', threadId, subject}
+  let actEnt = "all", filter = "active", query = "";
+  let entities = [], messages = [], actions = [], attachments = [];
+  let db = null, user = null, sample = null, assets = null, downloads = null, myId = null, shared = false;
+  const names = {}, localBlobs = {}, blobUrls = {}, busy = new Set();
+  let members = {}, isAdmin = false, readOnly = false, userReady = false, membersReady = false, dataOn = false, unsubs = [];
+  let pending = [], pendingSource = null, suggestions = [], remindedOnce = false, actionsDirty = false;
+
+  // ---------- helpers ----------
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const fmtTime = (ts) => new Date(ts).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
+  const fmtShort = (ts) => { const d = new Date(ts), now = new Date(); return d.toDateString() === now.toDateString() ? d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }) : (now - d < 6 * DAY ? d.toLocaleDateString(undefined, { weekday: "short", hour: "numeric", minute: "2-digit" }) : d.toLocaleDateString(undefined, { month: "numeric", day: "numeric", year: "2-digit" })); };
+  const fmtDate = (ts) => new Date(ts).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  const fmtSize = (b) => b < 1024 ? b + " B" : b < 1048576 ? (b / 1024).toFixed(0) + " KB" : (b / 1048576).toFixed(1) + " MB";
+  const st = (a) => a.status === "done" ? "completed" : (a.status || "open");
+  const isOpen = (a) => st(a) !== "completed";
+  const daysOpen = (a) => Math.floor((Date.now() - a.createdAt) / DAY);
+  const isOverdue = (a) => isOpen(a) && (Date.now() - a.createdAt) > WEEK;
+  const entOf = (x) => x.entityId || "general";
+  const allEnts = () => entities.slice().sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+  let rawEntities = [], rawMessages = [], rawAttachments = [], rawActions = [];
+  function myAccess() {
+    if (!me) return { all: false, set: new Set() };
+    if (me.isAdmin || me.allClients) return { all: true, set: new Set() };
+    return { all: false, set: new Set(me.clientIds || []) };
+  }
+  const allowedEnt = (id) => { const a = myAccess(); return a.all || a.set.has(id); };
+  function applyScope() {
+    entities = rawEntities.filter(e => allowedEnt(e.id));
+    messages = rawMessages.filter(m => allowedEnt(entOf(m)));
+    attachments = rawAttachments.filter(a => allowedEnt(entOf(a)));
+    actions = rawActions.filter(a => allowedEnt(entOf(a)));
+    if (!allEnts().some(e => e.id === curEnt)) { curEnt = (allEnts()[0] || GENERAL).id; selThread = null; }
+  }
+  const entName = (id) => (allEnts().find(e => e.id === id) || GENERAL).name;
+  const isImage = (t) => /^image\//.test(t || "");
+  const isWord = (a) => /\.docx?$/i.test(a.name) || /msword|wordprocessingml/.test(a.type || "");
+  const isExcel = (a) => /\.xlsx?$/i.test(a.name) || /ms-excel|spreadsheetml/.test(a.type || "");
+  const isPdf = (a) => /pdf/.test(a.type || "") || /\.pdf$/i.test(a.name);
+  const kind = (a) => isImage(a.type) ? "IMG" : isPdf(a) ? "PDF" : isWord(a) ? "DOC" : isExcel(a) ? "XLS" : /\.csv$/i.test(a.name) || /csv/.test(a.type || "") ? "CSV" : /json/.test(a.type || "") ? "JSON" : "TXT";
+  const rOf = (m) => (m && m.authorId && members[m.authorId] && members[m.authorId].role) || (m && m.role);
+  const threadOf = (m) => m.threadId || ("t-" + m.id);
+  function toast(t) { const n = $("toast"); n.textContent = t; n.classList.add("show"); clearTimeout(toast._t); toast._t = setTimeout(() => n.classList.remove("show"), 2800); }
+  const status = (t) => { $("status").textContent = t || ""; };
+  const docsOf = (snap) => {
+    const list = Array.isArray(snap) ? snap : (snap && (snap.docs || snap.items)) || [];
+    return list.map(d => Object.assign({ id: d.id }, typeof d.data === "function" ? d.data() : (d.data || d)));
+  };
+  const dataOf = (snap) => !snap ? null : typeof snap.data === "function" ? snap.data() : (snap.data !== undefined ? snap.data : snap);
+  function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("load " + src)); document.head.append(s); }); }
+
+  // ---------- storage (Firestore) ----------
+  const guard = () => { if (readOnly) throw Object.assign(new Error("view only"), { code: "permission-denied" }); };
+  const findLocal = (coll, id) => (({ messages: rawMessages, actions: rawActions, attachments: rawAttachments, entities: rawEntities })[coll] || []).find(x => x.id === id);
+  function refFor(coll, id, data) {
+    if (coll === "entities") return FB.doc(fdb, "portal_clients", id);
+    const ent = (data && data.entityId) || (findLocal(coll, id) || {}).entityId;
+    if (!ent || ent === "general") throw Object.assign(new Error("Choose a client first."), { code: "no-client" });
+    return FB.doc(fdb, "portal_clients", ent, coll, id);
+  }
+  const clean = (o) => JSON.parse(JSON.stringify(o, (k, v) => v === undefined ? null : v));
+  async function put(coll, id, data) { guard(); return FB.setDoc(refFor(coll, id, data), clean(data)); }
+  async function patch(coll, id, data) { guard(); return FB.updateDoc(refFor(coll, id, null), clean(data)); }
+  async function remove(coll, id) { guard(); return FB.deleteDoc(refFor(coll, id, null)); }
+  const fail = (e) => { console.error(e); toast(e && e.code === "no-client" ? e.message : /permission|denied|refus/i.test(String(e && (e.code + " " + e.message))) ? "You don't have permission to do that." : "Couldn't save — please try again."); };
+  async function blobUrl(att) { return att.url || ""; }
+
+  // ---------- role + tabs ----------
+  function setRole(r) {
+    role = r; ls.set("ws-role", r);
+    document.querySelectorAll(".role button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.role === r)));
+    renderCompose(); renderAll();
+  }
+  function setView(v) {
+    if (v === "dash" && !canDash()) v = "chat";
+    view = v;
+    $("view-chat").hidden = v !== "chat";
+    $("view-actions").hidden = v !== "actions";
+    $("view-dash").hidden = v !== "dash";
+    document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", String(t.dataset.view === v)));
+    if (v === "dash") renderDash();
+    const h = v === "actions" ? "#action-items" : v === "dash" ? "#dashboard" : "#conversation";
+    if (location.hash !== h) history.replaceState(null, "", h);
+    renderReminder();
+  }
+  function setFilter(f) {
+    filter = f;
+    document.querySelectorAll(".filters button").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.f === f)));
+    renderActions(true);
+  }
+  document.querySelectorAll(".role button").forEach(b => b.onclick = () => setRole(b.dataset.role));
+  document.querySelectorAll(".tab").forEach(t => t.onclick = () => setView(t.dataset.view));
+  document.querySelectorAll(".filters button").forEach(b => b.onclick = () => setFilter(b.dataset.f));
+  window.addEventListener("hashchange", () => setView(viewFromHash()));
+
+  // ---------- entities (folder pane) ----------
+  let addingEnt = false;
+  function renderEntities() {
+    const nav = $("ents"); nav.textContent = "";
+    nav.append(el("h2", null, "▾ Clients"));
+    if (!allEnts().some(e => e.id === curEnt)) curEnt = (allEnts()[0] || GENERAL).id;
+    for (const e of allEnts()) {
+      const b = el("button", "ent"); b.type = "button";
+      b.setAttribute("aria-current", String(e.id === curEnt));
+      b.append(el("span", null, "🗀 " + e.name));
+      const open = actions.filter(a => entOf(a) === e.id && isOpen(a)).length;
+      const late = actions.some(a => entOf(a) === e.id && isOverdue(a));
+      const n = el("span", "n");
+      if (late) { const d = el("span", "dot"); d.title = "Has items pending over a week"; n.append(d); }
+      if (open) { n.append(document.createTextNode(open)); n.title = open + " open action items"; }
+      b.append(n);
+      b.onclick = () => { if (curEnt !== e.id) { curEnt = e.id; ls.set("ws-ent", e.id); selThread = null; if (compose && compose.mode === "reply") closeCompose(); } renderEntities(); renderChat(); };
+      nav.append(b);
+    }
+    if (addingEnt) {
+      const f = el("form", "newent");
+      const i = el("input"); i.type = "text"; i.placeholder = "Client name"; i.maxLength = 60;
+      const ok = el("button", "btn sm", "Add"); ok.type = "submit";
+      f.append(i, ok);
+      f.onsubmit = async (ev) => {
+        ev.preventDefault();
+        const name = i.value.trim(); if (!name) { addingEnt = false; renderEntities(); return; }
+        if (allEnts().some(e => e.name.toLowerCase() === name.toLowerCase())) { toast("That client already exists."); return; }
+        const id = "e-" + uid();
+        try { await put("entities", id, { name, createdAt: Date.now(), createdBy: myId || null }); curEnt = id; ls.set("ws-ent", id); selThread = null; addingEnt = false; renderAll(); }
+        catch (err) { fail(err); }
+      };
+      i.onkeydown = (ev) => { if (ev.key === "Escape") { addingEnt = false; renderEntities(); } };
+      nav.append(f); setTimeout(() => i.focus());
+    } else {
+      if (myAccess().all) {
+        const add = el("button", "addent nr", "+ New client"); add.type = "button";
+        add.onclick = () => { addingEnt = true; renderEntities(); };
+        nav.append(add);
+      } else if (!entities.length) nav.append(el("p", "muted small", "No client workspaces have been shared with you yet. Ask the portal administrator for access."));
+    }
+    const ef = $("entFilter"), ae = $("addEntity");
+    const keepA = ae.value || curEnt;
+    ef.textContent = ""; ae.textContent = "";
+    ef.append(new Option("All clients", "all"));
+    for (const e of allEnts()) { ef.append(new Option(e.name, e.id)); ae.append(new Option(e.name, e.id)); }
+    ef.value = allEnts().some(e => e.id === actEnt) ? actEnt : "all"; actEnt = ef.value;
+    ae.value = allEnts().some(e => e.id === keepA) ? keepA : ((allEnts()[0] || GENERAL).id);
+  }
+  $("entFilter").onchange = (e) => { actEnt = e.target.value; if (actEnt !== "all") $("addEntity").value = actEnt; suggestions = []; renderSuggestions(); renderActions(true); };
+
+  // ---------- attachments UI ----------
+  function attChip(a) {
+    if (isImage(a.type)) {
+      const img = el("img", "thumb"); img.alt = a.name; img.title = a.name; img.loading = "lazy";
+      blobUrl(a).then(u => img.src = u).catch(() => { img.alt = a.name + " (unavailable)"; });
+      img.onclick = () => openPreview(a);
+      return img;
+    }
+    const c = el("button", "att"); c.type = "button"; c.title = "Open " + a.name;
+    const k = kind(a);
+    const meta = el("span"); meta.append(el("span", "nm", a.name), el("span", "sz", fmtSize(a.size || 0)));
+    c.append(el("span", "fi " + k, k), meta);
+    c.onclick = () => openPreview(a);
+    return c;
+  }
+  function parseCSV(text) {
+    const rows = []; let row = [], cur = "", q = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (q) { if (ch === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+      else if (ch === '"') q = true; else if (ch === ",") { row.push(cur); cur = ""; }
+      else if (ch === "\n") { row.push(cur); rows.push(row); row = []; cur = ""; } else if (ch !== "\r") cur += ch;
+    }
+    if (cur || row.length) { row.push(cur); rows.push(row); }
+    return rows;
+  }
+  function sheetTable(csv) {
+    const t = el("table"); parseCSV(csv).slice(0, 300).forEach(r => { const tr = el("tr"); r.forEach(c => tr.append(el("td", null, c))); t.append(tr); });
+    return t;
+  }
+  async function openPreview(a) {
+    const m = el("div", "modal"); const box = el("div", "box"); m.append(box);
+    const hd = el("div", "mhd"); const title = el("b", null, a.name);
+    const btns = el("div"); btns.style.display = "flex"; btns.style.gap = "6px";
+    const close = el("button", "btn ghost sm", "Close"); close.type = "button";
+    const shut = () => { m.remove(); document.removeEventListener("keydown", esc); };
+    const esc = (e) => { if (e.key === "Escape") shut(); };
+    close.onclick = shut; m.onclick = (e) => { if (e.target === m) shut(); };
+    document.addEventListener("keydown", esc);
+    const dl = el("button", "btn sm", "⭳ Download"); dl.type = "button";
+    dl.onclick = () => downloadAtt(a, dl);
+    if (downloads) btns.append(dl);
+    if (isPdf(a)) { const open = el("button", "btn ghost sm", "Open in new tab"); open.type = "button"; open.onclick = async () => { try { window.open(await blobUrl(a), "_blank", "noopener"); } catch { toast("Couldn't open the file."); } }; btns.append(open); }
+    btns.append(close); hd.append(title, btns);
+    const bd = el("div", "mbd"); box.append(hd, bd);
+    document.body.append(m);
+    bd.append(el("div", "muted", "Loading preview…"));
+    try {
+      if (isImage(a.type)) { const img = el("img"); img.src = await blobUrl(a); img.alt = a.name; bd.textContent = ""; bd.append(img); return; }
+      bd.textContent = "";
+      if (isPdf(a)) {
+        bd.append(el("div", "muted small", "Text extracted from the PDF. Use “Open in new tab” to see the original layout."));
+      } else if (isWord(a) || isExcel(a)) {
+        bd.append(el("div", "muted small", `Preview of the ${isWord(a) ? "Word document" : "workbook"}'s contents. ${downloads ? "Download it to open in " + (isWord(a) ? "Word" : "Excel") + "." : ""}`));
+      }
+      const txt = a.text || "";
+      if (!txt.trim()) { bd.append(el("p", "muted", "No preview is available for this file" + (/\.(doc|xls)$/i.test(a.name) ? " (older .doc/.xls formats can only be downloaded)." : "."))); return; }
+      if (isExcel(a) || kind(a) === "CSV") {
+        const wrap = el("div", "sheet");
+        const parts = isExcel(a) ? txt.split(/^### Sheet: /m).filter(Boolean) : ["\n" + txt];
+        parts.forEach(p => { const nl = p.indexOf("\n"); const name = p.slice(0, nl).trim(); if (name) wrap.append(el("h4", null, name)); wrap.append(sheetTable(p.slice(nl + 1))); });
+        bd.append(wrap);
+      } else bd.append(el("pre", null, txt));
+      if (txt.length >= MAX_TEXT) bd.append(el("p", "muted small", "Preview truncated."));
+    } catch (e) { bd.textContent = ""; bd.append(el("p", "muted", "Couldn't load this file.")); }
+  }
+  async function downloadAtt(a, btn) {
+    const u = await blobUrl(a); if (!u) return toast("File isn't available.");
+    const link = document.createElement("a"); link.href = u; link.target = "_blank"; link.rel = "noopener"; document.body.append(link); link.click(); link.remove();
+  }
+
+
+  // ---------- conversation (Outlook) ----------
+  const authorName = (m) => { const mm = m.authorId && members[m.authorId]; return (mm && mm.name) || m.authorName || ROLE[rOf(m)] || "Someone"; };
+  function threadsFor(ent) {
+    const map = new Map();
+    for (const m of messages) {
+      if (entOf(m) !== ent) continue;
+      const k = threadOf(m);
+      if (!map.has(k)) map.set(k, []);
+      map.get(k).push(m);
+    }
+    const out = [];
+    for (const [id, list] of map) {
+      list.sort((a, b) => a.ts - b.ts);
+      const subject = list[0].subject || "(no subject)";
+      const last = list[list.length - 1];
+      const hasAtt = list.some(m => attachments.some(a => a.messageId === m.id));
+      out.push({ id, list, subject, last, hasAtt });
+    }
+    return out.sort((a, b) => b.last.ts - a.last.ts);
+  }
+  function renderChat() {
+    const box = $("threads"); box.textContent = "";
+    $("listTitle").textContent = entName(curEnt);
+    let ths = threadsFor(curEnt);
+    const q = query.trim().toLowerCase();
+    if (q) ths = ths.filter(t => t.subject.toLowerCase().includes(q) || t.list.some(m => (m.text || "").toLowerCase().includes(q)) || t.list.some(m => attachments.some(a => a.messageId === m.id && a.name.toLowerCase().includes(q))));
+    $("listCount").textContent = ths.length ? `${ths.length} conversation${ths.length === 1 ? "" : "s"}` : "";
+    if (!ths.length) box.append(el("div", "empty", q ? "No messages match your search." : `No messages with ${entName(curEnt)} yet.`));
+    for (const t of ths) {
+      const row = el("div", "th"); row.setAttribute("role", "option"); row.tabIndex = 0;
+      row.setAttribute("aria-selected", String(t.id === selThread && !(compose && compose.mode === "new")));
+      row.append(el("div", "av " + rOf(t.last), INIT[rOf(t.last)] || "?"));
+      const body = el("div"); body.style.minWidth = "0";
+      const r1 = el("div", "r1"); r1.append(el("span", "from", authorName(t.last) + (names[t.last.authorId] ? ` (${ROLE[rOf(t.last)]})` : "")), el("span", "dt", fmtShort(t.last.ts)));
+      const subj = el("div", "subj"); subj.append(el("span", null, t.subject));
+      const extra = el("span", "cnt", (t.hasAtt ? "📎 " : "") + (t.list.length > 1 ? `(${t.list.length})` : "")); subj.append(extra);
+      body.append(r1, subj, el("div", "prev", (t.last.text || "").replace(/\s+/g, " ") || "(attachment)"));
+      row.append(body);
+      const open = () => { selThread = t.id; if (compose) closeCompose(); renderChat(); };
+      row.onclick = open; row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } };
+      box.append(row);
+    }
+    const allTh = threadsFor(curEnt);
+    if (!compose && !selThread && allTh.length) { selThread = allTh[0].id; renderChat(); return; }
+    renderThread(allTh);
+  }
+  function renderThread(ths) {
+    const v = $("threadView");
+    if (compose) { v.hidden = true; return; }
+    v.hidden = false; v.textContent = "";
+    const t = ths.find(x => x.id === selThread);
+    if (!t) { v.append(Object.assign(el("div", "empty", "Select a message to read it, or start a new one."), { style: "margin-top:80px" })); return; }
+    const h = el("div", "rhead"); h.append(el("h2", null, t.subject), el("div", "ent-tag", `${entName(curEnt)} · ${t.list.length} message${t.list.length === 1 ? "" : "s"}`));
+    v.append(h);
+    t.list.forEach((m) => {
+      const card = el("article", "mail");
+      const mh = el("div", "mh");
+      const mr = rOf(m);
+      mh.append(el("div", "av lg " + mr, INIT[mr] || "?"));
+      const mid = el("div");
+      const who = el("div", "who"); who.append(document.createTextNode(authorName(m) + " "), el("span", "rl", names[m.authorId] ? `<${ROLE[mr]}>` : ""));
+      mid.append(who, el("div", "to", "To: " + (m.to ? TEAM[m.to] : ROLE[OTHER[mr]])));
+      const right = el("div");
+      right.append(el("div", "when", fmtTime(m.ts)));
+      const acts = el("div", "acts");
+      const flag = el("button", "iconbtn nr", "⚑ Action item"); flag.type = "button"; flag.title = "Create an action item from this message";
+      flag.onclick = () => {
+        pendingSource = m;
+        const atts = attachments.filter(a => a.messageId === m.id);
+        const tx = (m.text || "").trim() || (atts[0] ? "Review " + atts[0].name : t.subject);
+        $("addTitle").value = tx.length > 140 ? tx.slice(0, 137) + "…" : tx;
+        $("addOwner").value = "provider"; $("addEntity").value = entOf(m);
+        setView("actions"); $("addTitle").focus(); $("addTitle").select();
+      };
+      const rep = el("button", "iconbtn nr", "↩ Reply"); rep.type = "button"; rep.onclick = () => openCompose({ mode: "reply", threadId: t.id, subject: t.subject });
+      acts.append(flag, rep); right.append(acts);
+      mh.append(mid, right);
+      card.append(mh);
+      if (m.subject && m.subject !== t.subject) card.append(el("div", "msubj", m.subject));
+      if (m.text) card.append(el("div", "mb", m.text));
+      const atts = attachments.filter(a => a.messageId === m.id);
+      if (atts.length) { const row = el("div", "atts"); atts.forEach(a => row.append(attChip(a))); card.append(row); }
+      v.append(card);
+    });
+    const rb = el("div", "replybar nr");
+    const rep = el("button", "btn ghost", "↩ Reply"); rep.type = "button"; rep.onclick = () => openCompose({ mode: "reply", threadId: t.id, subject: t.subject });
+    rb.append(rep); v.append(rb);
+    if (lastShown !== t.id) { lastShown = t.id; $("read").scrollTop = $("read").scrollHeight; }
+  }
+  let lastShown = null;
+  $("search").addEventListener("input", (e) => { query = e.target.value; renderChat(); });
+
+  // compose
+  function pill(r, label) { const p = el("span", "pill"); p.append(el("span", "av " + r, INIT[r]), el("span", null, label)); return p; }
+  function renderCompose() {
+    const f = $("composeView");
+    if (!compose) { f.hidden = true; return; }
+    f.hidden = false;
+    $("cFrom").textContent = ""; $("cFrom").append(pill(role, ROLE[role] + " (you)"));
+    if (!compose.to) compose.to = OTHER[role];
+    $("cToSel").value = compose.to;
+    $("cToSel").options[1].textContent = `Client team (${entName(curEnt)})`;
+    renderRecipients();
+    $("cHint").textContent = `Sending in ${entName(curEnt)}. Attach Word, Excel, PDF, image or text files with 📎 or by dropping them here.`;
+    renderPending();
+  }
+  const TEAM = { provider: "Service Provider team", client: "Client team" };
+  function recipients(entId, toRole) {
+    return users.filter(u => (u.role === toRole || (toRole === "provider" && u.isAdmin)) && u.email && (u.isAdmin || u.allClients || (u.clientIds || []).includes(entId)) && u.id !== myId)
+      .map(u => ({ name: fullName(u), email: u.email }));
+  }
+  function renderRecipients() {
+    const box = $("cRcpts"); box.textContent = "";
+    if (!users.length) { box.append(el("span", "small muted", `Everyone in the ${TEAM[compose ? compose.to : "provider"]} with access to ${entName(curEnt)} is notified.`)); return; }
+    const list = recipients(curEnt, compose ? compose.to : "provider");
+    if (!list.length) { box.append(el("span", "small muted", `No one in the ${TEAM[compose.to]} has access to ${entName(curEnt)} yet.`)); return; }
+    list.forEach(r => { const c = el("span", "rc", r.name); c.title = r.email; box.append(c); });
+  }
+  $("cToSel").onchange = () => { if (compose) { compose.to = $("cToSel").value; renderRecipients(); } };
+  function openCompose(c) {
+    if (readOnly) { toast("You have view-only access."); return; }
+    compose = c; pending = [];
+    $("cSubj").value = c.mode === "reply" ? (/^re:/i.test(c.subject) ? c.subject : "RE: " + c.subject) : "";
+    $("cBody").value = "";
+    $("threadView").hidden = true;
+    renderCompose(); renderChat();
+    $("read").scrollTop = 0;
+    (c.mode === "reply" ? $("cBody") : $("cSubj")).focus();
+  }
+  function closeCompose() { compose = null; pending = []; renderCompose(); renderChat(); }
+  $("newBtn").onclick = () => { selThread = null; openCompose({ mode: "new" }); };
+  $("discardBtn").onclick = closeCompose;
+  function renderPending() {
+    const p = $("pend"); p.textContent = "";
+    pending.forEach((f, i) => {
+      const k = kind({ name: f.name, type: f.type });
+      const c = el("span", "att");
+      const meta = el("span"); meta.append(el("span", "nm", f.name), el("span", "sz", fmtSize(f.size)));
+      const x = el("button", "x", "×"); x.type = "button"; x.setAttribute("aria-label", "Remove " + f.name);
+      x.onclick = () => { pending.splice(i, 1); renderPending(); };
+      c.append(el("span", "fi " + k, k), meta, x); p.append(c);
+    });
+  }
+  const okType = (f) => isImage(f.type) || /pdf|text\/|json|csv|markdown|msword|ms-excel|officedocument/.test(f.type) || /\.(md|csv|txt|json|pdf|docx?|xlsx?)$/i.test(f.name);
+  function addFiles(files) {
+    for (const f of files) {
+      if (!okType(f)) { toast(`${f.name}: attach Word, Excel, PDF, image or text files.`); continue; }
+      if (f.size > MAX_ASSET) { toast(`${f.name} is over 20 MB.`); continue; }
+      pending.push(f);
+    }
+    renderPending();
+  }
+  $("attachBtn").onclick = () => $("fileIn").click();
+  $("fileIn").onchange = (e) => { addFiles([...e.target.files]); e.target.value = ""; };
+  const read = $("read");
+  read.addEventListener("dragover", (e) => { if ([...(e.dataTransfer.types || [])].includes("Files")) { e.preventDefault(); read.classList.add("dragging"); } });
+  read.addEventListener("dragleave", (e) => { if (!read.contains(e.relatedTarget)) read.classList.remove("dragging"); });
+  read.addEventListener("drop", (e) => {
+    e.preventDefault(); read.classList.remove("dragging");
+    if (readOnly) return;
+    if (!compose) openCompose(selThread ? { mode: "reply", threadId: selThread, subject: (threadsFor(curEnt).find(t => t.id === selThread) || {}).subject || "" } : { mode: "new" });
+    addFiles([...e.dataTransfer.files]);
+  });
+
+  // text extraction
+  async function extractText(file) {
+    const meta = { name: file.name, type: file.type };
+    try {
+      if (isImage(file.type)) return "";
+      if (isPdf(meta)) {
+        if (!window.pdfjsLib) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+        const lib = window.pdfjsLib; lib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        const doc = await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+        let out = "";
+        for (let p = 1; p <= Math.min(doc.numPages, 60) && out.length < MAX_TEXT; p++) {
+          const tc = await (await doc.getPage(p)).getTextContent();
+          out += `\n[Page ${p}]\n` + tc.items.map(i => i.str).join(" ");
+        }
+        return out.slice(0, MAX_TEXT);
+      }
+      if (isWord(meta)) {
+        if (/\.doc$/i.test(file.name)) return "";
+        if (!window.mammoth) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js");
+        const r = await window.mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
+        return (r.value || "").replace(/\n{3,}/g, "\n\n").slice(0, MAX_TEXT);
+      }
+      if (isExcel(meta)) {
+        if (!window.XLSX) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");
+        const wb = window.XLSX.read(new Uint8Array(await file.arrayBuffer()), { type: "array" });
+        let out = "";
+        for (const n of wb.SheetNames) { if (out.length > MAX_TEXT) break; out += `### Sheet: ${n}\n` + window.XLSX.utils.sheet_to_csv(wb.Sheets[n], { blankrows: false }) + "\n"; }
+        return out.slice(0, MAX_TEXT);
+      }
+      return (await file.text()).slice(0, MAX_TEXT);
+    } catch (e) { console.warn("extract failed", e); return ""; }
+  }
+  async function storeFile(f, attId, ent) {
+    const path = `portal/clients/${ent}/files/${attId}/${f.name.replace(/[\\/#?\[\]*]/g, "_")}`;
+    try { await fbAuth.currentUser.getIdToken(true); } catch {}
+    const r = sref(fstore, path);
+    await uploadBytes(r, f, { contentType: f.type || "application/octet-stream" });
+    return { storage: "firebase", storagePath: path, url: await getDownloadURL(r), assetId: null };
+  }
+
+  $("composeView").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = $("cBody").value.trim(), files = pending.slice();
+    let subject = $("cSubj").value.trim();
+    if (!text && !files.length) { toast("Write a message or attach a file."); return; }
+    if (!subject) subject = compose.mode === "reply" ? "RE: " + compose.subject : "(no subject)";
+    const send = $("sendBtn"); send.disabled = true; send.textContent = files.length ? "Uploading…" : "Sending…";
+    const msgId = Date.now().toString(36).padStart(9, "0") + "-" + uid();
+    const threadId = compose.mode === "reply" ? compose.threadId : "t-" + uid();
+    const ent = curEnt;
+    if (!entities.some(e => e.id === ent)) { toast("Choose a client first."); send.disabled = false; send.textContent = "➤ Send"; return; }
+    try {
+      const attIds = [];
+      for (const f of files) {
+        const attId = "a-" + uid();
+        const extracted = await extractText(f);
+        const where = await storeFile(f, attId, ent);
+        localBlobs[attId] = f;
+        await put("attachments", attId, Object.assign({
+          entityId: ent, messageId: msgId, name: f.name, type: f.type || "application/octet-stream", size: f.size,
+          text: extracted, ts: Date.now(), role, authorId: myId || null, summary: null }, where));
+        attIds.push(attId);
+      }
+      const to = (compose && compose.to) || OTHER[role];
+      const msgDoc = { entityId: ent, threadId, subject, role, to, text, ts: Date.now(), authorId: myId, authorName: me ? fullName(me) : ROLE[role], attachmentIds: attIds, notify: $("cNotify").checked };
+      await put("messages", msgId, msgDoc);
+      selThread = threadId; closeCompose(); toast("Message sent");
+    } catch (err) { err && err.code === "too_big" ? toast("Word/Excel files over 10 MB can't be stored here.") : fail(err); }
+    finally { send.disabled = false; send.textContent = "➤ Send"; }
+  });
+
+  // ---------- action items ----------
+  function statusSelect(a) {
+    const s = el("select", "st " + st(a)); s.setAttribute("aria-label", "Status");
+    STATUS.forEach(([v, l]) => s.append(new Option(l, v)));
+    s.value = st(a); s.disabled = readOnly;
+    s.onchange = async () => {
+      const v = s.value; s.className = "st " + v;
+      const upd = { status: v, completedAt: v === "completed" ? Date.now() : null };
+      try { await patch("actions", a.id, upd); } catch (e) { fail(e); }
+      if (v === "completed" && !(a.resolution || "").trim()) toast("Add what was done to close this item.");
+    };
+    return s;
+  }
+  function ownerSelect(a) {
+    const s = el("select"); s.setAttribute("aria-label", "Who is working on it");
+    s.append(new Option("Service Provider", "provider"), new Option("Client", "client"));
+    s.value = a.owner === "client" ? "client" : "provider"; s.disabled = readOnly;
+    s.onchange = () => patch("actions", a.id, { owner: s.value }).catch(fail);
+    return s;
+  }
+  function resolutionCell(a) {
+    const td = el("td");
+    const t = el("textarea", "res"); t.rows = 1; t.placeholder = st(a) === "completed" ? "What was done to close it?" : "Action taken…";
+    t.value = a.resolution || ""; t.readOnly = readOnly; t.setAttribute("aria-label", "Action taken to close");
+    const need = st(a) === "completed" && !(a.resolution || "").trim();
+    if (need) t.classList.add("need");
+    const save = async () => {
+      const v = t.value.trim();
+      if (v === (a.resolution || "")) return;
+      try { await patch("actions", a.id, { resolution: v, resolutionBy: role, resolutionAt: Date.now() }); } catch (e) { fail(e); }
+    };
+    t.addEventListener("blur", save);
+    t.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); t.blur(); } });
+    td.append(t);
+    if (need) td.append(el("div", "need-hint", "Required to close"));
+    else if (a.resolutionAt && a.resolution) td.append(el("div", "src", `Updated by ${ROLE[a.resolutionBy] || "—"} · ${fmtDate(a.resolutionAt)}`));
+    return td;
+  }
+  function itemsTable(list) {
+    const wrap = el("div", "tw");
+    const t = el("table", "ai");
+    const hr = el("tr");
+    ["#", "Action item", "Status", "Who's working on it", "Action taken to close", "Raised", "Age", ""].forEach((h, i) => { const th = el("th", null, h); if (i === 2) th.style.width = "140px"; if (i === 3) th.style.width = "160px"; if (i === 4) th.style.width = "28%"; hr.append(th); });
+    const thead = el("thead"); thead.append(hr); t.append(thead);
+    const tb = el("tbody");
+    list.forEach((a, i) => {
+      const tr = el("tr", (isOverdue(a) ? "overdue " : "") + st(a));
+      tr.append(el("td", "num", String(i + 1)));
+      const tdT = el("td"); tdT.append(el("div", "t", a.title));
+      if (a.sourceText) tdT.append(el("div", "src", a.sourceAttName ? `From attachment “${a.sourceAttName}”` : `From ${ROLE[a.sourceRole] || "conversation"}${a.sourceSubject ? " · " + a.sourceSubject : ""}: “${a.sourceText.slice(0, 120)}${a.sourceText.length > 120 ? "…" : ""}”`));
+      tr.append(tdT);
+      const tdS = el("td"); tdS.append(statusSelect(a)); tr.append(tdS);
+      const tdO = el("td"); tdO.append(ownerSelect(a)); tr.append(tdO);
+      tr.append(resolutionCell(a));
+      tr.append(el("td", "small", fmtDate(a.createdAt)));
+      const tdA = el("td", "small");
+      if (!isOpen(a)) tdA.append(el("span", "muted", "Closed " + (a.completedAt ? fmtDate(a.completedAt) : "")));
+      else if (isOverdue(a)) tdA.append(el("span", "tag late", `Pending ${daysOpen(a)} days`));
+      else { const n = daysOpen(a); tdA.append(el("span", "muted", n === 0 ? "Today" : `${n} day${n === 1 ? "" : "s"}`)); }
+      tr.append(tdA);
+      const tdD = el("td"); const del = el("button", "del nr", "×"); del.type = "button"; del.title = "Delete item"; del.setAttribute("aria-label", "Delete item");
+      del.onclick = () => remove("actions", a.id).catch(fail); tdD.append(del); tr.append(tdD);
+      tb.append(tr);
+    });
+    t.append(tb); wrap.append(t);
+    return wrap;
+  }
+  function fileRow(att) {
+    const w = el("div", "file");
+    const top = el("div", "top");
+    const l = el("div", "l"); l.append(attChip(att));
+    l.append(el("span", "small muted", `${ROLE[att.role] || ""} · ${fmtDate(att.ts)}`));
+    const btn = el("button", "btn ghost sm nr"); btn.type = "button";
+    btn.textContent = busy.has(att.id) ? "Analysing…" : att.summary ? "Re-analyse" : "✦ Analyse & summarise";
+    btn.disabled = busy.has(att.id) || !sample;
+    if (!sample) btn.title = "Summaries need Claude, which isn't available in this view.";
+    btn.onclick = () => analyse(att);
+    top.append(l, btn); w.append(top);
+    if (att.summary) {
+      const s = el("div", "summary");
+      s.append(el("p", null, att.summary));
+      if (att.keyPoints && att.keyPoints.length) {
+        s.append(el("div", "lbl", "Key points"));
+        const ul = el("ul"); att.keyPoints.forEach(k => ul.append(el("li", null, k))); s.append(ul);
+      }
+      if (att.suggested && att.suggested.length) {
+        s.append(el("div", "lbl", "Suggested action items"));
+        att.suggested.forEach(sg => {
+          const row = el("div", "sugrow");
+          const left = el("div"); left.append(el("span", null, sg.title + " "), el("span", "tag", ROLE[sg.owner]));
+          const exists = actions.some(a => a.sourceAttId === att.id && a.title === sg.title);
+          const right = exists ? el("span", "added", "✓ Added") : el("button", "btn sm nr", "Add");
+          if (!exists) { right.type = "button"; right.onclick = () => addAction(sg.title, sg.owner, entOf(att), { att }).catch(fail); }
+          row.append(left, right); s.append(row);
+        });
+      }
+      s.append(el("div", "small muted", "Summarised " + fmtTime(att.summarizedAt)));
+      w.append(s);
+    }
+    return w;
+  }
+  const editing = () => { const a = document.activeElement; return a && $("groups").contains(a) && /TEXTAREA|SELECT|INPUT/.test(a.tagName); };
+  $("groups").addEventListener("focusout", () => setTimeout(() => { if (actionsDirty && !editing()) renderActions(); }, 50));
+  function renderActions(force) {
+    const open = actions.filter(isOpen), overdue = actions.filter(isOverdue);
+    $("openCount").textContent = open.length;
+    $("openCount").className = "badge" + (overdue.length ? " warn" : "");
+    if (!force && editing()) { actionsDirty = true; return; }
+    actionsDirty = false;
+    const pick = (a) => filter === "active" ? isOpen(a) : filter === "overdue" ? isOverdue(a) : filter === "all" ? true : st(a) === filter;
+    const order = { follow_up: 0, in_progress: 1, open: 2, completed: 3 };
+    const ents = actEnt === "all" ? allEnts() : allEnts().filter(e => e.id === actEnt);
+    const box = $("groups"); box.textContent = "";
+    let shown = 0;
+    for (const e of ents) {
+      const all = actions.filter(a => entOf(a) === e.id);
+      const list = all.filter(pick).sort((a, b) => isOverdue(b) - isOverdue(a) || order[st(a)] - order[st(b)] || a.createdAt - b.createdAt);
+      const files = attachments.filter(a => entOf(a) === e.id).sort((a, b) => b.ts - a.ts);
+      if (actEnt === "all" && !list.length && !files.length) continue;
+      shown++;
+      const g = el("section", "group");
+      const h = el("div", "ghead");
+      h.append(el("h3", null, e.name));
+      const c = el("div", "c");
+      const cnt = (s) => all.filter(a => st(a) === s).length;
+      c.append(el("span", null, `${all.filter(isOpen).length} not completed`), el("span", null, `${cnt("in_progress")} in progress`), el("span", null, `${cnt("follow_up")} follow up`), el("span", null, `${cnt("completed")} completed`));
+      const late = all.filter(isOverdue).length; if (late) c.append(el("span", "late", `${late} pending > 1 week`));
+      h.append(c); g.append(h);
+      const p = el("div", "panel");
+      if (list.length) p.append(itemsTable(list));
+      else p.append(el("div", "noitems", { active: "Nothing outstanding.", overdue: "Nothing pending for more than a week.", follow_up: "Nothing marked for follow up.", completed: "No completed items.", all: "No action items yet.", in_progress: "Nothing in progress." }[filter]));
+      if (files.length) { p.append(el("div", "sec", `Attachments (${files.length})`)); files.forEach(f => p.append(fileRow(f))); }
+      g.append(p); box.append(g);
+    }
+    if (!shown) box.append(el("div", "empty", filter === "overdue" ? "Nothing has been pending for more than a week. 🎉" : "No action items yet. Add one above, or use “⚑ Action item” on any message."));
+  }
+  async function addAction(title, owner, entityId, src = {}) {
+    const data = { title, owner, entityId, status: "open", resolution: "", createdAt: Date.now(), completedAt: null, createdBy: myId || null };
+    if (src.msg) Object.assign(data, { sourceMsgId: src.msg.id, sourceText: (src.msg.text || "").slice(0, 200), sourceRole: src.msg.role, sourceSubject: src.msg.subject || "" });
+    if (src.att) Object.assign(data, { sourceAttId: src.att.id, sourceAttName: src.att.name, sourceText: src.att.name });
+    await put("actions", uid(), data);
+    toast("Action item added");
+  }
+  $("addForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const t = $("addTitle").value.trim(); if (!t) return;
+    const src = pendingSource; pendingSource = null;
+    $("addTitle").value = "";
+    try { await addAction(t, $("addOwner").value, $("addEntity").value, src ? { msg: src } : {}); renderActions(true); }
+    catch (err) { $("addTitle").value = t; fail(err); }
+  });
+
+  // ---------- reminder ----------
+  function renderReminder() {
+    const r = $("reminder"); r.textContent = "";
+    const late = actions.filter(isOverdue);
+    const show = role === "provider" ? late : late.filter(a => a.owner === "provider");
+    if (!show.length) { r.classList.remove("show"); return; }
+    r.classList.add("show");
+    const head = el("div");
+    head.append(el("strong", null, role === "provider" ? "⏰ Reminder: " : "⏰ Waiting on the service provider: "),
+      document.createTextNode(`${show.length} action item${show.length === 1 ? " has" : "s have"} been open for more than a week.`));
+    const ul = el("ul");
+    show.sort((a, b) => a.createdAt - b.createdAt).slice(0, 6).forEach(a => ul.append(el("li", null, `${entName(entOf(a))} — ${a.title} (${daysOpen(a)} days · ${STATUS.find(s => s[0] === st(a))[1]} · ${ROLE[a.owner]})`)));
+    if (show.length > 6) ul.append(el("li", null, `…and ${show.length - 6} more`));
+    r.append(head, ul);
+    if (view !== "actions" || filter !== "overdue") {
+      const go = el("button", "link", "Review pending items →"); go.type = "button";
+      go.onclick = () => { actEnt = "all"; $("entFilter").value = "all"; setFilter("overdue"); setView("actions"); };
+      r.append(go);
+    }
+    if (role === "provider" && !remindedOnce) { remindedOnce = true; toast(`Reminder: ${show.length} item${show.length === 1 ? "" : "s"} pending over a week`); }
+  }
+
+  // ---------- Claude ----------
+  async function askJSON(prompt, opts) {
+    if (typeof sample.json === "function") return sample.json(prompt, opts);
+    const r = await sample(prompt, opts);
+    const m = r.text.match(/[\[{][\s\S]*[\]}]/); return JSON.parse(m ? m[0] : "null");
+  }
+  const sampleErr = (e) => {
+    if (e && e.code === "not_granted") { sample = null; $("extractBtn").hidden = true; renderActions(true); toast("Claude access wasn't granted."); }
+    else toast(e && e.code === "rate_limited" ? "Too many requests — try again in a minute." : "Claude couldn't finish that right now.");
+  };
+  async function analyse(att) {
+    if (busy.has(att.id)) return;
+    busy.add(att.id); renderActions(true);
+    try { await FN.aiSummarize({ clientId: entOf(att), attachmentId: att.id }); toast("Summary ready"); }
+    catch (e) { toast(fnErr(e)); }
+    finally { busy.delete(att.id); renderActions(true); }
+  }
+
+  function renderSuggestions() {
+    const box = $("suggest"); box.textContent = "";
+    if (!suggestions.length) { box.hidden = true; return; }
+    box.hidden = false;
+    box.append(el("h3", null, "Suggested from the conversation"));
+    suggestions.forEach((s, i) => {
+      const row = el("div", "sugrow");
+      const left = el("div");
+      left.append(el("span", null, s.title + " "), el("span", "tag", ROLE[s.owner]), el("span", "small muted", "  " + entName(s.entityId)));
+      const btns = el("div"); btns.style.display = "flex"; btns.style.gap = "6px";
+      const add = el("button", "btn sm", "Add"); add.type = "button";
+      add.onclick = async () => {
+        const msg = messages.find(m => m.id === s.sourceMsgId);
+        try { await addAction(s.title, s.owner, s.entityId, msg ? { msg } : {}); suggestions.splice(i, 1); renderSuggestions(); } catch (e) { fail(e); }
+      };
+      const skip = el("button", "btn ghost sm", "Dismiss"); skip.type = "button";
+      skip.onclick = () => { suggestions.splice(i, 1); renderSuggestions(); };
+      btns.append(add, skip); row.append(left, btns); box.append(row);
+    });
+  }
+  $("extractBtn").onclick = async () => {
+    const ids = actEnt === "all" ? entities.map(e => e.id) : [actEnt];
+    if (!ids.length || !messages.some(m => ids.includes(entOf(m)))) { toast("There's no conversation to read yet."); return; }
+    const btn = $("extractBtn"); btn.disabled = true; btn.textContent = "Reading conversation…";
+    try {
+      const out = await FN.aiSuggestActions({ clientIds: ids.slice(0, 20) });
+      suggestions = (out && out.suggestions) || [];
+      if (!suggestions.length) toast("No new action items found.");
+      renderSuggestions();
+    } catch (e) { toast(fnErr(e)); }
+    finally { btn.disabled = false; btn.textContent = "✦ Suggest items from conversation"; }
+  };
+
+
+  // ---------- access: Firebase sign-in, users, admin ----------
+  let platformReady = false, authReady = false, loginError = "", loginInfo = "", mustChange = false, failCount = 0, lockUntil = 0;
+  let meUnsub = null, usersUnsub = null;
+  const ROLE_NAME = (u) => [u.firstName, u.lastName].filter(Boolean).join(" ") || u.email || "Someone";
+  const fullName = ROLE_NAME;
+  const normEmail = (e) => String(e || "").trim().toLowerCase();
+  const validEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  const pwProblem = (pw) => pw.length < 10 ? "Use at least 10 characters." : !/[A-Za-z]/.test(pw) || !/[0-9]/.test(pw) ? "Use letters and at least one number." : "";
+  const fnErr = (e) => (e && e.message ? String(e.message).replace(/^Firebase:\s*/, "").replace(/\s*\(.*\)\.?$/, "") : "Something went wrong.");
+
+  function myRole() { return me && (me.role === "client" || me.role === "provider") ? me.role : null; }
+  const canDash = () => myRole() === "provider";
+  function rebuildMembers() { const mm = {}; users.forEach(u => { mm[u.id] = { role: u.role, name: ROLE_NAME(u), email: u.email }; }); members = mm; }
+
+  function accessState() {
+    if (!platformReady || !authReady) return "checking";
+    if (!fbUser) return "login";
+    if (me === undefined) return "checking";
+    if (!me) return "denied";
+    if (mustChange || me.mustChangePassword) return "login";
+    return myRole() ? "member" : "denied";
+  }
+
+  function field(label, type, value, attrs = {}) {
+    const l = el("label", "lf"); l.append(el("span", null, label));
+    const i = el("input"); i.type = type; i.value = value || ""; Object.assign(i, attrs); l.append(i);
+    return [l, i];
+  }
+  let forgotMode = false;
+  function renderLogin() {
+    const box = $("login"); box.textContent = "";
+    const card = el("div", "lcard");
+    const hd = el("div", "lhead");
+    const changing = !!(fbUser && me && (mustChange || me.mustChangePassword));
+    hd.append(el("div", "logo", "✉"), el("h1", null, PORTAL_NAME),
+      el("p", null, changing ? "Choose your own password" : forgotMode ? "Reset your password" : "Sign in with your email address and password."));
+    const bd = el("div", "lbody"); card.append(hd, bd); box.append(card);
+    if (loginError) bd.append(el("div", "lerr", loginError));
+    if (loginInfo) bd.append(el("div", "linfo", loginInfo));
+    const f = el("form", "lform");
+
+    if (changing) {
+      const [l0, e0] = field("Login ID (email)", "email", fbUser.email, { readOnly: true, autocomplete: "username" });
+      const [l1, p1] = field("New password", "password", "", { required: true, autocomplete: "new-password", minLength: 10 });
+      const [l2, p2] = field("Confirm new password", "password", "", { required: true, autocomplete: "new-password" });
+      f.append(l0, l1, l2, el("div", "muted small", "At least 10 characters, with letters and at least one number."));
+      const b = el("button", "btn", "Save password and continue"); b.type = "submit"; f.append(b);
+      f.onsubmit = async (e) => {
+        e.preventDefault();
+        const prob = pwProblem(p1.value); if (prob) { loginError = prob; return renderLogin(); }
+        if (p1.value !== p2.value) { loginError = "The passwords don't match."; return renderLogin(); }
+        b.disabled = true; b.textContent = "Saving…";
+        try {
+          await FB.updatePassword(fbUser, p1.value);
+          await FB.updateDoc(FB.doc(fdb, "portal_users", fbUser.uid), { mustChangePassword: false, passwordSetAt: Date.now() });
+          mustChange = false; loginError = ""; loginInfo = "";
+          view = myRole() === "provider" ? "dash" : "chat"; renderAll(); setView(view); toast("Password saved — welcome!");
+        } catch (err) {
+          console.error(err);
+          loginError = err && err.code === "auth/requires-recent-login" ? "For security, please sign in again with your temporary password, then choose a new one." : "Couldn't save your password: " + fnErr(err);
+          if (err && err.code === "auth/requires-recent-login") await FB.signOut(fbAuth);
+          renderLogin();
+        }
+      };
+      bd.append(f);
+      const so = el("button", "linkbtn", "Sign out"); so.type = "button"; so.onclick = () => $("signOutBtn").click(); bd.append(so);
+      return;
+    }
+
+    if (forgotMode) {
+      const [l0, e0] = field("Email (login ID)", "email", "", { required: true, autocomplete: "username" });
+      f.append(l0);
+      const b = el("button", "btn", "Email me a reset link"); b.type = "submit"; f.append(b);
+      f.onsubmit = async (e) => {
+        e.preventDefault(); b.disabled = true;
+        try { await FB.sendPasswordResetEmail(fbAuth, normEmail(e0.value)); } catch (err) { console.warn(err); }
+        loginError = ""; loginInfo = "If that email has a portal account, a password reset link is on its way. Check your inbox (and spam folder)."; forgotMode = false; renderLogin();
+      };
+      bd.append(f);
+      const back = el("button", "linkbtn", "Back to sign in"); back.type = "button"; back.onclick = () => { forgotMode = false; loginError = ""; loginInfo = ""; renderLogin(); }; bd.append(back);
+      setTimeout(() => e0.focus(), 30);
+      return;
+    }
+
+    const [l0, e0] = field("Email (login ID)", "email", ls.get("ws-last-email", ""), { required: true, autocomplete: "username" });
+    const [l1, p1] = field("Password", "password", "", { required: true, autocomplete: "current-password" });
+    f.append(l0, l1);
+    const b = el("button", "btn", "Sign in"); b.type = "submit"; f.append(b);
+    f.onsubmit = async (e) => {
+      e.preventDefault();
+      if (Date.now() < lockUntil) { loginError = `Too many attempts. Try again in ${Math.ceil((lockUntil - Date.now()) / 1000)} seconds.`; return renderLogin(); }
+      const email = normEmail(e0.value);
+      b.disabled = true; b.textContent = "Signing in…";
+      try {
+        await FB.signInWithEmailAndPassword(fbAuth, email, p1.value.trim());
+        ls.set("ws-last-email", email); loginError = ""; loginInfo = ""; failCount = 0;
+      } catch (err) {
+        const c = err && err.code;
+        if (c === "auth/too-many-requests") loginError = "Too many attempts. Please wait a few minutes, or reset your password.";
+        else if (c === "auth/network-request-failed") loginError = "Can't reach the server. Check your internet connection.";
+        else { loginError = "Email or password is incorrect."; if (++failCount >= 5) { lockUntil = Date.now() + 30000; failCount = 0; } }
+        renderLogin();
+      }
+    };
+    bd.append(f);
+    const links = el("div", "llinks");
+    const forgot = el("button", "linkbtn", "Forgot password?"); forgot.type = "button";
+    forgot.onclick = () => { forgotMode = true; loginError = ""; loginInfo = ""; renderLogin(); };
+    links.append(forgot); bd.append(links);
+    bd.append(el("div", "lfoot", "First time here? Use the temporary password from your invitation email — you'll choose your own password right after."));
+    setTimeout(() => (e0.value ? p1 : e0).focus(), 30);
+  }
+
+  $("signOutBtn").onclick = async () => {
+    stopData(); compose = null; renderCompose(); loginError = ""; loginInfo = ""; forgotMode = false; mustChange = false;
+    document.querySelectorAll(".modal").forEach(m => m.remove());
+    try { await FB.signOut(fbAuth); } catch {}
+    toast("Signed out");
+  };
+
+  function applyAccess() {
+    const state = accessState();
+    document.body.classList.toggle("loginmode", state === "login");
+    if (state === "login" && !document.querySelector("#login input:focus")) renderLogin();
+    $("roleToggle").hidden = true;
+    $("signOutBtn").hidden = state === "checking" || state === "login";
+    $("dashTab").hidden = !(state === "member" && canDash());
+    if (view === "dash" && $("dashTab").hidden && state === "member") setView("chat");
+    const r = myRole();
+    if (r && r !== role) role = r;
+    $("accessBtn").hidden = !(me && me.isAdmin && state === "member");
+    readOnly = state !== "member";
+    document.body.classList.toggle("readonly", readOnly);
+    document.body.classList.toggle("gated", state !== "member");
+    $("roleBadge").hidden = state !== "member";
+    $("roleBadgeText").textContent = me && r ? `${ROLE_NAME(me)} · ${me.isAdmin ? "Admin" : ROLE[r]}` : "";
+    $("notice").classList.remove("show");
+    const g = $("gate"); g.textContent = "";
+    if (state === "checking") g.append(el("div", "big", "⏳"), el("h2", null, "Loading…"));
+    else if (state === "denied") {
+      g.append(el("div", "big", "🔒"), el("h2", null, "You don't have access to this portal"),
+        el("p", null, "Your account isn't on the portal's user list. Ask the portal administrator to add you — you'll get an email with sign-in instructions."));
+      const so = el("button", "btn ghost", "Sign out"); so.type = "button"; so.onclick = () => $("signOutBtn").click(); g.append(so);
+      if (compose) { compose = null; renderCompose(); }
+    }
+    if (state === "member") startData(); else if (state === "denied" || state === "login") stopData();
+  }
+
+  // ----- admin: manage users -----
+  $("accessBtn").onclick = () => openAccess();
+  function userStatus(u) {
+    if (u.mustChangePassword) return u.resetAt && u.passwordSetAt ? ["Reset sent", fmtDate(u.resetAt)] : ["Invited", "not signed in yet"];
+    return ["Active", u.passwordSetAt ? "since " + fmtDate(u.passwordSetAt) : ""];
+  }
+  function editAccess(u) {
+    const m = el("div", "modal"); const box = el("div", "box"); box.style.width = "min(460px,100%)"; m.append(box);
+    const hd = el("div", "mhd"); hd.append(el("b", null, `Client access — ${ROLE_NAME(u)}`));
+    const bd = el("div", "mbd");
+    const allL = el("label", "chk"); const all = el("input"); all.type = "checkbox"; all.checked = !!u.allClients; allL.append(all, el("b", null, "All clients (including new ones)"));
+    bd.append(allL);
+    const boxes = [];
+    rawEntities.slice().sort((a, b) => a.name.localeCompare(b.name)).forEach(e => {
+      const l = el("label", "chk"); const c = el("input"); c.type = "checkbox"; c.value = e.id; c.checked = (u.clientIds || []).includes(e.id);
+      l.append(c, el("span", null, e.name)); bd.append(l); boxes.push(c);
+    });
+    if (!rawEntities.length) bd.append(el("p", "muted", "No clients yet — add them from the Dashboard."));
+    const sync = () => boxes.forEach(c => { c.disabled = all.checked; }); all.onchange = sync; sync();
+    const ft = el("div", "mft"); const g = el("div", "g"); const g2 = el("div", "g");
+    const cancel = el("button", "btn ghost", "Cancel"); cancel.type = "button"; cancel.onclick = () => m.remove();
+    const save = el("button", "btn", "Save access"); save.type = "button";
+    save.onclick = async () => {
+      const ids = all.checked ? [] : boxes.filter(c => c.checked).map(c => c.value);
+      if (ids.length > 30) { toast("Pick up to 30 clients, or choose All clients."); return; }
+      save.disabled = true;
+      try { await FB.updateDoc(FB.doc(fdb, "portal_users", u.id), { allClients: all.checked, clientIds: ids }); toast("Access updated"); m.remove(); }
+      catch (e) { fail(e); save.disabled = false; }
+    };
+    g2.append(cancel, save); ft.append(g, g2);
+    box.append(hd, bd, ft); document.body.append(m);
+  }
+  async function openAccess() {
+    if (!me || !me.isAdmin) return;
+    const m = el("div", "modal"); const box = el("div", "box"); box.style.width = "min(1000px,100%)"; m.append(box);
+    const hd = el("div", "mhd"); hd.append(el("b", null, "👥 Manage users"));
+    const close = el("button", "btn ghost sm", "Close"); close.type = "button";
+    const shut = () => { m.remove(); document.removeEventListener("keydown", esc); openAccess.refresh = null; };
+    const esc = (e) => { if (e.key === "Escape" && !document.querySelectorAll(".modal")[1]) shut(); };
+    close.onclick = shut; document.addEventListener("keydown", esc);
+    hd.append(close);
+    const bd = el("div", "mbd acc"); box.append(hd, bd); document.body.append(m);
+
+    const adm = el("div", "adminrow");
+    adm.append(el("span", "spill active", "Admin"), el("span", null, `${ROLE_NAME(me)} — ${me.email || ""}`), el("span", "muted small", "You're the administrator: Service Provider access to every client, and you receive Service Provider notifications."));
+    bd.append(adm);
+
+    bd.append(el("h3", null, "Add a user"));
+    const f = el("form", "adduser");
+    const fn = el("input"); fn.type = "text"; fn.placeholder = "First name"; fn.required = true; fn.maxLength = 60;
+    const ln = el("input"); ln.type = "text"; ln.placeholder = "Last name"; ln.required = true; ln.maxLength = 60;
+    const em = el("input"); em.type = "email"; em.placeholder = "Email address (login ID)"; em.required = true;
+    const rl = el("select"); rl.append(new Option("Client", "client"), new Option("Service Provider", "provider"));
+    const ac = el("select"); ac.setAttribute("aria-label", "Client access");
+    const fillAc = () => { const keep = ac.value; ac.textContent = ""; ac.append(new Option("All clients", "*")); rawEntities.slice().sort((a, b) => a.name.localeCompare(b.name)).forEach(e => ac.append(new Option(e.name, e.id))); ac.value = keep && [...ac.options].some(o => o.value === keep) ? keep : (rl.value === "provider" || ac.options.length === 1 ? "*" : ac.options[1].value); };
+    fillAc(); rl.onchange = () => { ac.value = rl.value === "provider" ? "*" : (ac.options[1] ? ac.options[1].value : "*"); };
+    const ab = el("button", "btn", "Add user & email invitation"); ab.type = "submit";
+    f.append(fn, ln, em, rl, ac, ab); bd.append(f);
+    bd.append(el("div", "small muted", "The person gets an email with the portal link, their login ID and a temporary password. Client access decides which client workspaces they can see — you can change it later below."));
+    f.onsubmit = async (e) => {
+      e.preventDefault();
+      const email = normEmail(em.value);
+      if (!validEmail(email)) { toast("Enter a valid email address."); return; }
+      ab.disabled = true; ab.textContent = "Adding…";
+      try {
+        const res = await FN.createUser({ firstName: fn.value.trim(), lastName: ln.value.trim(), email, role: rl.value, allClients: ac.value === "*", clientIds: ac.value === "*" ? [] : [ac.value] });
+        toast(res && res.existingAccount ? `${email} already had an account — they were emailed to sign in with their existing password` : `Invitation emailed to ${email}`);
+        fn.value = ln.value = em.value = "";
+      } catch (err) { toast(fnErr(err)); }
+      finally { ab.disabled = false; ab.textContent = "Add user & email invitation"; }
+    };
+
+    bd.append(el("h3", null, "Users"));
+    const wrap = el("div", "tw"); bd.append(wrap);
+    const draw = () => {
+      if (!document.body.contains(m)) return;
+      wrap.textContent = "";
+      const list = users.filter(u => !u.isAdmin).sort((a, b) => ROLE_NAME(a).localeCompare(ROLE_NAME(b)));
+      if (!list.length) { wrap.append(el("p", "muted", "No users yet. Add the first one above.")); return; }
+      const t = el("table", "ut");
+      const hr = el("tr"); ["Name", "Email (login ID)", "Role", "Client access", "Status", ""].forEach(h => hr.append(el("th", null, h)));
+      const th = el("thead"); th.append(hr); t.append(th);
+      const tb = el("tbody");
+      list.forEach(u => {
+        const tr = el("tr");
+        tr.append(el("td", "t", ROLE_NAME(u)), el("td", null, u.email || "—"));
+        const tdR = el("td"); const sel = el("select"); sel.append(new Option("Client", "client"), new Option("Service Provider", "provider")); sel.value = u.role;
+        sel.onchange = () => FB.updateDoc(FB.doc(fdb, "portal_users", u.id), { role: sel.value }).then(() => toast("Role updated")).catch(fail); tdR.append(sel); tr.append(tdR);
+        const tdC = el("td"); const nm = u.allClients ? "All clients" : (u.clientIds || []).map(id => (rawEntities.find(e => e.id === id) || {}).name).filter(Boolean).join(", ") || "No clients";
+        const accb = el("button", "accbtn", nm + " ✎"); accb.type = "button"; accb.title = "Change which clients this person can access";
+        accb.onclick = () => editAccess(u); tdC.append(accb); tr.append(tdC);
+        const [s1, s2] = userStatus(u);
+        const tdS = el("td"); tdS.append(el("span", "spill " + (s1 === "Active" ? "active" : s1 === "Invited" ? "onboarding" : "on_hold"), s1), el("div", "small muted", s2)); tr.append(tdS);
+        const tdA = el("td"); tdA.style.whiteSpace = "nowrap";
+        const rs = el("button", "btn ghost sm", s1 === "Invited" ? "Resend invite" : "Reset password"); rs.type = "button";
+        rs.onclick = async () => { rs.disabled = true; try { await FN.resendInvite({ uid: u.id }); toast(`New temporary password emailed to ${u.email}`); } catch (e) { toast(fnErr(e)); } finally { rs.disabled = false; } };
+        const rm = el("button", "btn ghost sm", "Remove"); rm.type = "button";
+        let armed = false;
+        rm.onclick = async () => {
+          if (!armed) { armed = true; rm.textContent = "Confirm remove"; rm.classList.remove("ghost"); setTimeout(() => { armed = false; rm.textContent = "Remove"; rm.classList.add("ghost"); }, 4000); return; }
+          rm.disabled = true;
+          try { await FN.deleteUser({ uid: u.id }); toast("User removed"); } catch (e) { toast(fnErr(e)); rm.disabled = false; }
+        };
+        tdA.append(rs, document.createTextNode(" "), rm); tr.append(tdA);
+        tb.append(tr);
+      });
+      t.append(tb); wrap.append(t);
+    };
+    openAccess.refresh = () => { fillAc(); draw(); }; draw();
+    setTimeout(() => fn.focus(), 30);
+  }
+
+  // ---------- dashboard ----------
+  const CSTATUS = { active: "Active", onboarding: "Onboarding", on_hold: "On hold", closed: "Closed" };
+  const rel = (ts) => { if (!ts) return "—"; const d = Math.floor((Date.now() - ts) / DAY); return d <= 0 ? "Today" : d === 1 ? "Yesterday" : d < 30 ? `${d} days ago` : fmtDate(ts); };
+  function clientStats(id) {
+    const its = actions.filter(a => entOf(a) === id);
+    const msgs = messages.filter(m => entOf(m) === id);
+    const files = attachments.filter(a => entOf(a) === id);
+    const last = Math.max(0, ...msgs.map(m => m.ts), ...its.map(a => a.createdAt));
+    return { open: its.filter(isOpen).length, late: its.filter(isOverdue).length,
+      done: its.filter(a => st(a) === "completed").length, follow: its.filter(a => st(a) === "follow_up").length,
+      msgs: msgs.length, files: files.length, last: last || null };
+  }
+  function kpi(label, value, sub, alert) {
+    const k = el("div", "panel kpi" + (alert ? " alert" : ""));
+    k.append(el("div", "k", label), el("div", "v", String(value)), el("div", "s", sub || ""));
+    return k;
+  }
+  function renderDash() {
+    if ($("addClientBtn")) $("addClientBtn").hidden = !myAccess().all;
+    if (view !== "dash" || !$("view-dash") || $("view-dash").hidden) return;
+    if (document.querySelector(".modal .cform")) return;
+    const clients = entities.slice();
+    const k = $("kpis"); k.textContent = "";
+    const active = clients.filter(c => (c.status || "active") === "active").length;
+    const open = actions.filter(isOpen).length, late = actions.filter(isOverdue).length;
+    const done30 = actions.filter(a => st(a) === "completed" && a.completedAt && Date.now() - a.completedAt < 30 * DAY).length;
+    const msg7 = messages.filter(m => Date.now() - m.ts < 7 * DAY).length;
+    const renew = clients.filter(c => c.renewalDate && (new Date(c.renewalDate) - Date.now()) / DAY <= 60 && new Date(c.renewalDate) >= new Date(new Date().toDateString())).length;
+    k.append(kpi("Active clients", active, `${clients.length} client${clients.length === 1 ? "" : "s"} in total`),
+      kpi("Open action items", open, `${actions.filter(a => st(a) === "in_progress").length} in progress · ${actions.filter(a => st(a) === "follow_up").length} follow up`),
+      kpi("Pending > 1 week", late, late ? "Needs the provider's attention" : "Nothing overdue", late > 0),
+      kpi("Completed (30 days)", done30, "Action items closed"),
+      kpi("Messages (7 days)", msg7, "Across all clients"),
+      kpi("Renewals (60 days)", renew, renew ? "Contracts coming up" : "None due soon"));
+    const q = $("cSearch").value.trim().toLowerCase(), sf = $("cStatus").value;
+    const rows = clients.filter(c => (sf === "all" || (c.status || "active") === sf) &&
+      (!q || [c.name, c.contactName, c.contactEmail, c.industry, c.accountManager].some(x => (x || "").toLowerCase().includes(q))))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    const t = $("clTable"); t.textContent = "";
+    const hr = el("tr");
+    [["Client"], ["Primary contact"], ["Status"], ["Account manager"], ["Open items", "num"], ["Pending > 1 wk", "num"], ["Messages", "num"], ["Last activity"], ["Renewal"]].forEach(([h, c]) => hr.append(el("th", c || null, h)));
+    const th = el("thead"); th.append(hr); t.append(th);
+    const tb = el("tbody");
+    if (!rows.length) { const tr = el("tr"); const td = el("td", "muted", clients.length ? "No clients match." : "No clients yet — use “+ Add client”."); td.colSpan = 9; tr.append(td); tb.append(tr); }
+    rows.forEach(c => {
+      const s = clientStats(c.id);
+      const tr = el("tr"); tr.tabIndex = 0; tr.title = "Open client details";
+      const c1 = el("td"); c1.append(el("div", "nm", c.name), el("div", "small muted", c.industry || "")); tr.append(c1);
+      const c2 = el("td"); c2.append(el("div", null, c.contactName || "—"), el("div", "small muted", [c.contactEmail, c.contactPhone].filter(Boolean).join(" · "))); tr.append(c2);
+      const c3 = el("td"); const stv = c.status || "active"; c3.append(el("span", "spill " + stv, CSTATUS[stv])); tr.append(c3);
+      tr.append(el("td", null, c.accountManager || "—"));
+      tr.append(el("td", "num", String(s.open)));
+      const c6 = el("td", "num"); c6.append(s.late ? el("span", "tag late", String(s.late)) : el("span", "muted", "0")); tr.append(c6);
+      tr.append(el("td", "num", String(s.msgs)));
+      tr.append(el("td", "small", rel(s.last)));
+      const c9 = el("td", "small");
+      if (c.renewalDate) { const dd = Math.ceil((new Date(c.renewalDate) - Date.now()) / DAY); c9.append(el("span", dd >= 0 && dd <= 60 ? "renew-soon" : null, new Date(c.renewalDate + "T12:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }))); if (dd >= 0 && dd <= 60) c9.append(el("div", "small muted", `in ${dd} day${dd === 1 ? "" : "s"}`)); }
+      else c9.append(el("span", "muted", "—"));
+      tr.append(c9);
+      tr.onclick = () => openClient(c); tr.onkeydown = (e) => { if (e.key === "Enter") openClient(c); };
+      tb.append(tr);
+    });
+    t.append(tb);
+  }
+  $("cSearch").addEventListener("input", renderDash);
+  $("cStatus").addEventListener("change", renderDash);
+  $("addClientBtn").onclick = () => openClient(null);
+  const FIELDS = [["name", "Client / company name", "text", true], ["industry", "Industry", "text"], ["status", "Status", "status"], ["accountManager", "Account manager (provider side)", "text"],
+    ["contactName", "Primary contact", "text"], ["contactTitle", "Contact title", "text"], ["contactEmail", "Contact email", "text"], ["contactPhone", "Contact phone", "text"],
+    ["address", "Address", "text", false, true], ["startDate", "Contract start", "date"], ["renewalDate", "Renewal date", "date"], ["notes", "Notes", "textarea", false, true]];
+  function openClient(c) {
+    if (!canDash()) return;
+    const m = el("div", "modal"); const box = el("div", "box"); box.style.width = "min(760px,100%)"; m.append(box);
+    const hd = el("div", "mhd"); hd.append(el("b", null, c ? c.name : "Add client"));
+    const x = el("button", "btn ghost sm", "Close"); x.type = "button"; hd.append(x);
+    const bd = el("div", "mbd");
+    const form = el("form", "cform"); form.id = "clientForm";
+    const shut = () => { m.remove(); document.removeEventListener("keydown", esc); renderDash(); };
+    const esc = (e) => { if (e.key === "Escape") shut(); };
+    x.onclick = shut; m.onclick = (e) => { if (e.target === m) shut(); }; document.addEventListener("keydown", esc);
+    if (c) {
+      const s = clientStats(c.id);
+      const cs = el("div", "cstats");
+      [["Open items", s.open], ["Pending > 1 wk", s.late], ["Follow up", s.follow], ["Completed", s.done], ["Messages", s.msgs], ["Attachments", s.files]].forEach(([l, v]) => { const d = el("div"); d.append(el("b", null, String(v)), document.createTextNode(l)); cs.append(d); });
+      bd.append(cs);
+    }
+    const inputs = {};
+    FIELDS.forEach(([key, label, type, req, full]) => {
+      const lab = el("label", full ? "full" : null, label + (req ? " *" : ""));
+      let inp;
+      if (type === "status") { inp = el("select"); Object.entries(CSTATUS).forEach(([v, l]) => inp.append(new Option(l, v))); inp.value = (c && c.status) || "active"; }
+      else if (type === "textarea") { inp = el("textarea"); inp.value = (c && c[key]) || ""; }
+      else { inp = el("input"); inp.type = type === "date" ? "date" : "text"; inp.value = (c && c[key]) || ""; if (key === "contactEmail") inp.type = "email"; }
+      if (req) inp.required = true;
+      inp.maxLength = type === "textarea" ? 2000 : 200;
+      inputs[key] = inp; lab.append(inp); form.append(lab);
+    });
+    bd.append(form);
+    const ft = el("div", "mft");
+    const g1 = el("div", "g"), g2 = el("div", "g");
+    if (c) {
+      const oc = el("button", "btn ghost", "✉ Open conversation"); oc.type = "button";
+      oc.onclick = () => { shut(); curEnt = c.id; ls.set("ws-ent", c.id); selThread = null; setView("chat"); renderAll(); };
+      const oa = el("button", "btn ghost", "☑ View action items"); oa.type = "button";
+      oa.onclick = () => { shut(); actEnt = c.id; $("entFilter").value = c.id; setFilter("active"); setView("actions"); };
+      g1.append(oc, oa);
+    }
+    const cancel = el("button", "btn ghost", "Cancel"); cancel.type = "button"; cancel.onclick = shut;
+    const save = el("button", "btn", c ? "Save changes" : "Add client"); save.type = "submit"; save.setAttribute("form", "clientForm");
+    g2.append(cancel, save); ft.append(g1, g2);
+    box.append(hd, bd, ft); document.body.append(m);
+    setTimeout(() => inputs.name.focus(), 30);
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const data = {}; FIELDS.forEach(([k]) => data[k] = inputs[k].value.trim());
+      if (!data.name) return;
+      if (allEnts().some(x => x.id !== (c && c.id) && x.name.toLowerCase() === data.name.toLowerCase())) { toast("A client with that name already exists."); return; }
+      save.disabled = true;
+      try {
+        if (c) await patch("entities", c.id, Object.assign(data, { updatedAt: Date.now() }));
+        else await put("entities", "e-" + uid(), Object.assign(data, { createdAt: Date.now(), createdBy: myId || null }));
+        toast(c ? "Client updated" : "Client added"); shut();
+      } catch (err) { fail(err); save.disabled = false; }
+    };
+  }
+
+  // ---------- names ----------
+  async function resolveNames() {
+    if (!user || typeof user.profiles !== "function") return;
+    const ids = [...new Set(messages.map(m => m.authorId).filter(Boolean))];
+    if (!ids.length) return;
+    try {
+      const ps = await user.profiles(ids); let changed = false;
+      for (const id of ids) { const n = (ps && ps[id] && ps[id].name) || ""; if (n && names[id] !== n) { names[id] = n; changed = true; } }
+      if (changed) renderChat();
+    } catch {}
+  }
+
+  function renderAll() { applyAccess(); renderEntities(); renderChat(); renderActions(); renderReminder(); renderDash(); }
+
+  // ---------- live data (Firestore) ----------
+  const clientSubs = {};      // cid -> [unsub, ...]
+  const perClient = {};       // cid -> { messages, attachments, actions }
+  let clientsUnsub = [], clientDocs = {};
+  function rebuildData() {
+    rawEntities = Object.values(clientDocs).filter(Boolean);
+    rawMessages = []; rawAttachments = []; rawActions = [];
+    for (const [cid, d] of Object.entries(perClient)) {
+      rawMessages.push(...d.messages); rawAttachments.push(...d.attachments); rawActions.push(...d.actions);
+    }
+    rawMessages.sort((a, b) => a.ts - b.ts);
+    applyScope(); renderAll();
+  }
+  const withEnt = (snap, cid) => snap.docs.map(d => Object.assign({ id: d.id }, d.data(), { entityId: cid }));
+  function syncClientSubs(ids) {
+    for (const cid of Object.keys(clientSubs)) if (!ids.includes(cid)) { clientSubs[cid].forEach(u => u()); delete clientSubs[cid]; delete perClient[cid]; }
+    for (const cid of ids) {
+      if (clientSubs[cid]) continue;
+      perClient[cid] = { messages: [], attachments: [], actions: [] };
+      const onErr = (what) => (e) => { console.warn(what, cid, e); };
+      clientSubs[cid] = ["messages", "attachments", "actions"].map(k =>
+        FB.onSnapshot(FB.collection(fdb, "portal_clients", cid, k), s => { if (perClient[cid]) { perClient[cid][k] = withEnt(s, cid); rebuildData(); } }, onErr(k)));
+    }
+  }
+  function startData() {
+    if (dataOn || !me) return;
+    dataOn = true;
+    const acc = myAccess();
+    if (acc.all) {
+      clientsUnsub = [FB.onSnapshot(FB.collection(fdb, "portal_clients"), s => {
+        clientDocs = {}; s.docs.forEach(d => { clientDocs[d.id] = Object.assign({ id: d.id }, d.data()); });
+        syncClientSubs(Object.keys(clientDocs)); rebuildData();
+      }, e => { console.error(e); status("Couldn't load clients."); })];
+    } else {
+      const ids = [...acc.set];
+      clientDocs = {};
+      clientsUnsub = ids.map(cid => FB.onSnapshot(FB.doc(fdb, "portal_clients", cid), d => {
+        clientDocs[cid] = d.exists() ? Object.assign({ id: d.id }, d.data()) : null; rebuildData();
+      }, e => console.warn("client", cid, e)));
+      syncClientSubs(ids);
+      rebuildData();
+    }
+    if (me.isAdmin || me.role === "provider") {
+      usersUnsub = FB.onSnapshot(FB.collection(fdb, "portal_users"), s => {
+        users = s.docs.map(d => Object.assign({ id: d.id }, d.data())); rebuildMembers(); renderAll(); if (openAccess.refresh) openAccess.refresh();
+      }, e => console.warn("users", e));
+    }
+  }
+  function stopData() {
+    if (!dataOn) return;
+    clientsUnsub.forEach(u => { try { u(); } catch {} }); clientsUnsub = [];
+    if (usersUnsub) { try { usersUnsub(); } catch {} usersUnsub = null; }
+    syncClientSubs([]); clientDocs = {}; users = []; members = {};
+    dataOn = false;
+    entities = []; messages = []; actions = []; attachments = []; rawEntities = []; rawMessages = []; rawActions = []; rawAttachments = []; selThread = null;
+  }
+  // access changed (e.g. admin granted a new client) -> restart the listeners
+  let lastAccessKey = "";
+  function accessKey() { const a = myAccess(); return me ? `${me.role}|${a.all}|${[...a.set].sort().join(",")}` : ""; }
+
+  // ---------- boot ----------
+  setInterval(() => { renderActions(); renderReminder(); renderEntities(); renderDash(); }, 60 * 1000);
+  if (!CONFIG_OK) {
+    platformReady = true; authReady = true;
+    document.body.classList.add("loginmode");
+    $("login").textContent = "";
+    const card = el("div", "lcard"); const hd = el("div", "lhead"); hd.append(el("div", "logo", "⚙"), el("h1", null, "Almost there"), el("p", null, "This portal hasn't been connected to Firebase yet."));
+    const bd = el("div", "lbody"); bd.append(el("p", null, "The portal couldn't load its Firebase settings. Open it from its .web.app address, or check the latest run under GitHub > Actions > Deploy Client Portal."));
+    card.append(hd, bd); $("login").append(card);
+    return;
+  }
+  sample = {}; downloads = {};
+  $("extractBtn").hidden = false;
+  document.title = PORTAL_NAME; const h1 = document.querySelector(".topbar h1"); if (h1) h1.textContent = PORTAL_NAME;
+  platformReady = true;
+  setView(view);
+  db = fdb; shared = true;
+  renderAll();
+  FB.onAuthStateChanged(fbAuth, async (u) => {
+    fbUser = u; authReady = true; myId = u ? u.uid : null;
+    if (meUnsub) { meUnsub(); meUnsub = null; }
+    stopData(); me = u ? undefined : null; lastAccessKey = "";
+    renderAll();
+    if (!u) return;
+    // First sign-in of the administrator creates their profile.
+    try {
+      const snap = await FB.getDoc(FB.doc(fdb, "portal_users", u.uid));
+      if (!snap.exists()) { try { await FN.bootstrapAdmin({}); } catch (e) { console.info("not admin", e && e.message); } }
+    } catch (e) { console.warn(e); }
+    meUnsub = FB.onSnapshot(FB.doc(fdb, "portal_users", u.uid), (s) => {
+      me = s.exists() ? Object.assign({ id: s.id }, s.data()) : null;
+      if (me) { isAdmin = !!me.isAdmin; role = me.role; }
+      const k = accessKey();
+      if (k !== lastAccessKey) { lastAccessKey = k; stopData(); }
+      renderAll();
+      if (accessState() === "member" && view === "chat" && canDash() && !renderAll._landed) { renderAll._landed = true; setView("dash"); }
+    }, (e) => { console.error(e); me = null; renderAll(); });
+  });
+})();
+</script>
+</body>
+</html>

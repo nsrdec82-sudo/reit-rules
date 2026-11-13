@@ -119,6 +119,60 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // ===== Client Portal (client-portal/ in this repository) =====
+    // Its own collections only: portal_users/{uid} and portal_clients/{cid}/{messages|attachments|actions}.
+    // Nothing here applies to the REIT Rule Navigator's data.
+    function pHas() {
+      return request.auth != null && exists(/databases/$(database)/documents/portal_users/$(request.auth.uid));
+    }
+    function pMe() {
+      return get(/databases/$(database)/documents/portal_users/$(request.auth.uid)).data;
+    }
+    function pAdmin() { return pHas() && pMe().isAdmin == true; }
+    function pProvider() { return pHas() && pMe().role == 'provider'; }
+    function pAll() { return pHas() && (pMe().isAdmin == true || pMe().allClients == true); }
+    function pCan(cid) { return pHas() && (pAll() || cid in pMe().clientIds); }
+
+    // Portal people: admins manage everyone (accounts are created by the portal's server functions);
+    // providers can see the list (to know who gets notified); each person reads their own record
+    // and may only clear their own first-sign-in flag.
+    match /portal_users/{uid} {
+      allow read: if request.auth != null && (request.auth.uid == uid || pAdmin() || pProvider());
+      allow update: if pAdmin()
+        || (request.auth != null && request.auth.uid == uid
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['mustChangePassword', 'passwordSetAt', 'lastLoginAt'])
+            && request.resource.data.mustChangePassword == false);
+      allow create, delete: if false;
+    }
+
+    // Portal clients and everything inside them: only people given access to that client.
+    match /portal_clients/{cid} {
+      allow read: if pCan(cid);
+      allow create, update: if pAdmin() || (pProvider() && pAll());
+      allow delete: if pAdmin();
+
+      match /messages/{mid} {
+        allow read: if pCan(cid);
+        allow create: if pCan(cid)
+          && request.resource.data.authorId == request.auth.uid
+          && request.resource.data.role == pMe().role
+          && request.resource.data.entityId == cid;
+        allow update, delete: if pAdmin();
+      }
+      match /attachments/{aid} {
+        allow read: if pCan(cid);
+        allow create: if pCan(cid)
+          && request.resource.data.authorId == request.auth.uid
+          && request.resource.data.entityId == cid;
+        allow update, delete: if pAdmin();
+      }
+      match /actions/{aid} {
+        allow read: if pCan(cid);
+        allow create, update: if pCan(cid) && request.resource.data.entityId == cid;
+        allow delete: if pCan(cid) && (pProvider() || pAdmin());
+      }
+    }
+
     // Everything else is closed.
     match /{document=**} {
       allow read, write: if false;

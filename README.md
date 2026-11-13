@@ -4,6 +4,9 @@
   `https://raw.githubusercontent.com/snimmagadda-cpa/reit-navigator/main/rules.json`.
 - `firebase-site/`: the private REIT Rule Navigator website. Every change pushed to `main` under `firebase-site/` is published to
   Firebase Hosting (and the Firestore access rules) by `.github/workflows/deploy-firebase.yml`.
+- `client-portal/`: the Client Portal (client ↔ service-provider conversations, attachments and action items), on its own
+  Firebase Hosting site in the same project. Changes pushed to `main` under `client-portal/` publish automatically through
+  `.github/workflows/deploy-client-portal.yml`; see `client-portal/README.md`.
 
 ## One-time setup for automatic publishing
 

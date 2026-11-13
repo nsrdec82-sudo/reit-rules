@@ -1,0 +1,21 @@
+rules_version = '2';
+// Client Portal attachments. Access comes from the portal's sign-in claims
+// (set by the portalSyncClaims function from portal_users/{uid}):
+//   pa = true  -> all clients (admins and "All clients" users)
+//   pc = [ids] -> the client workspaces this person was given
+service firebase.storage {
+  match /b/{bucket}/o {
+    function canClient(cid) {
+      return request.auth != null
+        && (request.auth.token.get('pa', false) == true || cid in request.auth.token.get('pc', []));
+    }
+    match /portal/clients/{cid}/files/{rest=**} {
+      allow read: if canClient(cid);
+      allow create: if canClient(cid) && request.resource.size < 20 * 1024 * 1024;
+      allow update, delete: if false;
+    }
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

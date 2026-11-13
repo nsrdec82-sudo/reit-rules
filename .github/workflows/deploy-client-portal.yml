@@ -1,0 +1,86 @@
+# Publishes the Client Portal (client-portal/) to Firebase whenever it changes on main.
+# Uses the same two repository secrets as the REIT site (FIREBASE_SERVICE_ACCOUNT, FIREBASE_CONFIG_JS).
+# The portal lives on its own Hosting site, <project-id>-portal.web.app, created automatically on the first run.
+# Its database rules are in firebase-site/firestore.rules (one rules file per project) and publish with the REIT site.
+name: Deploy Client Portal
+on:
+  push:
+    branches: [main]
+    paths: ["client-portal/**", ".github/workflows/deploy-client-portal.yml"]
+  workflow_dispatch:
+concurrency:
+  group: client-portal-deploy
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client-portal
+    env:
+      FT: npx --yes firebase-tools@15.34.1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check the one-time setup
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          CFG: ${{ secrets.FIREBASE_CONFIG_JS }}
+        run: |
+          [ -n "$SA" ] || { echo "::error::Add the FIREBASE_SERVICE_ACCOUNT secret (see client-portal/README.md)."; exit 1; }
+          [ -n "$CFG" ] || { echo "::error::Add the FIREBASE_CONFIG_JS secret (see client-portal/README.md)."; exit 1; }
+      - name: Prepare settings
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          CFG: ${{ secrets.FIREBASE_CONFIG_JS }}
+          PORTAL_NAME: ${{ vars.PORTAL_NAME }}
+        run: |
+          printf '%s' "$SA" > "$RUNNER_TEMP/sa.json"
+          printf '%s\n' "$CFG" > "$RUNNER_TEMP/config.js"
+          # Read the web settings from the REIT site's config.js (window.FIREBASE_CONFIG = {...}).
+          node -e '
+            const vm = require("vm"); const fs = require("fs");
+            const w = {}; vm.runInNewContext(fs.readFileSync(process.argv[1], "utf8"), { window: w });
+            const c = w.FIREBASE_CONFIG || {};
+            if (!c.projectId || !c.apiKey) { console.error("FIREBASE_CONFIG_JS has no projectId/apiKey"); process.exit(1); }
+            fs.writeFileSync("public/config.json", JSON.stringify(c));
+            fs.appendFileSync(process.env.GITHUB_ENV, "PID=" + c.projectId + "\n");
+          ' "$RUNNER_TEMP/config.js"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/sa.json" >> "$GITHUB_ENV"
+          echo "PORTAL_NAME=${PORTAL_NAME:-Client Portal}" >> "$GITHUB_ENV"
+      - name: Create the portal's Hosting site (first run only)
+        run: |
+          SITE="${PID}-portal"
+          if $FT hosting:sites:get "$SITE" --project "$PID" >/dev/null 2>&1; then
+            echo "Site $SITE exists."
+          else
+            $FT hosting:sites:create "$SITE" --project "$PID" --non-interactive
+          fi
+          $FT target:apply hosting portal "$SITE" --project "$PID"
+          echo "SITE=$SITE" >> "$GITHUB_ENV"
+          sed -i "s/export const PORTAL_NAME = \".*\";/export const PORTAL_NAME = \"${PORTAL_NAME//\"/}\";/" public/firebase-config.js
+      - name: Publish the website
+        run: $FT deploy --only hosting:portal --project "$PID" --non-interactive --force
+      - name: Publish the file-storage rules
+        run: |
+          $FT deploy --only storage --project "$PID" --non-interactive --force || {
+            echo "::warning::Storage rules weren't published. In the Firebase console open Build > Storage > Get started once, then re-run this workflow."; exit 1; }
+      - name: Publish the server functions
+        run: |
+          cat > "functions/.env.$PID" <<ENVEOF
+          PORTAL_URL=https://${SITE}.web.app
+          PORTAL_NAME=${PORTAL_NAME}
+          ENVEOF
+          sed -i 's/^[[:space:]]*//' "functions/.env.$PID"
+          (cd functions && npm install --no-audit --no-fund --loglevel=error)
+          $FT deploy --only functions:portal --project "$PID" --non-interactive --force || {
+            echo "::error::The functions didn't publish. Most often the github-deploy service account needs more roles — see client-portal/README.md, 'One-time setup', step 2."; exit 1; }
+      - name: Done
+        if: always()
+        run: |
+          rm -f "$RUNNER_TEMP/sa.json"
+          echo "Client Portal: https://${SITE}.web.app" >> "$GITHUB_STEP_SUMMARY"
