@@ -2,8 +2,8 @@
  "meta": {
   "status": {
    "checkedBy": "Claude scheduled review",
-   "lastChecked": "2026-11-13",
-   "nextCheck": "2026-11-14"
+   "lastChecked": "2026-11-14",
+   "nextCheck": "2026-11-15"
   }
  },
  "federal": {
@@ -222,6 +222,85 @@
  },
  "itemBasis": {},
  "states": {
+  "AK": {
+   "brackets": [
+    {
+     "over": 0,
+     "rate": 0
+    },
+    {
+     "over": 25000,
+     "rate": 2
+    },
+    {
+     "over": 49000,
+     "rate": 3
+    },
+    {
+     "over": 74000,
+     "rate": 4
+    },
+    {
+     "over": 99000,
+     "rate": 5
+    },
+    {
+     "over": 124000,
+     "rate": 6
+    },
+    {
+     "over": 148000,
+     "rate": 7
+    },
+    {
+     "over": 173000,
+     "rate": 8
+    },
+    {
+     "over": 198000,
+     "rate": 9
+    },
+    {
+     "over": 222000,
+     "rate": 9.4
+    }
+   ],
+   "captive": "No separate captive REIT addback found; instead a REIT meeting the 50% ownership test is included in the water's-edge combined group (per Form 6000 instructions, not confirmed for the current year).",
+   "citation": "AS 43.20.011(e) (rate schedule); Alaska Form 6000 Instructions",
+   "code": "AK",
+   "exemption": 0,
+   "forms": [
+    {
+     "due": "Within 30 days after the federal due date (generally the 15th day of the 5th month after year end); tax is due the 15th day of the 4th month",
+     "form": "Form 6000",
+     "name": "Alaska Corporation Net Income Tax Return"
+    },
+    {
+     "form": "Form 6220",
+     "name": "Underpayment of Estimated Tax by Corporations",
+     "note": "Estimated payments follow IRC §6655; Form 6220 is needed only for the annualized or adjusted seasonal installment methods"
+    },
+    {
+     "form": "Form 6230",
+     "name": "Application for Quick Refund of Overpayment of Estimated Tax",
+     "note": "Overpayment must be at least 10% of expected liability and at least $500"
+    }
+   ],
+   "formsVerified": false,
+   "lastVerified": "2026-11-14",
+   "minTax": 0,
+   "name": "Alaska",
+   "rate": 9.4,
+   "rateNote": "Graduated rates under AS 43.20.011(e): 0% on the first $25,000 rising to 9.4% on income over $222,000 (marginal brackets). Tax Foundation's 2026 table shows the same schedule.",
+   "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+   "rateYear": 2026,
+   "sourceName": "Alaska Statutes AS 43.20.011 (FindLaw); Alaska Form 6000 Instructions",
+   "sourceUrl": "https://codes.findlaw.com/ak/title-43-revenue-and-taxation/ak-st-sect-43-20-011/",
+   "summary": "Alaska taxes corporations on federal-based taxable income using water's-edge combined reporting. According to the Form 6000 instructions, a REIT that meets the 50% ownership test must be included in the combined group, and when REIT income enters the combined report net of the dividends-paid deduction the group cannot also take Alaska's dividends-received deduction for those REIT dividends. This comes from tax-year-2022 instructions and has not been confirmed against current Alaska guidance.",
+   "treatment": "mod",
+   "verified": false,
+   "wholeIncome": false
+  },
   "AL": {
    "captive": "Captive REIT: shares not regularly traded on an established securities market and owned or controlled by a non-exempt corporation; the instructions exclude certain entities (such as REIT-owned REITs, listed Australian property trusts and qualified foreign entities). The captive REIT adds back dividends paid to related members.",
    "citation": "Ala. Code §40-18-35(a)(7)(d) and (c); §10-13-21; 2024 Form 20C Instructions",
@@ -804,20 +883,41 @@
    "code": "KY",
    "forms": [
     {
+     "due": "15th day of the 4th month after year end",
      "form": "720",
-     "name": "Kentucky Corporation Income and Limited Liability Entity Tax Return"
+     "name": "Kentucky Corporation Income and Limited Liability Entity Tax Return",
+     "note": "Separate-entity filers"
+    },
+    {
+     "form": "720U",
+     "name": "Kentucky Unitary Corporation Income and Limited Liability Entity Tax Return",
+     "note": "Combined (unitary) groups; REITs in a unitary business file on 720U"
+    },
+    {
+     "form": "720ES",
+     "name": "Corporation Estimated Tax Payment Voucher",
+     "note": "Required if tax is expected to exceed $5,000; 25% due the 15th day of the 4th, 6th, 9th and 12th months"
+    },
+    {
+     "form": "2220-K",
+     "name": "Underpayment and Late Payment of Estimated Tax by Corporations"
+    },
+    {
+     "form": "720EXT",
+     "name": "Extension of Time to File Kentucky Corporation/Pass-Through Entity Tax Returns",
+     "note": "Seven-month extension to file, not to pay"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-11-10",
+   "formsVerified": true,
+   "lastVerified": "2026-11-14",
    "minTax": 175,
    "name": "Kentucky",
    "rate": 5,
    "rateNote": "Flat 5% income tax; the separate limited liability entity tax (LLET) on Form 720 carries a $175 minimum.",
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "Kentucky Revised Statutes 141.010 (Kentucky Legislature)",
-   "sourceUrl": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=57913",
+   "sourceName": "Kentucky Department of Revenue, 2025 Form 720U Instructions; KRS 141.010",
+   "sourceUrl": "https://revenue.ky.gov/Forms/INSTR-720U%28I%29%20%282025%29.pdf",
    "summary": "Kentucky taxes a REIT on its federal REIT taxable income under §857(b)(2), but a captive REIT may not take any dividends-paid deduction. A captive REIT is one whose shares are not regularly traded (or that has too few holders to register with the SEC), that is not owned by another REIT, and in which Kentucky-taxable corporations own at least 25% (or 10% if they occupy its property).",
    "treatment": "strict",
    "verified": true
@@ -828,18 +928,30 @@
    "code": "LA",
    "forms": [
     {
-     "form": "CIFT-620",
-     "name": "Louisiana Corporation Income Tax Return"
+     "due": "15th day of the 5th month after year end (May 15 for calendar-year filers); automatic six-month extension when a federal extension was requested, but not for payment",
+     "form": "CIT-620",
+     "name": "Louisiana Corporation Income Tax Return",
+     "note": "Renamed from CIFT-620; the 2025 instructions title the return CIT-620"
+    },
+    {
+     "form": "CIT-620ES",
+     "name": "Louisiana Estimated Tax Declaration Voucher for Corporations",
+     "note": "Required if estimated income tax is reasonably expected to be $1,000 or more (La. R.S. 47:287.654)"
+    },
+    {
+     "form": "CIT-620EXT-V",
+     "name": "Louisiana extension payment voucher",
+     "note": "Use to pay tax due by the original due date when filing under extension"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-11-10",
+   "formsVerified": true,
+   "lastVerified": "2026-11-14",
    "name": "Louisiana",
    "rate": 5.5,
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "Louisiana Legislature, R.S. 47:287.736",
-   "sourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=101724",
+   "sourceName": "Louisiana Department of Revenue, 2025 CIT-620 Instructions; La. R.S. 47:287.736",
+   "sourceUrl": "https://dam.ldr.la.gov/taxforms/Cift620i-2025.pdf",
    "summary": "Louisiana taxes REITs on the portion of net income subject to federal tax under §§857 and 858, but allows the federal dividends-paid deduction only to publicly traded REITs and 'qualified' REITs. A REIT is not qualified when a single entity subject to federal corporate tax (and not exempt) directly or indirectly owns or controls more than 50% of its vote or value; see the statute for the other controlling-entity categories.",
    "treatment": "strict",
    "verified": true
@@ -1119,7 +1231,7 @@
     {
      "form": "CBT-100",
      "name": "Corporation Business Tax Return",
-     "note": "Separate return for non-captive REITs"
+     "note": "Separate return for non-captive REITs; electronic filing required"
     },
     {
      "captiveOnly": true,
@@ -1129,18 +1241,28 @@
     },
     {
      "form": "CBT-150",
-     "name": "Corporation Business Tax estimated payment vouchers"
+     "name": "Statement of Estimated Tax for Corporations",
+     "note": "Required if prior-year liability exceeded $1,500; four 25% installments (gross receipts under $50 million) or 25%/50%/25% (gross receipts of $50 million or more)"
+    },
+    {
+     "form": "CBT-200-T",
+     "name": "Tentative Return and Application for Extension of Time to File"
+    },
+    {
+     "form": "CBT-160-A / CBT-160-B",
+     "name": "Underpayment of Estimated Corporation Business Tax",
+     "note": "160-A if gross receipts are under $50 million; 160-B if $50 million or more"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-11-04",
+   "formsVerified": true,
+   "lastVerified": "2026-11-14",
    "name": "New Jersey",
    "rate": 9,
    "rateNote": "Top rate includes the surtax on income above $10 million.",
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "NJ Division of Taxation, Technical Bulletin TB-113",
-   "sourceUrl": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb113.pdf",
+   "sourceName": "NJ Division of Taxation, 2025 Corporation Business Tax returns and CBT-150 instructions; TB-113",
+   "sourceUrl": "https://www.nj.gov/treasury/taxation/prntcbt.shtml",
    "summary": "Non-captive REITs file separate returns and keep the REIT treatment provided by N.J.S.A. 54:10A-5(d). For privilege periods ending on or after July 31, 2023, a captive REIT must be included in its owner's combined return, is taxed as a regular C corporation, and cannot use federal deductions available only to REITs, such as the dividends-paid deduction.",
    "treatment": "strict",
    "verified": true,
@@ -1449,14 +1571,14 @@
      "name": "Underpayment of Virginia Estimated Tax by Corporations"
     }
    ],
-   "formsVerified": false,
-   "lastVerified": "2026-11-04",
+   "formsVerified": true,
+   "lastVerified": "2026-11-14",
    "name": "Virginia",
    "rate": 6,
    "rateSource": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
    "rateYear": 2026,
-   "sourceName": "Code of Virginia §58.1-402",
-   "sourceUrl": "https://law.lis.virginia.gov/vacode/title58.1/chapter22/section58.1-402",
+   "sourceName": "Virginia Tax, corporation income tax forms (Forms 500, 500ES, 500C); Va. Code §58.1-402",
+   "sourceUrl": "https://www.tax.virginia.gov/forms/search?search_api_fulltext=500",
    "summary": "REITs start from federal REIT taxable income, so non-captive REITs keep the dividends-paid deduction. For taxable years beginning on or after Jan 1, 2009, a captive REIT must add back its §§561/857 dividends-paid deduction. A separate subtraction for income from certified 'Virginia REITs' applied only to investments made from 2019 through 2024.",
    "treatment": "strict",
    "verified": true,
@@ -2629,6 +2751,27 @@
     "New York: CT-3, CT-3-A captive REIT combination, CT-5.3, CT-400 and CT-3-M confirmed against the 2025 CT-3-A instructions",
     "West Virginia: return form corrected from CNF-120 to CIT-120 (renumbered in 2020) and estimate rules confirmed against the 2025 CIT-120 instructions",
     "Iowa: IDR Director Order 2026-01 keeps the 5.5%/7.1% rates for 2027 (no change to 2026 figures)"
+   ]
+  },
+  "2026-11-14": {
+   "added": [
+    "Alaska state rules"
+   ],
+   "attention": [
+    "Alaska: REIT treatment (inclusion of 50%-owned REITs in the combined group) comes from tax-year-2022 Form 6000 instructions; the Alaska Tax Division site could not be reached to confirm current guidance.",
+    "Indiana: IT-20 instruction booklet could not be retrieved, so the Indiana form list stays unverified.",
+    "GitHub: rules.json could not be pushed to snimmagadda-cpa/reit-navigator (repository not authorized for this session), so the user's own websites were not updated today."
+   ],
+   "changed": [],
+   "changesFound": 0,
+   "date": "2026-11-14",
+   "summary": "Checked federal (IRS rulings, forms, Treasury guidance), state and international REIT sources since Nov 13; no new enacted REIT rule changes found.",
+   "title": "Daily rule review",
+   "verified": [
+    "Louisiana: return form corrected from CIFT-620 to CIT-620 and CIT-620ES/CIT-620EXT-V added, confirmed against the 2025 CIT-620 instructions",
+    "Kentucky: Forms 720, 720U, 720ES, 2220-K and 720EXT confirmed against the 2025 Form 720U instructions",
+    "New Jersey: CBT-100, CBT-100U, CBT-150, CBT-200-T and CBT-160-A/B confirmed against the NJ Division of Taxation 2025 CBT forms page and CBT-150 instructions",
+    "Virginia: Forms 500, 500ES and 500C confirmed against Virginia Tax's forms listing"
    ]
   }
  }
